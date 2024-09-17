@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - CityRoot
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Post Process
+  - Water
+  - UI
+  - Ground
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Background
+    uniqueID: 3171204419
+    locked: 0
+  - name: Road
+    uniqueID: 1408002983
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: NoPostProcess
+    uniqueID: 4033435777
+    locked: 0
+  - name: Player
+    uniqueID: 2200566709
+    locked: 0
+  - name: UI
+    uniqueID: 2716619851
+    locked: 0
