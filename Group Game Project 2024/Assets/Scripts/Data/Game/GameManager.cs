@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour, ISaveData
         "Game",
     };
 
-    public DayStatus dayStatus { get; private set; }
+    public DayStatus dayStatus { get; private set; } = DayStatus.None;
     public event EventHandler<DayStatus> dayStatusChanged;
 
     public float gameTime { get; private set; } = 60f;
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour, ISaveData
         foreach (DayStatus status in dayStatus_)
             if (dayPercentage < (int)status)
             {
-                if (dayStatus != status)
+                if (dayStatus != status && dayStatusChanged != null)
                     dayStatusChanged.Invoke(this, status);
 
                 dayStatus = status;

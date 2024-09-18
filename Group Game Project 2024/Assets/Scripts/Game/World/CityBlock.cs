@@ -21,8 +21,14 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
             int randomAmount = UnityEngine.Random.Range(spawnable.minAmount, spawnable.maxAmount + 1);
             for (int spawn = 0; spawn < randomAmount; spawn++)
             {
+                float distributeInterpolation = spawn / Mathf.Clamp(randomAmount - 1, 1, float.MaxValue);
+
+                Vector2 spawnPosition = !spawnable.distributeEqually ?
+                    new Vector3(UnityEngine.Random.Range(posMin.x, posMax.x), UnityEngine.Random.Range(posMin.y, posMax.y), UnityEngine.Random.Range(posMin.z, posMax.z)) :
+                    Vector3.Lerp(posMin, posMax, distributeInterpolation);
+
                 InstantiateSpawn(spawnable, 
-                    new Vector3(UnityEngine.Random.Range(posMin.x, posMax.x), UnityEngine.Random.Range(posMin.y, posMax.y), UnityEngine.Random.Range(posMin.z, posMax.z)),
+                    spawnPosition,
                     Vector3.one,
                     Quaternion.identity);
             }
@@ -113,8 +119,11 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
 [Serializable]
 public struct CitySpawnable
 {
+    [Header("Spawn Object Data")]
     public GameObject spawnObject;
     public Transform spawnParent;
     public int minAmount, maxAmount;
-    [Space(15)] public Vector3 spawnPosMin, spawnPosMax;
+    [Space(15), Header("Spawn Postion Data")]
+    public Vector3 spawnPosMin, spawnPosMax;
+    [Tooltip("Will spawn the objects at equal distributions between the spawnPosMin and spawnPosMax")]public bool distributeEqually;
 }

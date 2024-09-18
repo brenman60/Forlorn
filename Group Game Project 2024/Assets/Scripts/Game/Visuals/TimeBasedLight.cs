@@ -14,15 +14,15 @@ public class TimeBasedLight : MonoBehaviour
 
     private void Start()
     {
+        light = GetComponent<Light2D>();
         GameManager.Instance.dayStatusChanged += TimeChanged;
+        TimeChanged(null, GameManager.Instance.dayStatus);
     }
 
     private void Update()
     {
         if (selectedSetting.status != DayStatus.None)
-        {
             light.intensity = Mathf.Lerp(light.intensity, selectedSetting.intensity, Time.deltaTime * lightChangeSpeed);
-        }
     }
 
     private void TimeChanged(object sender, DayStatus newStatus)
