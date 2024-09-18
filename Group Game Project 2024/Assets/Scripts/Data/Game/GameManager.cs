@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour, ISaveData
     };
 
     public DayStatus dayStatus { get; private set; }
+    public event EventHandler<DayStatus> dayStatusChanged;
+
     public float gameTime { get; private set; } = 60f;
     public int gameDays { get; private set; }
 
@@ -89,6 +91,9 @@ public class GameManager : MonoBehaviour, ISaveData
         foreach (DayStatus status in dayStatus_)
             if (dayPercentage < (int)status)
             {
+                if (dayStatus != status)
+                    dayStatusChanged.Invoke(this, status);
+
                 dayStatus = status;
                 break;
             }
@@ -124,6 +129,7 @@ public class GameManager : MonoBehaviour, ISaveData
 
 public enum DayStatus // Values assigned to the enums represent the amount of day that needs to pass before it isn't that status anymore
 {
+    None = 0,
     Morning = 30,
     Midday = 70,
     Night = 100,

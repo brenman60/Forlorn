@@ -34,6 +34,7 @@ public class SoundConfigure : MonoBehaviour
         float globalVolume = soundVolumes[SoundType.Global];
         float soundVolume = soundVolumes[soundType];
 
-        audioSource.volume = initialVolume * globalVolume * soundVolume;
+        if (audioSource != null)
+            audioSource.volume = initialVolume * globalVolume * soundVolume;
     }
 }

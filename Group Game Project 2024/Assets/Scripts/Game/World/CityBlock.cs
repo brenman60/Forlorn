@@ -55,7 +55,7 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
             string[] spawnData = new string[4]
             {
                 spawn.name,
-                spawn.transform.position.ToJSON(),
+                spawn.transform.localPosition.ToJSON(),
                 spawn.transform.localScale.ToJSON(),
                 spawn.transform.rotation.ToJSON(),
             };
@@ -74,7 +74,7 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
 
     // Sections saving and loading will be kind of weird
     // As a baseline, PutSaveData should essentially be treated as Start (or rather Awake probably), when talking about changing the Section's data or look.
-    // Like SpawnBackground for example, should not be called in Start because it would probably be better to save the backgrounds spawned and load them, rather than regenerate them.
+    // Like InitSpawnables for example, should not be called in Start because it would probably be better to save the backgrounds spawned and load them, rather than regenerate them.
     public virtual void PutSaveData(string data)
     {
         if (string.IsNullOrEmpty(data))

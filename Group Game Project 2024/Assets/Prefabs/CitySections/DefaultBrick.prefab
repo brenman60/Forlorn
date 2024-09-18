@@ -456,18 +456,18 @@ MonoBehaviour:
     maxAmount: 1
     spawnPosMin: {x: -2.04, y: 0, z: 1.37}
     spawnPosMax: {x: 2.04, y: 0, z: 3.52}
-  - spawnObject: {fileID: 6027805560143271595, guid: d4b042661ed80414cbba8cfb8bdcc91d, type: 3}
-    spawnParent: {fileID: 4607112779828399078}
-    minAmount: 0
-    maxAmount: 2
-    spawnPosMin: {x: -0.67, y: -0.34, z: 0}
-    spawnPosMax: {x: 0.67, y: -0.34, z: 0}
   - spawnObject: {fileID: 6027805560143271595, guid: 37121a85143f8cc4799f9bfc62141363, type: 3}
     spawnParent: {fileID: 4607112779828399078}
     minAmount: 1
     maxAmount: 1
     spawnPosMin: {x: 0, y: -0.067, z: 0}
     spawnPosMax: {x: 0, y: -0.067, z: 0}
+  - spawnObject: {fileID: 6027805560143271595, guid: ca6c6ee411460b44d9e078f91687e22a, type: 3}
+    spawnParent: {fileID: 4607112779828399078}
+    minAmount: 1
+    maxAmount: 1
+    spawnPosMin: {x: -0.6, y: -0.02, z: 0}
+    spawnPosMax: {x: 0.6, y: -0.02, z: 0}
 --- !u!1 &6537093346896072599
 GameObject:
   m_ObjectHideFlags: 0
