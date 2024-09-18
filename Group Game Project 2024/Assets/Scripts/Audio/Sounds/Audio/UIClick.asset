@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecb89fe61d8e3b64c88979270f934ce7, type: 3}
-  m_Name: SoundList
+  m_Script: {fileID: 11500000, guid: 56f886985dd5108438085a09844e75da, type: 3}
+  m_Name: UIClick
   m_EditorClassIdentifier: 
-  sounds:
-  - {fileID: 11400000, guid: 574b35d64823e0c40b710a4a06f21a20, type: 2}
-  - {fileID: 11400000, guid: e05cd36187ec05c48a29772bc9900585, type: 2}
+  soundClip: {fileID: 8300000, guid: fe45d6fb0917d934996c492708e53620, type: 3}
+  soundType: 2

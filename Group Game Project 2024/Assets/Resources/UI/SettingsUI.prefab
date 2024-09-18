@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 5124071702971752033}
   - component: {fileID: 9073214850180000959}
   - component: {fileID: 3899587360296119999}
-  - component: {fileID: 4325743636147880193}
+  - component: {fileID: 3620088252543005362}
   m_Layer: 5
   m_Name: Audio
   m_TagString: Untagged
@@ -362,7 +362,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.5
---- !u!114 &4325743636147880193
+--- !u!114 &3620088252543005362
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -371,7 +371,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1232577490548064303}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: f353db76392b55048aa7a43dc1ef7d56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -4140,7 +4140,7 @@ GameObject:
   - component: {fileID: 8032870707101620896}
   - component: {fileID: 4508425459263177775}
   - component: {fileID: 4006427636540364604}
-  - component: {fileID: 7621718161569000866}
+  - component: {fileID: 6281734176409982067}
   m_Layer: 5
   m_Name: Close
   m_TagString: Untagged
@@ -4206,7 +4206,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.5
---- !u!114 &7621718161569000866
+--- !u!114 &6281734176409982067
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4215,7 +4215,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7766830285046153035}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: f353db76392b55048aa7a43dc1ef7d56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:

@@ -43,7 +43,7 @@ public class OpeningCutsceneController : MonoBehaviour
         SendToGame();
     }
 
-    private void SendToGame()
+    public void SendToGame()
     {
         if (sendingToGame) return;
         sendingToGame = true;

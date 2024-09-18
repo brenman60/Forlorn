@@ -1,6 +1,7 @@
+using Newtonsoft.Json;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, ISaveData
 {
     public static Player Instance { get; private set; }
 
@@ -85,5 +86,25 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
             isGrounded = false;
+    }
+
+    public string GetSaveData()
+    {
+        string[] dataPoints = new string[3]
+        {
+            transform.position.ToJSON(),
+            transform.localScale.ToJSON(),
+            transform.rotation.ToJSON(),
+        };
+
+        return JsonConvert.SerializeObject(dataPoints);
+    }
+
+    public void PutSaveData(string data)
+    {
+        string[] dataPoints = JsonConvert.DeserializeObject<string[]>(data);
+        transform.position = dataPoints[0].ToVector3();
+        transform.localScale = dataPoints[1].ToVector3();
+        transform.rotation = dataPoints[2].ToQuaternion();
     }
 }

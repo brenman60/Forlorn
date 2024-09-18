@@ -44,21 +44,32 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
 
     public virtual string GetSaveData()
     {
+        string[] blockInformation = new string[1]
+        {
+            transform.position.ToJSON(),
+        };
+
         List<string> spawnables = new List<string>();
         foreach (GameObject spawn in spawnedSpawnables)
         {
             string[] spawnData = new string[4]
             {
                 spawn.name,
-                spawn.transform.position.x + " " + spawn.transform.position.y + " " + spawn.transform.position.z,
-                spawn.transform.localScale.x + " " + spawn.transform.localScale.y + " " + spawn.transform.localScale.z,
-                spawn.transform.rotation.eulerAngles.x + " " + spawn.transform.rotation.eulerAngles.y + " " + spawn.transform.rotation.eulerAngles.z,
+                spawn.transform.position.ToJSON(),
+                spawn.transform.localScale.ToJSON(),
+                spawn.transform.rotation.ToJSON(),
             };
 
             spawnables.Add(JsonConvert.SerializeObject(spawnData));
         }
 
-        return JsonConvert.SerializeObject(spawnables);
+        string[] dataPoints = new string[2]
+        {
+            JsonConvert.SerializeObject(blockInformation),
+            JsonConvert.SerializeObject(spawnables),
+        };
+
+        return JsonConvert.SerializeObject(dataPoints);
     }
 
     // Sections saving and loading will be kind of weird
@@ -72,27 +83,29 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
             return;
         }
 
-        List<string> spawnables = JsonConvert.DeserializeObject<List<string>>(data);
-        foreach (string spawnDataRaw in spawnables)
+        string[] dataPoints = JsonConvert.DeserializeObject<string[]>(data);
+
+        string[] blockInformation = JsonConvert.DeserializeObject<string[]>(dataPoints[0]);
+        transform.position = blockInformation[0].ToVector3();
+
+        List<string> savedSpawnables = JsonConvert.DeserializeObject<List<string>>(dataPoints[1]);
+        foreach (string spawnDataRaw in savedSpawnables)
         {
             string[] spawnData = JsonConvert.DeserializeObject<string[]>(spawnDataRaw);
             string spawnName = spawnData[0];
-            string[] positionData = spawnData[1].Split(' ');
-            string[] scaleData = spawnData[2].Split(' ');
-            string[] rotationData = spawnData[3].Split(' ');
+            Vector3 positionData = spawnData[1].ToVector3();
+            Vector3 scaleData = spawnData[2].ToVector3();
+            Quaternion rotationData = spawnData[3].ToQuaternion();
 
-            CitySpawnable citySpawnObject = this.spawnables[0];
-            foreach (CitySpawnable spawnableData in this.spawnables)
-                if (spawnableData.spawnObject.name == spawnName)
+            CitySpawnable citySpawnable = spawnables[0];
+            foreach (CitySpawnable citySpawnableData in spawnables)
+                if (citySpawnableData.spawnObject.name == spawnName)
                 {
-                    citySpawnObject = spawnableData;
+                    citySpawnable = citySpawnableData;
                     break;
                 }
 
-            GameObject spawnObject = InstantiateSpawn(citySpawnObject,
-                new Vector3(float.Parse(positionData[0]), float.Parse(positionData[1]), float.Parse(positionData[2])),
-                new Vector3(float.Parse(scaleData[0]), float.Parse(scaleData[1]), float.Parse(scaleData[2])),
-                Quaternion.Euler(float.Parse(rotationData[0]), float.Parse(rotationData[1]), float.Parse(rotationData[2])));
+            InstantiateSpawn(citySpawnable, positionData, scaleData, rotationData);
         }
     }
 }

@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +18,8 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 
     [SerializeField] private CitySections citySections;
 
-    private TrainStation trainStation;
+    private List<CityBlock> currentSections = new List<CityBlock>();
+    private int trainStationIndex = -1;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Init()
@@ -64,6 +66,23 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 
     private void LoadMap(string mapData)
     {
+        GameObject cityRoot = GameObject.FindGameObjectWithTag("CityRoot");
+        Dictionary<string, List<string>> compiledBlocks = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(mapData);
+        foreach (KeyValuePair<string, List<string>> blockType in compiledBlocks)
+        {
+            foreach (string block in blockType.Value)
+            {
+                CitySection section = citySections.GetSectionByName(blockType.Key);
+                GameObject sectionObject = Instantiate(section.prefabObject, cityRoot.transform);
+                sectionObject.name = blockType.Key;
+                CityBlock cityBlock = sectionObject.GetComponent<CityBlock>();
+                if (cityBlock is TrainStation) trainStationIndex = currentSections.Count;
+                cityBlock.PutSaveData(block);
+
+                currentSections.Add(cityBlock);
+            }
+        }
+
         TransitionUI.openPrevention.Remove("Generating City");
     }
 
@@ -76,8 +95,9 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         foreach (CitySection section in sections)
         {
             GameObject sectionObject = Instantiate(section.prefabObject, cityRoot.transform);
+            sectionObject.name = section.prefabObject.name;
             CityBlock cityBlock = sectionObject.GetComponent<CityBlock>();
-            if (cityBlock is TrainStation station) trainStation = station;
+            if (cityBlock is TrainStation) trainStationIndex = currentSections.Count;
 
             // Position formula
             // x = (lastPlaced.length / 2 + currentPlacing.length / 2) + total
@@ -87,17 +107,18 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 
             cityBlock.PutSaveData(string.Empty);
             lastPlaced = cityBlock;
+            currentSections.Add(cityBlock);
         }
 
         // Teleport player to train station (if on the first section (which will be true if the train station exists))
-        if (trainStation != null)
+        if (trainStationIndex != -1)
         {
-            Vector3 stationPosition = trainStation.transform.position;
+            Vector3 stationPosition = currentSections[trainStationIndex].transform.position;
             Vector3 playerPosition = Player.Instance.transform.position;
             Player.Instance.transform.position = new Vector3(stationPosition.x, playerPosition.y, playerPosition.z);
         }
 
-        //SaveSystem.SaveRunMap(worldSection, section, );
+        SaveSection();
         TransitionUI.openPrevention.Remove("Generating City");
     }
 
@@ -136,17 +157,24 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 
     public void SaveSection()
     {
-        string sectionData = string.Empty;
+        Dictionary<string, List<string>> cityBlocksCompiled = new Dictionary<string, List<string>>();
+        foreach (CityBlock block in currentSections)
+            if (!cityBlocksCompiled.ContainsKey(block.name))
+                cityBlocksCompiled.Add(block.name, new List<string>() { block.GetSaveData() });
+            else
+                cityBlocksCompiled[block.name].Add(block.GetSaveData());
 
-        SaveSystem.SaveRunMap(worldSection, section, sectionData);
+        SaveSystem.SaveRunMap(worldSection, section, JsonConvert.SerializeObject(cityBlocksCompiled));
     }
 
     public string GetSaveData()
     {
-        string[] dataPoints = new string[2]
+        string[] dataPoints = new string[3]
         {
             worldSection,
             section,
+
+            Player.Instance != null ? Player.Instance.GetSaveData() : string.Empty,
         };
 
         return JsonConvert.SerializeObject(dataPoints);
@@ -157,6 +185,15 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         string[] dataPoints = JsonConvert.DeserializeObject<string[]>(data);
         worldSection = dataPoints[0];
         section = dataPoints[1];
+
+        if (!string.IsNullOrEmpty(dataPoints[2]))
+            StartCoroutine(WaitForPlayer(dataPoints[2]));
+    }
+
+    private IEnumerator WaitForPlayer(string playerData)
+    {
+        yield return new WaitUntil(() => Player.Instance != null);
+        Player.Instance.PutSaveData(playerData);
     }
 }
 
@@ -175,5 +212,27 @@ public static class Extensions
             list[k] = list[n];
             list[n] = value;
         }
+    }
+
+    public static string ToJSON(this Vector3 vector)
+    {
+        return vector.x + " " + vector.y + " " + vector.z;
+    }
+
+    public static Vector3 ToVector3(this string json)
+    {
+        string[] positions = json.Split(' ', System.StringSplitOptions.RemoveEmptyEntries);
+        return new Vector3(float.Parse(positions[0]), float.Parse(positions[1]), float.Parse(positions[2]));
+    }
+
+    public static string ToJSON(this Quaternion rotation)
+    {
+        return rotation.eulerAngles.x + " " + rotation.eulerAngles.y + " " + rotation.eulerAngles.z;
+    }
+
+    public static Quaternion ToQuaternion(this string json)
+    {
+        string[] rotations = json.Split(' ', System.StringSplitOptions.RemoveEmptyEntries);
+        return Quaternion.Euler(float.Parse(rotations[0]), float.Parse(rotations[1]), float.Parse(rotations[2]));
     }
 }

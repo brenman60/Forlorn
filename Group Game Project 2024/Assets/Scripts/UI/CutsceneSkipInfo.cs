@@ -25,5 +25,7 @@ public class CutsceneSkipInfo : MonoBehaviour
         float lerpProgress = Mathf.Clamp(elaspedTime - fullOpacityTime, 0, float.MaxValue) / showTime;
         transform.position = new Vector3(transform.position.x, Mathf.Lerp(initialY, initialY + yIncrease, lerpProgress));
         canvasGroup.alpha = Mathf.Lerp(1f, 0f, lerpProgress);
+
+        canvasGroup.interactable = lerpProgress < 0.9f;
     }
 }

@@ -21,6 +21,6 @@ public class StatBar : MonoBehaviour
         slider.maxValue = maxStatValue;
         slider.value = statValue;
 
-        statPercentage.text = Mathf.Clamp(Mathf.RoundToInt((statValue / maxStatValue) * 100), 0, 100) + "%";
+        statPercentage.text = Mathf.RoundToInt(statValue) + "/" + Mathf.RoundToInt(maxStatValue);
     }
 }

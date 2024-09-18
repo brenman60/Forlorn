@@ -65,7 +65,11 @@ public static class SaveSystem
 
     public static async void SaveRunMap(string worldSection, string section, string dataJson)
     {
-        await WriteToFile(Path.Combine(runWorldPath, worldSection, section + ".ggp"), dataJson);
+        string worldSectionPath = Path.Combine(runWorldPath, worldSection);
+        string sectionPath = Path.Combine(worldSectionPath, section + ".ggp");
+
+        if (!Directory.Exists(worldSectionPath)) Directory.CreateDirectory(worldSectionPath);
+        await WriteToFile(sectionPath, dataJson);
     }
 
     // Loading needs to be in the exact same order as saving, once it's been written it should almost always stay that exact way
