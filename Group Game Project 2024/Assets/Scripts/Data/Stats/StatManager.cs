@@ -15,6 +15,8 @@ public class StatManager : ISaveData
         [StatType.ThirstSuppression] = new Stat(1f, StatType.ThirstSuppression),
         [StatType.Luck] = new Stat(1f, StatType.Luck),
         [StatType.MovementSpeed] = new Stat(1f, StatType.MovementSpeed),
+
+        [StatType.Money] = new Stat(25f, StatType.Money),
     };
 
     private List<StatModifier> modifiers = new List<StatModifier>(); // Modifiers are objects that change a stat's max value
@@ -124,4 +126,5 @@ public enum StatType
     MovementSpeed,
     HungerSuppression,
     ThirstSuppression,
+    Money,
 }

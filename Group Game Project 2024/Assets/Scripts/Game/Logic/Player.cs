@@ -8,9 +8,6 @@ public class Player : MonoBehaviour, ISaveData
     [SerializeField] private float baseMovementSpeed = 1f;
     [SerializeField] private float baseJumpHeight = 1f;
 
-    private float jumpDebounce;
-    private bool isGrounded = true;
-    private new Rigidbody2D rigidbody2D;
     private Animator animator;
 
     private void Awake()
@@ -21,13 +18,11 @@ public class Player : MonoBehaviour, ISaveData
     private void Start()
     {
         animator = GetComponent<Animator>();
-        rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
         Movement();
-        Jump();
     }
 
     private void Movement()
@@ -57,35 +52,6 @@ public class Player : MonoBehaviour, ISaveData
 
         animator.SetBool("walking", walking);
         animator.SetBool("running", sprinting && walking);
-    }
-
-    private void Jump()
-    {
-        jumpDebounce -= Time.deltaTime;
-        if (Input.GetKey(Keybinds.GetKeybind(KeyType.Jump)) && isGrounded && jumpDebounce <= 0f)
-        {
-            isGrounded = false;
-            jumpDebounce = .25f;
-            rigidbody2D.AddForce(new Vector2(0, baseJumpHeight));
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
-            isGrounded = true;
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
-            isGrounded = true;
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
-            isGrounded = false;
     }
 
     public string GetSaveData()

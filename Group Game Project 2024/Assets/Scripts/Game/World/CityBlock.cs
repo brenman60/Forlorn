@@ -124,6 +124,7 @@ public struct CitySpawnable
     public Transform spawnParent;
     public int minAmount, maxAmount;
     [Space(15), Header("Spawn Postion Data")]
-    public Vector3 spawnPosMin, spawnPosMax;
+    public Vector3 spawnPosMin;
+    public Vector3 spawnPosMax;
     [Tooltip("Will spawn the objects at equal distributions between the spawnPosMin and spawnPosMax")]public bool distributeEqually;
 }

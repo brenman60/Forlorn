@@ -33,6 +33,7 @@ public class Keybinds : MonoBehaviour, ISaveData
         [KeyType.Right] = KeyCode.D,
         [KeyType.Jump] = KeyCode.Space,
         [KeyType.Sprint] = KeyCode.LeftShift,
+        [KeyType.Interact] = KeyCode.E,
     };
 
     public Dictionary<KeyType, KeyCode> Binds { get; private set; } = new Dictionary<KeyType, KeyCode>()
@@ -95,4 +96,5 @@ public enum KeyType
     Jump,
     Sprint,
     CutsceneSkip,
+    Interact,
 }

@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e37bc05fb09a5f4f82d175fcd9b1a83, type: 3}
-  m_Name: NewSectionRoad
+  m_Name: TrainStationExit
   m_EditorClassIdentifier: 
-  prefabObject: {fileID: 6297697741929756436, guid: 1b6e8220356b7bc4fa1e3ca3f98e5eb8, type: 3}
+  prefabObject: {fileID: 6297697741929756436, guid: 4f9206676a1a1b84b9d05397c580ad07, type: 3}
   requiredInSections: []
-  requiredInAnySection: 1
-  maxPerSection: 1
-  requiredInCity: 0
-  maxPerCity: 0
-  rarity: 0.15
+  maxPerSection: 0
+  requiredInCity: 1
+  maxPerCity: 1
+  rarity: 0.25

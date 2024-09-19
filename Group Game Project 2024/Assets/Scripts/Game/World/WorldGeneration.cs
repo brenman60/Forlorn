@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class WorldGeneration : MonoBehaviour, ISaveData
@@ -12,6 +13,7 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 
     public static string worldSection = "City1";
     public static string section = originSection;
+    private string currentWorldSection;
 
     private readonly static string originSection = "1";
     private static bool isOriginSection { get { return section == originSection; } }
@@ -20,6 +22,8 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 
     private List<CityBlock> currentSections = new List<CityBlock>();
     private int trainStationIndex = -1;
+
+    private Dictionary<string, int> cityWideSections = new Dictionary<string, int>();
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Init()
@@ -56,6 +60,11 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         //   Section 2,
         //   etc...
         // }
+
+        if (worldSection != currentWorldSection)
+            cityWideSections.Clear();
+
+        currentWorldSection = worldSection;
 
         string sectionData = await SaveSystem.LoadRunMap(worldSection, section);
         if (sectionData != string.Empty)
@@ -129,7 +138,7 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 
         List<CitySection> selectedSections = new List<CitySection>();
         foreach (CitySection section in citySections.sections)
-            if (section.requiredUpTo <= currentSectionNumber)
+            if (section.requiredInSections.Contains(WorldGeneration.section) || section.requiredInAnySection)
                 selectedSections.Add(section);
 
         while (selectedSections.Count < sectionLength)
@@ -139,8 +148,19 @@ public class WorldGeneration : MonoBehaviour, ISaveData
             float random = Random.Range(0f, 1f);
             bool withinRandom = random <= currentSection.rarity;
             bool belowMaxAmount = currentSection.maxPerSection <= 0 || count < currentSection.maxPerSection;
-            if (withinRandom && belowMaxAmount)
+            bool belowMaxCityAmount = currentSection.maxPerCity <= 0 || cityWideSections.TryGetValue(currentSection.name, out int cityCount) && cityCount < currentSection.maxPerCity;
+            if (withinRandom && belowMaxAmount && belowMaxCityAmount)
+            {
                 selectedSections.Add(currentSection);
+
+                if (currentSection.maxPerCity > 0)
+                {
+                    if (cityWideSections.ContainsKey(currentSection.name))
+                        cityWideSections[currentSection.name]++;
+                    else
+                        cityWideSections.Add(currentSection.name, 1);
+                }
+            }
 
             await Task.Yield();
         }
@@ -169,10 +189,11 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 
     public string GetSaveData()
     {
-        string[] dataPoints = new string[3]
+        string[] dataPoints = new string[4]
         {
             worldSection,
             section,
+            JsonConvert.SerializeObject(cityWideSections),
 
             Player.Instance != null ? Player.Instance.GetSaveData() : string.Empty,
         };
@@ -185,9 +206,10 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         string[] dataPoints = JsonConvert.DeserializeObject<string[]>(data);
         worldSection = dataPoints[0];
         section = dataPoints[1];
+        cityWideSections = JsonConvert.DeserializeObject<Dictionary<string, int>>(dataPoints[2]);
 
-        if (!string.IsNullOrEmpty(dataPoints[2]))
-            StartCoroutine(WaitForPlayer(dataPoints[2]));
+        if (!string.IsNullOrEmpty(dataPoints[3]))
+            StartCoroutine(WaitForPlayer(dataPoints[3]));
     }
 
     private IEnumerator WaitForPlayer(string playerData)

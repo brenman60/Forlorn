@@ -5262,6 +5262,7 @@ GameObject:
   - component: {fileID: 237009251}
   - component: {fileID: 237009250}
   - component: {fileID: 237009252}
+  - component: {fileID: 237009253}
   m_Layer: 5
   m_Name: SkipInfo
   m_TagString: Untagged
@@ -5412,6 +5413,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &237009253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237009246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.101960786, g: 0.101960786, b: 0.101960786, a: 0.53333336}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &306099492
 GameObject:
   m_ObjectHideFlags: 0
@@ -11558,7 +11574,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1578347445
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: -4874
   m_RenderMode: 0
   m_MeshDistribution: 0

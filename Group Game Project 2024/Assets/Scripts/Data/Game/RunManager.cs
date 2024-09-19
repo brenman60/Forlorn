@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using UnityEngine;
 
 public class RunManager : MonoBehaviour, ISaveData
@@ -51,4 +52,10 @@ public class RunManager : MonoBehaviour, ISaveData
         string[] dataPoints = JsonConvert.DeserializeObject<string[]>(data);
         statManager.PutSaveData(dataPoints[0]);
     }
+}
+
+[Serializable]
+public struct EmploymentInformation
+{
+
 }
