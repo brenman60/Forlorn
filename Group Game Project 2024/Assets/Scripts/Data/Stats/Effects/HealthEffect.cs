@@ -31,6 +31,6 @@
 
     public override void PutSaveData(string data)
     {
-        throw new System.NotImplementedException();
+        
     }
 }

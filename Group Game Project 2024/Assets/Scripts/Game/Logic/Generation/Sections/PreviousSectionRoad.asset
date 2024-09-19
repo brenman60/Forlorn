@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e37bc05fb09a5f4f82d175fcd9b1a83, type: 3}
   m_Name: PreviousSectionRoad
   m_EditorClassIdentifier: 
-  prefabObject: {fileID: 6297697741929756436, guid: cedbbea3533cccf4cb1d4a4c912b47fd, type: 3}
+  prefabObject: {fileID: 6297697741929756436, guid: 6c15b79fcf505ff4998108b5dea3a997, type: 3}
   requiredInSections: []
   requiredInAnySection: 0
   maxPerSection: 0

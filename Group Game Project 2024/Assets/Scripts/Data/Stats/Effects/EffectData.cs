@@ -8,6 +8,8 @@ public class EffectData
 
     public EffectData(Effect effect)
     {
+        if (effect == null) return;
+
         EffectTypeName = effect.GetType().AssemblyQualifiedName;
         effectData = effect.GetSaveData();
     }
@@ -17,7 +19,7 @@ public class EffectData
         Type effectType = Type.GetType(EffectTypeName);
         if (effectType != null)
         {
-            Effect effect = (Effect)Activator.CreateInstance(effectType);
+            Effect effect = (Effect)Activator.CreateInstance(effectType, RunManager.Instance.statManager, true);
             effect.PutSaveData(effectData);
             return effect;
         }

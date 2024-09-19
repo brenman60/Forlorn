@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WaterBottleStale
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: e89381e7cda77b045b6a0472f2b7032c, type: 3}
-  visibleName: Stale Water
+  visibleName: Polluted Water
   useStats:
   - targetStat: 4
     change: 15

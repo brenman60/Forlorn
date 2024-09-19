@@ -17,6 +17,8 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] private Image dialogueBackground;
     [Space(15), SerializeField] private float textFadeInTime;
     [Space(15), SerializeField] private float openHeightIncrease, closedHeightDecrease;
+    [Space(15), SerializeField] private Transform topText;
+    [SerializeField] private Transform buttonsList;
 
     private List<DialogueProperties> queuedDialogues = new List<DialogueProperties>();
 
@@ -57,6 +59,8 @@ public class DialogueUI : MonoBehaviour
             currentDialogue = StartCoroutine(ShowDialogue(nextDialogue));
             queuedDialogues.Remove(nextDialogue);
         }
+
+        buttonsList.transform.position = new Vector3(buttonsList.transform.position.x, topText.transform.position.y + 30, buttonsList.transform.position.z);
     }
 
     private IEnumerator ShowDialogue(DialogueProperties properties)
