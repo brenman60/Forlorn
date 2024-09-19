@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class StatManager : ISaveData
 {
@@ -73,7 +74,10 @@ public class StatManager : ISaveData
 
         List<EffectData> compiledEffects = new List<EffectData>();
         foreach (Effect effect in effects)
+        {
+            Debug.Log(effect);
             if (effect.saveable) compiledEffects.Add(new EffectData(effect));
+        }
 
         Dictionary<StatType, string> compiledStats = new Dictionary<StatType, string>();
         foreach (Stat stat in stats.Values)

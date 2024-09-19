@@ -1,5 +1,17 @@
 {
+  "scopedRegistries": [
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.solidalloy",
+        "com.openupm",
+        "org.nuget"
+      ]
+    }
+  ],
   "dependencies": {
+    "com.solidalloy.type-references": "2.16.0",
     "com.unity.connect.share": "4.2.3",
     "com.unity.feature.2d": "2.0.1",
     "com.unity.ide.visualstudio": "2.0.22",

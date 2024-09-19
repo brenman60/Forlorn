@@ -14,3 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: e89381e7cda77b045b6a0472f2b7032c, type: 3}
   visibleName: Stale Water
+  useStats:
+  - targetStat: 4
+    change: 15
+  useEffects:
+  - effect:
+      GuidAssignmentFailed: 0
+      GUID: 499b387a80e4a4948afdd47cfb2f134a
+      _typeNameAndAssembly: ThirstEffect, Assembly-CSharp
+      _suppressLogs: 0
+    saveable: 1
+  useModifiers: []

@@ -7,6 +7,7 @@ public class Inventory : MonoBehaviour, ISaveData
     public static Inventory Instance { get; private set; }
 
     [SerializeField] private Items items;
+    [SerializeField] private int maxSlots;
     [Space(15), SerializeField] private float openSpeed = 15;
     [SerializeField] private GameObject slotTemplate;
 
@@ -37,9 +38,12 @@ public class Inventory : MonoBehaviour, ISaveData
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (slots.Count == 0) AddSlots(1);
-            PutItem(items.GetItemByName("WaterBottleStale"), 1);
+            AddSlots(1);
+            //PutItem(items.GetItemByName("WaterBottleStale"), 1);
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+            PutItem(items.GetItemByName("WaterBottleStale"), 1);
 
         UpdateCanvasGroup();
     }
@@ -72,14 +76,19 @@ public class Inventory : MonoBehaviour, ISaveData
 
     public void ChangeSlotUI(int slotNumber)
     {
-        slotsUIs[slotNumber].ChangeItem(slots[slotNumber].Key, slots[slotNumber].Value);
+        if (slots.ContainsKey(slotNumber))
+            slotsUIs[slotNumber].ChangeItem(slotNumber, slots[slotNumber].Key, slots[slotNumber].Value);
+        else
+            slotsUIs[slotNumber].ChangeItem(slotNumber, null, 0);
     }
 
     public void AddSlots(int amount)
     {
         for (int i = 0; i < amount; i++)
         {
-            int slotNumber = slots.Count + 1;
+            int slotNumber = slotsUIs.Count + 1;
+            if (slotNumber > maxSlots) return;
+
             slots.Add(slotNumber, new KeyValuePair<Item, int>(null, 0));
             CreateSlot(slotNumber);
         }
@@ -92,22 +101,27 @@ public class Inventory : MonoBehaviour, ISaveData
             if (slot.Value.Key == null)
             {
                 slots[slot.Key] = new KeyValuePair<Item, int>(item, amount);
-                slotsUIs[slot.Key].ChangeItem(item, slots[slot.Key].Value);
+                slotsUIs[slot.Key].ChangeItem(slot.Key, item, slots[slot.Key].Value);
                 return;
             }
             else if (slot.Value.Key == item)
             {
                 slots[slot.Key] = new KeyValuePair<Item, int>(item, slots[slot.Key].Value + amount);
-                slotsUIs[slot.Key].ChangeItem(item, slots[slot.Key].Value);
+                slotsUIs[slot.Key].ChangeItem(slot.Key, item, slots[slot.Key].Value);
                 return;
             }
     }
 
     public void TakeItem(int slotNumber, int amount)
     {
+        if (slots[slotNumber].Value <= 0) return;
+
         slots[slotNumber] = new KeyValuePair<Item, int>(slots[slotNumber].Key, slots[slotNumber].Value - amount);
         if (slots[slotNumber].Value <= 0)
-            slots.Remove(slotNumber);
+        {
+            slots[slotNumber] = new KeyValuePair<Item, int>(null, 0);
+            slotsUIs[slotNumber].ChangeItem(slotNumber, null, 0);
+        }
     }
 
     private SlotUI CreateSlot(int slotNumber)
@@ -115,6 +129,7 @@ public class Inventory : MonoBehaviour, ISaveData
         GameObject newSlot = Instantiate(slotTemplate, slotTemplate.transform.parent);
         newSlot.name = "Slot" + slotNumber;
         SlotUI slotUI = newSlot.GetComponent<SlotUI>();
+        slotUI.ChangeItem(slotNumber, null, 0);
         newSlot.SetActive(true);
 
         slotsUIs.Add(slotNumber, slotUI);
@@ -125,7 +140,10 @@ public class Inventory : MonoBehaviour, ISaveData
     {
         Dictionary<int, KeyValuePair<string, int>> slotsSaveable = new Dictionary<int, KeyValuePair<string, int>>();
         foreach (KeyValuePair<int, KeyValuePair<Item, int>> slot in slots)
-            slotsSaveable.Add(slot.Key, new KeyValuePair<string, int>(slot.Value.Key.name, slot.Value.Value));
+        {
+            string itemName = slot.Value.Key != null ? slot.Value.Key.name : string.Empty;
+            slotsSaveable.Add(slot.Key, new KeyValuePair<string, int>(itemName, slot.Value.Value));
+        }
 
         return JsonConvert.SerializeObject(slotsSaveable);
     }
@@ -134,7 +152,10 @@ public class Inventory : MonoBehaviour, ISaveData
     {
         Dictionary<int, KeyValuePair<string, int>> savedSlots = JsonConvert.DeserializeObject<Dictionary<int, KeyValuePair<string, int>>>(data);
         foreach (KeyValuePair<int, KeyValuePair<string, int>> slot in savedSlots)
-            slots.Add(slot.Key, new KeyValuePair<Item, int>(items.GetItemByName(slot.Value.Key), slot.Value.Value));
+        {
+            Item item = !string.IsNullOrEmpty(slot.Value.Key) ? items.GetItemByName(slot.Value.Key) : null;
+            slots.Add(slot.Key, new KeyValuePair<Item, int>(item, slot.Value.Value));
+        }
 
         ResetSlotsUI();
     }

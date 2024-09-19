@@ -10,6 +10,8 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 {
     public static WorldGeneration Instance { get; private set; }
 
+    private static readonly int sectionBorderSize = 3;
+
     public static string worldSection = "City1";
     public static string section = originSection;
     private string currentWorldSection;
@@ -20,7 +22,7 @@ public class WorldGeneration : MonoBehaviour, ISaveData
     [SerializeField] private CitySections citySections;
 
     private List<CityBlock> currentSections = new List<CityBlock>();
-    private int trainStationIndex = -1;
+    private int playerSpawnIndex = -1;
 
     private Dictionary<string, int> cityWideSections = new Dictionary<string, int>();
 
@@ -63,6 +65,8 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         if (worldSection != currentWorldSection)
             cityWideSections.Clear();
 
+        currentSections.Clear();
+
         currentWorldSection = worldSection;
 
         string sectionData = await SaveSystem.LoadRunMap(worldSection, section);
@@ -74,8 +78,11 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 
     private void LoadMap(string mapData)
     {
+        string[] sectionDataPoints = JsonConvert.DeserializeObject<string[]>(mapData);
+        Player.Instance.PutSaveData(sectionDataPoints[0]);
+
         GameObject cityRoot = GameObject.FindGameObjectWithTag("CityRoot");
-        Dictionary<string, List<string>> compiledBlocks = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(mapData);
+        Dictionary<string, List<string>> compiledBlocks = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(sectionDataPoints[1]);
         foreach (KeyValuePair<string, List<string>> blockType in compiledBlocks)
         {
             foreach (string block in blockType.Value)
@@ -84,12 +91,15 @@ public class WorldGeneration : MonoBehaviour, ISaveData
                 GameObject sectionObject = Instantiate(section.prefabObject, cityRoot.transform);
                 sectionObject.name = blockType.Key;
                 CityBlock cityBlock = sectionObject.GetComponent<CityBlock>();
-                if (cityBlock is TrainStation) trainStationIndex = currentSections.Count;
+                if (cityBlock is TrainStation) playerSpawnIndex = currentSections.Count;
                 cityBlock.PutSaveData(block);
 
                 currentSections.Add(cityBlock);
             }
         }
+
+        if (!isOriginSection)
+            playerSpawnIndex = sectionBorderSize;
 
         TransitionUI.openPrevention.Remove("Generating City");
     }
@@ -105,7 +115,7 @@ public class WorldGeneration : MonoBehaviour, ISaveData
             GameObject sectionObject = Instantiate(section.prefabObject, cityRoot.transform);
             sectionObject.name = section.prefabObject.name;
             CityBlock cityBlock = sectionObject.GetComponent<CityBlock>();
-            if (cityBlock is TrainStation) trainStationIndex = currentSections.Count;
+            if (cityBlock is TrainStation) playerSpawnIndex = currentSections.Count;
 
             // Position formula
             // x = (lastPlaced.length / 2 + currentPlacing.length / 2) + total
@@ -118,10 +128,13 @@ public class WorldGeneration : MonoBehaviour, ISaveData
             currentSections.Add(cityBlock);
         }
 
+        if (!isOriginSection)
+            playerSpawnIndex = sectionBorderSize;
+
         // Teleport player to train station (if on the first section (which will be true if the train station exists))
-        if (trainStationIndex != -1)
+        if (playerSpawnIndex != -1)
         {
-            Vector3 stationPosition = currentSections[trainStationIndex].transform.position;
+            Vector3 stationPosition = currentSections[playerSpawnIndex].transform.position;
             Vector3 playerPosition = Player.Instance.transform.position;
             Player.Instance.transform.position = new Vector3(stationPosition.x, playerPosition.y, playerPosition.z);
         }
@@ -133,7 +146,6 @@ public class WorldGeneration : MonoBehaviour, ISaveData
     private async Task<List<CitySection>> SelectSections()
     {
         int sectionLength = Random.Range(30, 41);
-        int currentSectionNumber = int.Parse(section);
 
         List<CitySection> selectedSections = new List<CitySection>();
         foreach (CitySection section in citySections.sections)
@@ -148,7 +160,7 @@ public class WorldGeneration : MonoBehaviour, ISaveData
             bool withinRandom = random <= currentSection.rarity;
             bool belowMaxAmount = currentSection.maxPerSection <= 0 || count < currentSection.maxPerSection;
             bool belowMaxCityAmount = currentSection.maxPerCity <= 0 || cityWideSections.TryGetValue(currentSection.name, out int cityCount) && cityCount < currentSection.maxPerCity;
-            if (withinRandom && belowMaxAmount && belowMaxCityAmount)
+            if (withinRandom && belowMaxAmount && belowMaxCityAmount && !currentSection.cannotNaturallySpawn)
             {
                 selectedSections.Add(currentSection);
 
@@ -165,6 +177,14 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         }
 
         selectedSections.Shuffle();
+
+        // Create section border
+        for (int border = 0; border < sectionBorderSize; border++)
+        {
+            selectedSections.Insert(0, isOriginSection ? citySections.GetSectionByName("WorldBorder") : citySections.GetSectionByName("PreviousSectionRoad"));
+            selectedSections.Add(citySections.GetSectionByName("WorldBorder"));
+        }
+
         return selectedSections;
     }
 
@@ -176,6 +196,7 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 
     public void SaveSection()
     {
+        string playerData = Player.Instance.GetSaveData();
         Dictionary<string, List<string>> cityBlocksCompiled = new Dictionary<string, List<string>>();
         foreach (CityBlock block in currentSections)
             if (!cityBlocksCompiled.ContainsKey(block.name))
@@ -183,18 +204,22 @@ public class WorldGeneration : MonoBehaviour, ISaveData
             else
                 cityBlocksCompiled[block.name].Add(block.GetSaveData());
 
-        SaveSystem.SaveRunMap(worldSection, section, JsonConvert.SerializeObject(cityBlocksCompiled));
+        string[] dataPoints = new string[2]
+        {
+            playerData,
+            JsonConvert.SerializeObject(cityBlocksCompiled)
+        };
+
+        SaveSystem.SaveRunMap(worldSection, section, JsonConvert.SerializeObject(dataPoints));
     }
 
     public string GetSaveData()
     {
-        string[] dataPoints = new string[4]
+        string[] dataPoints = new string[3]
         {
             worldSection,
             section,
             JsonConvert.SerializeObject(cityWideSections),
-
-            Player.Instance != null ? Player.Instance.GetSaveData() : string.Empty,
         };
 
         return JsonConvert.SerializeObject(dataPoints);
@@ -206,15 +231,6 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         worldSection = dataPoints[0];
         section = dataPoints[1];
         cityWideSections = JsonConvert.DeserializeObject<Dictionary<string, int>>(dataPoints[2]);
-
-        if (!string.IsNullOrEmpty(dataPoints[3]))
-            StartCoroutine(WaitForPlayer(dataPoints[3]));
-    }
-
-    private IEnumerator WaitForPlayer(string playerData)
-    {
-        yield return new WaitUntil(() => Player.Instance != null);
-        Player.Instance.PutSaveData(playerData);
     }
 }
 

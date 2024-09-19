@@ -15,5 +15,7 @@ public class CitySection : ScriptableObject
     public int requiredInCity = 0;
     public int maxPerCity = 0;
 
+    [Header("Spawn Requirements")]
     [Range(0, 1)] public float rarity = 1;
+    public bool cannotNaturallySpawn = false;
 }
