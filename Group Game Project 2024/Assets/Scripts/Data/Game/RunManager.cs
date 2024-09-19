@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class RunManager : MonoBehaviour, ISaveData
@@ -39,9 +40,10 @@ public class RunManager : MonoBehaviour, ISaveData
 
     public string GetSaveData()
     {
-        string[] dataPoints = new string[1]
+        string[] dataPoints = new string[2]
         {
             statManager.GetSaveData(),
+            Inventory.Instance != null ? Inventory.Instance.GetSaveData() : string.Empty,
         };
 
         return JsonConvert.SerializeObject(dataPoints);
@@ -51,6 +53,13 @@ public class RunManager : MonoBehaviour, ISaveData
     {
         string[] dataPoints = JsonConvert.DeserializeObject<string[]>(data);
         statManager.PutSaveData(dataPoints[0]);
+        if (!string.IsNullOrEmpty(dataPoints[1])) StartCoroutine(WaitForInventory(dataPoints[1]));
+    }
+
+    private IEnumerator WaitForInventory(string inventoryData)
+    {
+        yield return new WaitUntil(() => Inventory.Instance != null);
+        Inventory.Instance.PutSaveData(inventoryData);
     }
 }
 

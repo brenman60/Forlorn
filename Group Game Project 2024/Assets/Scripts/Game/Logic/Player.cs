@@ -6,7 +6,6 @@ public class Player : MonoBehaviour, ISaveData
     public static Player Instance { get; private set; }
 
     [SerializeField] private float baseMovementSpeed = 1f;
-    [SerializeField] private float baseJumpHeight = 1f;
 
     private Animator animator;
 
