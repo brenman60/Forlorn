@@ -51,6 +51,15 @@ public class PauseUI : MonoBehaviour
         SettingsUI.Instance.Toggle(true);
     }
 
+    public void ExitRun()
+    {
+        WorldGeneration.Instance.SaveSection();
+        SaveSystem.SaveRunData();
+
+        TransitionUI.Instance.TransitionTo("MainMenu");
+        GameManager.paused = false;
+    }
+
     public void QuitGame()
     {
         Application.Quit();

@@ -43,7 +43,7 @@ public class Inventory : MonoBehaviour, ISaveData
         }
 
         if (Input.GetKeyDown(KeyCode.R))
-            PutItem(items.GetItemByName("WaterBottleStale"), 1);
+            PutItem(items.GetItemByName("TornBandages"), 1);
 
         UpdateCanvasGroup();
     }
