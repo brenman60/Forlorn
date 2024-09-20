@@ -94,6 +94,15 @@ public class Inventory : MonoBehaviour, ISaveData
         }
     }
 
+    public bool CanPutItem(Item item)
+    {
+        foreach (KeyValuePair<int, KeyValuePair<Item, int>> slot in slots)
+            if (slot.Value.Key == item || slot.Value.Key == null)
+                return true;
+
+        return false;
+    }
+
     public void PutItem(Item item, int amount)
     {
         // Find free slot and put it in (no empty slots will probably be handled outside of this so we shouldn't worry about it)

@@ -21,7 +21,8 @@ public class Player : MonoBehaviour, ISaveData
 
     private void Update()
     {
-        Movement();
+        if (!DeathUI.PlayerDead)
+            Movement();
     }
 
     private void Movement()

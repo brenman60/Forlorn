@@ -8,6 +8,7 @@
     {
         HealthRegeneration();
         HealthRequirements();
+        HealthCheck();
     }
 
     private void HealthRegeneration()
@@ -22,6 +23,12 @@
 
         if (currentHunger <= 10f || currentThirst <= 10f)
             statManager.stats[StatType.Health].currentValue -= statManager.stats[StatType.HealthRegeneration].maxValue * 2.5f;
+    }
+
+    private void HealthCheck()
+    {
+        if (statManager.stats[StatType.Health].currentValue <= 0 && !DeathUI.PlayerDead)
+            DeathUI.Instance.PlayerDeath();
     }
 
     public override string GetSaveData()
