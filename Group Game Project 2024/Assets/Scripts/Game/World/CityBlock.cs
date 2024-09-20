@@ -58,12 +58,13 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
         List<string> spawnables = new List<string>();
         foreach (GameObject spawn in spawnedSpawnables)
         {
-            string[] spawnData = new string[4]
+            string[] spawnData = new string[5]
             {
                 spawn.name,
                 spawn.transform.localPosition.ToJSON(),
                 spawn.transform.localScale.ToJSON(),
                 spawn.transform.rotation.ToJSON(),
+                spawn.TryGetComponent(out ISaveData saveData) ? saveData.GetSaveData() : string.Empty,
             };
 
             spawnables.Add(JsonConvert.SerializeObject(spawnData));
@@ -102,6 +103,7 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
             Vector3 positionData = spawnData[1].ToVector3();
             Vector3 scaleData = spawnData[2].ToVector3();
             Quaternion rotationData = spawnData[3].ToQuaternion();
+            string savedData = spawnData[4];
 
             CitySpawnable citySpawnable = spawnables[0];
             foreach (CitySpawnable citySpawnableData in spawnables)
@@ -111,7 +113,9 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
                     break;
                 }
 
-            InstantiateSpawn(citySpawnable, positionData, scaleData, rotationData);
+            GameObject spawnedObject = InstantiateSpawn(citySpawnable, positionData, scaleData, rotationData);
+            if (spawnedObject.TryGetComponent(out ISaveData saveData) && !string.IsNullOrEmpty(savedData))
+                saveData.PutSaveData(savedData);
         }
     }
 }

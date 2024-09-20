@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -22,14 +21,14 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void PlayClickSound()
+    private void PlayClickSound(ForlornButton button)
     {
-        SoundManager.Instance.PlayAudio("UIClick", false);
+        SoundManager.Instance.PlayAudio(button.clickSound, false);
     }
 
-    public void AddButton(Button button)
+    public void AddButton(ForlornButton button)
     {
-        button.onClick.AddListener(() => PlayClickSound());
+        button.onClick.AddListener(() => PlayClickSound(button));
 
         EventTrigger trigger = button.gameObject.AddComponent<EventTrigger>();
     }

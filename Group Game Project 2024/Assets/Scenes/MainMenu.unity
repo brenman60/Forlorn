@@ -584,6 +584,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  clickSound: UIClick
 --- !u!1 &552126493
 GameObject:
   m_ObjectHideFlags: 0
@@ -1306,6 +1307,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  clickSound: UIClick
 --- !u!1 &1079490896
 GameObject:
   m_ObjectHideFlags: 0
@@ -1715,6 +1717,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  clickSound: UIClick
 --- !u!1 &1215779118
 GameObject:
   m_ObjectHideFlags: 0
@@ -1848,6 +1851,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  clickSound: UIClick
 --- !u!1 &1267192177
 GameObject:
   m_ObjectHideFlags: 0
@@ -2234,6 +2238,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  clickSound: UIClick
 --- !u!1 &1348558626
 GameObject:
   m_ObjectHideFlags: 0
@@ -2527,6 +2532,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  clickSound: UIClick
 --- !u!1 &1392780784
 GameObject:
   m_ObjectHideFlags: 0

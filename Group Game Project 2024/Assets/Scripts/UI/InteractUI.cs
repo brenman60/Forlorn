@@ -14,6 +14,8 @@ public class InteractUI : MonoBehaviour
     [SerializeField] private Image backgroundImage;
     [SerializeField] private Color flashColor;
 
+    private ForlornButton interactButton;
+
     private CanvasGroup canvasGroup;
     private Outline backgroundImageOutline;
     private Color originalOutlineColor;
@@ -40,6 +42,8 @@ public class InteractUI : MonoBehaviour
 
     private void Start()
     {
+        interactButton = backgroundImage.GetComponent<ForlornButton>();
+
         canvasGroup = GetComponent<CanvasGroup>();
         backgroundImageOutline = backgroundImage.GetComponent<Outline>();
         originalColor = backgroundImage.color;
@@ -65,6 +69,8 @@ public class InteractUI : MonoBehaviour
 
         interactables[0].Interact();
         RemoveInteraction(interactables[0]);
+
+        SoundManager.Instance.PlayAudio(interactButton.clickSound, false);
     }
 
     private void UpdateCanvasGroup()

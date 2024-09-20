@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class ForlornButton : Button
 {
+    public string clickSound = "UIClick";
+
     protected override void Start()
     {
         base.Start();

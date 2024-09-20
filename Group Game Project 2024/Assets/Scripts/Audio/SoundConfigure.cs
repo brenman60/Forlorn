@@ -5,6 +5,8 @@ using UnityEngine;
 public class SoundConfigure : MonoBehaviour
 {
     public SoundType soundType;
+    [SerializeField] private bool destroyOnEnd = true;
+
     private AudioSource audioSource;
 
     private float initialVolume;
@@ -18,7 +20,8 @@ public class SoundConfigure : MonoBehaviour
         GameSettings.SettingChanged += SettingsChanged;
         RecalculateVolume();
 
-        Destroy(gameObject, audioSource.clip.length);
+        if (destroyOnEnd)
+            Destroy(gameObject, audioSource.clip.length);
     }
 
     private void SettingsChanged(object sender, SettingType changedSetting)

@@ -215,11 +215,15 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 
     public string GetSaveData()
     {
-        string[] dataPoints = new string[3]
+        if (GameManager.validGameScenes.Contains(SceneManager.GetActiveScene().name))
+            SaveSection();
+
+        string[] dataPoints = new string[4]
         {
             worldSection,
             section,
             JsonConvert.SerializeObject(cityWideSections),
+            ItemDropManager.Instance != null ? ItemDropManager.Instance.GetSaveData() : string.Empty,
         };
 
         return JsonConvert.SerializeObject(dataPoints);
@@ -231,6 +235,13 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         worldSection = dataPoints[0];
         section = dataPoints[1];
         cityWideSections = JsonConvert.DeserializeObject<Dictionary<string, int>>(dataPoints[2]);
+        if (!string.IsNullOrEmpty(dataPoints[3])) StartCoroutine(WaitForItemDrop(dataPoints[3]));
+    }
+
+    private IEnumerator WaitForItemDrop(string dropData)
+    {
+        yield return new WaitUntil(() => ItemDropManager.Instance != null);
+        ItemDropManager.Instance.PutSaveData(dropData);
     }
 }
 
