@@ -192,7 +192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4607112779828399078}
   m_Layer: 0
-  m_Name: Background
+  m_Name: Spawnables
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -210,8 +210,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4537088646884071201}
+  m_Children: []
   m_Father: {fileID: 8885794104105006349}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5022681507367674619
@@ -410,11 +409,11 @@ Transform:
   m_GameObject: {fileID: 5217279164295101342}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.009, y: 0.028, z: 0}
+  m_LocalPosition: {x: -0.009, y: -0.12900001, z: 0}
   m_LocalScale: {x: 0.4, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4607112779828399078}
+  m_Father: {fileID: 2478475386574397843}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &329157944899709871
 SpriteRenderer:
@@ -548,7 +547,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2478475386574397843}
   m_Layer: 0
-  m_Name: Building
+  m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -572,6 +571,7 @@ Transform:
   - {fileID: 7084319407554342493}
   - {fileID: 1533233789790868500}
   - {fileID: 364521572118103021}
+  - {fileID: 4537088646884071201}
   m_Father: {fileID: 8885794104105006349}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5986061153142185189
@@ -708,14 +708,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   length: 1.75
-  spawnables:
-  - spawnObject: {fileID: 6027805560143271595, guid: e9c1e04c750d6384ca4b11372b400dd9, type: 3}
-    spawnParent: {fileID: 4607112779828399078}
-    minAmount: 1
-    maxAmount: 2
-    spawnPosMin: {x: -2.04, y: 0, z: 1.37}
-    spawnPosMax: {x: 2.04, y: 0, z: 3.52}
-    distributeEqually: 0
+  spawnablesParent: {fileID: 4607112779828399078}
+  spawnables: []
 --- !u!1 &6537093346896072599
 GameObject:
   m_ObjectHideFlags: 0

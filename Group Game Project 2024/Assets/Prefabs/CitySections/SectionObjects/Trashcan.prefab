@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3226292273930993378}
   - component: {fileID: 4900039686732414008}
-  m_Layer: 0
+  - component: {fileID: 2371962659566717267}
+  - component: {fileID: 6363601019968770904}
+  m_Layer: 8
   m_Name: Lid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,6 +86,78 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &2371962659566717267
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743653910517524971}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0.4
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
+--- !u!61 &6363601019968770904
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743653910517524971}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.090050004}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.32, y: 0.32}
+    newSize: {x: 0.256, y: 0.03}
+    adaptiveTilingThreshold: 1
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.19, y: 0.045835003}
+  m_EdgeRadius: 0
 --- !u!1 &6027805560143271595
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,8 +211,13 @@ MonoBehaviour:
     minAmount: 1
     maxAmount: 2
     chance: 1
+  - item: {fileID: 11400000, guid: 3d042c521d5b1ff4e81c805b7551be75, type: 2}
+    minAmount: 1
+    maxAmount: 2
+    chance: 0.5
   minDropVelocty: {x: -0.5, y: 2}
   maxDropVelocity: {x: 0.5, y: 2}
+  lidRigidbody: {fileID: 2371962659566717267}
 --- !u!61 &-3914714966395777363
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4607112779828399078}
   m_Layer: 0
-  m_Name: Background
+  m_Name: Spawnables
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -209,7 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2478475386574397843}
   m_Layer: 0
-  m_Name: Building
+  m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -366,28 +366,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   length: 2
-  spawnables:
-  - spawnObject: {fileID: 6027805560143271595, guid: e9c1e04c750d6384ca4b11372b400dd9, type: 3}
-    spawnParent: {fileID: 4607112779828399078}
-    minAmount: 3
-    maxAmount: 6
-    spawnPosMin: {x: -2.04, y: 0, z: 1.37}
-    spawnPosMax: {x: 2.04, y: 0, z: 3.52}
-    distributeEqually: 0
-  - spawnObject: {fileID: 6027805560143271595, guid: 37121a85143f8cc4799f9bfc62141363, type: 3}
-    spawnParent: {fileID: 4607112779828399078}
-    minAmount: 1
-    maxAmount: 1
-    spawnPosMin: {x: 0, y: -0.067, z: 0}
-    spawnPosMax: {x: 0, y: -0.067, z: 0}
-    distributeEqually: 0
-  - spawnObject: {fileID: 6027805560143271595, guid: ca6c6ee411460b44d9e078f91687e22a, type: 3}
-    spawnParent: {fileID: 4607112779828399078}
-    minAmount: 1
-    maxAmount: 1
-    spawnPosMin: {x: -0.6, y: -0.02, z: 0}
-    spawnPosMax: {x: 0.6, y: -0.02, z: 0}
-    distributeEqually: 0
+  spawnablesParent: {fileID: 4607112779828399078}
+  spawnables: []
 --- !u!61 &3876311000616687714
 BoxCollider2D:
   m_ObjectHideFlags: 0

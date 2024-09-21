@@ -393,7 +393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4607112779828399078}
   m_Layer: 0
-  m_Name: Background
+  m_Name: Spawnables
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1374,7 +1374,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2478475386574397843}
   m_Layer: 0
-  m_Name: Building
+  m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1718,14 +1718,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   length: 5
-  spawnables:
-  - spawnObject: {fileID: 6027805560143271595, guid: 7745eb455a4049c45b2877fbccd62e3b, type: 3}
-    spawnParent: {fileID: 4607112779828399078}
-    minAmount: 2
-    maxAmount: 2
-    spawnPosMin: {x: -1.9, y: -0.1, z: 0}
-    spawnPosMax: {x: 1.9, y: -0.1, z: 0}
-    distributeEqually: 1
+  spawnablesParent: {fileID: 4607112779828399078}
+  spawnables: []
 --- !u!1 &6480933144251853934
 GameObject:
   m_ObjectHideFlags: 0

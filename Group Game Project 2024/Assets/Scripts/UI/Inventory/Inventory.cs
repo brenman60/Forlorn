@@ -1,5 +1,7 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour, ISaveData
@@ -7,19 +9,25 @@ public class Inventory : MonoBehaviour, ISaveData
     public static Inventory Instance { get; private set; }
 
     [SerializeField] private Items items;
-    [SerializeField] private int maxSlots;
-    [Space(15), SerializeField] private float openSpeed = 15;
-    [SerializeField] private GameObject slotTemplate;
+    [Space(15), SerializeField] private SlotUI previousSlot;
+    [SerializeField] private SlotUI currentSlot;
+    [SerializeField] private SlotUI nextSlot;
+    [Space(15), SerializeField] private CanvasGroup namePanel;
+    [SerializeField] private TextMeshProUGUI nameText;
+    [Space(15), SerializeField] private CanvasGroup amountPanel;
+    [SerializeField] private TextMeshProUGUI amountText;
 
-    private CanvasGroup canvasGroup;
-
-    // Dictionary storing slot information
-    // Key is the slot number, while the value is the slot info
-    // Slot info is the item present and how many of it
-    private Dictionary<int, KeyValuePair<Item, int>> slots = new Dictionary<int, KeyValuePair<Item, int>>();
-    private Dictionary<int, SlotUI> slotsUIs = new Dictionary<int, SlotUI>();
-
-    private bool open;
+    private static List<KeyValuePair<Item, int>> slots = new List<KeyValuePair<Item, int>>();
+    private int currentSlotIndex
+    {
+        get { return currentSlotIndex_; }
+        set
+        {
+            currentSlotIndex_ = Mathf.Clamp(value, 0, slots.Count == 0 ? 0 : slots.Count - 1);
+            ResetSlotsUI();
+        }
+    }
+    private static int currentSlotIndex_ = 0;
 
     private void Awake()
     {
@@ -28,76 +36,48 @@ public class Inventory : MonoBehaviour, ISaveData
 
     private void Start()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
+        ResetSlotsUI();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(Keybinds.GetKeybind(KeyType.Inventory)))
-            Toggle();
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            AddSlots(1);
-            //PutItem(items.GetItemByName("WaterBottleStale"), 1);
-        }
-
         if (Input.GetKeyDown(KeyCode.R))
             PutItem(items.GetItemByName("TornBandages"), 1);
 
-        UpdateCanvasGroup();
+        if (Input.mouseScrollDelta.y != 0f)
+            currentSlotIndex += Mathf.RoundToInt(Input.mouseScrollDelta.y);
+
+        UpdatePanels();
     }
 
-    private void UpdateCanvasGroup()
+    private void UpdatePanels()
     {
-        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, open ? 1f : 0f, Time.deltaTime * openSpeed);
-        canvasGroup.interactable = open;
-        canvasGroup.blocksRaycasts = open;
-    }
-
-    public void Toggle()
-    {
-        open = !open;
-        if (slots.Count == 0)
-            open = false;
+        bool panelsVisible = slots.Count > 0;
+        namePanel.alpha = Mathf.Lerp(namePanel.alpha, panelsVisible ? 1f : 0f, Time.deltaTime * 20f);
+        amountPanel.alpha = Mathf.Lerp(amountPanel.alpha, panelsVisible ? 1f : 0f, Time.deltaTime * 20f);
     }
 
     public void ResetSlotsUI()
     {
-        slotsUIs.Clear();
-        foreach (Transform previousSlot in slotTemplate.transform.parent) if (previousSlot.gameObject != slotTemplate) Destroy(previousSlot.gameObject);
+        bool previousValid = currentSlotIndex - 1 != -1;
+        bool currentValid = slots.Count > 0;
+        bool nextValid = currentSlotIndex + 1 < slots.Count;
 
-        foreach (KeyValuePair<int, KeyValuePair<Item, int>> slot in slots)
+        previousSlot.ChangeItem(previousValid ? slots[currentSlotIndex - 1].Key : null);
+        currentSlot.ChangeItem(currentValid ? slots[currentSlotIndex].Key : null);
+        nextSlot.ChangeItem(nextValid ? slots[currentSlotIndex + 1].Key : null);
+
+        if (currentValid)
         {
-            SlotUI slotUI = CreateSlot(slot.Key);
-            ChangeSlotUI(slot.Key);
+            nameText.text = slots[currentSlotIndex].Key.visibleName;
+            amountText.text = slots[currentSlotIndex].Value.ToString();
         }
     }
 
-    public void ChangeSlotUI(int slotNumber)
+    public bool HasItem(Item item)
     {
-        if (slots.ContainsKey(slotNumber))
-            slotsUIs[slotNumber].ChangeItem(slotNumber, slots[slotNumber].Key, slots[slotNumber].Value);
-        else
-            slotsUIs[slotNumber].ChangeItem(slotNumber, null, 0);
-    }
-
-    public void AddSlots(int amount)
-    {
-        for (int i = 0; i < amount; i++)
-        {
-            int slotNumber = slotsUIs.Count + 1;
-            if (slotNumber > maxSlots) return;
-
-            slots.Add(slotNumber, new KeyValuePair<Item, int>(null, 0));
-            CreateSlot(slotNumber);
-        }
-    }
-
-    public bool CanPutItem(Item item)
-    {
-        foreach (KeyValuePair<int, KeyValuePair<Item, int>> slot in slots)
-            if (slot.Value.Key == item || slot.Value.Key == null)
+        foreach (KeyValuePair<Item, int> slot in slots)
+            if (slot.Key == item)
                 return true;
 
         return false;
@@ -105,66 +85,68 @@ public class Inventory : MonoBehaviour, ISaveData
 
     public void PutItem(Item item, int amount)
     {
-        // Find free slot and put it in (no empty slots will probably be handled outside of this so we shouldn't worry about it)
-        foreach (KeyValuePair<int, KeyValuePair<Item, int>> slot in slots)
-            if (slot.Value.Key == null)
-            {
-                slots[slot.Key] = new KeyValuePair<Item, int>(item, amount);
-                slotsUIs[slot.Key].ChangeItem(slot.Key, item, slots[slot.Key].Value);
-                return;
-            }
-            else if (slot.Value.Key == item)
-            {
-                slots[slot.Key] = new KeyValuePair<Item, int>(item, slots[slot.Key].Value + amount);
-                slotsUIs[slot.Key].ChangeItem(slot.Key, item, slots[slot.Key].Value);
-                return;
-            }
-    }
-
-    public void TakeItem(int slotNumber, int amount)
-    {
-        if (slots[slotNumber].Value <= 0) return;
-
-        slots[slotNumber] = new KeyValuePair<Item, int>(slots[slotNumber].Key, slots[slotNumber].Value - amount);
-        if (slots[slotNumber].Value <= 0)
+        if (HasItem(item))
         {
-            slots[slotNumber] = new KeyValuePair<Item, int>(null, 0);
-            slotsUIs[slotNumber].ChangeItem(slotNumber, null, 0);
+            for (int i = 0; i < slots.Count; i++)
+                if (slots[i].Key == item)
+                    slots[i] = new KeyValuePair<Item, int>(item, slots[i].Value + amount);
         }
+        else
+            slots.Add(new KeyValuePair<Item, int>(item, amount));
+
+        ResetSlotsUI();
     }
 
-    private SlotUI CreateSlot(int slotNumber)
+    public void UseItem()
     {
-        GameObject newSlot = Instantiate(slotTemplate, slotTemplate.transform.parent);
-        newSlot.name = "Slot" + slotNumber;
-        SlotUI slotUI = newSlot.GetComponent<SlotUI>();
-        slotUI.ChangeItem(slotNumber, null, 0);
-        newSlot.SetActive(true);
+        Item selectedItem = slots[currentSlotIndex].Key;
+        if (selectedItem.useStats != null)
+            foreach (UseStat useStats in selectedItem.useStats)
+                RunManager.Instance.statManager.stats[useStats.targetStat].currentValue += useStats.change;
 
-        slotsUIs.Add(slotNumber, slotUI);
-        return slotUI;
+        if (selectedItem.useEffects != null)
+            foreach (UseEffect effect in selectedItem.useEffects)
+                RunManager.Instance.statManager.ApplyEffect((Effect)Activator.CreateInstance(effect.effect.Type, RunManager.Instance.statManager, effect.saveable));
+
+        if (selectedItem.useModifiers != null)
+            foreach (UseModifier modifier in selectedItem.useModifiers)
+                RunManager.Instance.statManager.ApplyModifier(new StatModifier(RunManager.Instance.statManager.stats[modifier.targetStat], modifier.modifierAmount, modifier.isExponential));
+
+        slots[currentSlotIndex] = new KeyValuePair<Item, int>(slots[currentSlotIndex].Key, slots[currentSlotIndex].Value - 1);
+        if (slots[currentSlotIndex].Value <= 0)
+            slots.RemoveAt(currentSlotIndex);
+
+        ResetSlotsUI();
     }
 
     public string GetSaveData()
     {
-        Dictionary<int, KeyValuePair<string, int>> slotsSaveable = new Dictionary<int, KeyValuePair<string, int>>();
-        foreach (KeyValuePair<int, KeyValuePair<Item, int>> slot in slots)
-        {
-            string itemName = slot.Value.Key != null ? slot.Value.Key.name : string.Empty;
-            slotsSaveable.Add(slot.Key, new KeyValuePair<string, int>(itemName, slot.Value.Value));
-        }
+        Dictionary<string, int> slotsSaveable = new Dictionary<string, int>();
+        foreach (KeyValuePair<Item, int> slot in slots)
+            slotsSaveable.Add(slot.Key.name, slot.Value);
 
-        return JsonConvert.SerializeObject(slotsSaveable);
+        string[] dataPoints = new string[2]
+        {
+            JsonConvert.SerializeObject(slotsSaveable),
+            currentSlotIndex.ToString(),
+        };
+
+        return JsonConvert.SerializeObject(dataPoints);
     }
 
     public void PutSaveData(string data)
     {
-        Dictionary<int, KeyValuePair<string, int>> savedSlots = JsonConvert.DeserializeObject<Dictionary<int, KeyValuePair<string, int>>>(data);
-        foreach (KeyValuePair<int, KeyValuePair<string, int>> slot in savedSlots)
+        string[] dataPoints = JsonConvert.DeserializeObject<string[]>(data);
+
+        slots.Clear();
+        Dictionary<string, int> savedSlots = JsonConvert.DeserializeObject<Dictionary<string, int>>(dataPoints[0]);
+        foreach (KeyValuePair<string, int> slot in savedSlots)
         {
-            Item item = !string.IsNullOrEmpty(slot.Value.Key) ? items.GetItemByName(slot.Value.Key) : null;
-            slots.Add(slot.Key, new KeyValuePair<Item, int>(item, slot.Value.Value));
+            Item item = items.GetItemByName(slot.Key);
+            slots.Add(new KeyValuePair<Item, int>(item, slot.Value));
         }
+
+        currentSlotIndex = int.Parse(dataPoints[1]);
 
         ResetSlotsUI();
     }

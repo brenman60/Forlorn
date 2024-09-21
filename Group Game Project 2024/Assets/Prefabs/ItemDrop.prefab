@@ -50,7 +50,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items: {fileID: 11400000, guid: 50cd87991d331a743916fb3d7111b354, type: 2}
-  lightSpeed: 2.5
+  lightSpeed: 5
+  maxIntensity: 0.25
+  minIntensity: 0.1
   hoverSpeed: 2.5
   itemSprite: {fileID: 7940061893198174343}
 --- !u!61 &5204126402937959041
@@ -114,7 +116,7 @@ Rigidbody2D:
   m_LinearDrag: 0.25
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 011b2185f029e8148a0130111b4836dc, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -140,8 +142,8 @@ MonoBehaviour:
   m_ComponentVersion: 1
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.646
-  m_Color: {r: 0.97650623, g: 1, b: 0.5896226, a: 1}
+  m_FalloffIntensity: 0.85
+  m_Color: {r: 0.5882353, g: 0.8901961, b: 1, a: 1}
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
@@ -164,7 +166,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 0.5
+  m_PointLightOuterRadius: 1
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1

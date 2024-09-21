@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,37 +6,60 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
 {
     public float length;
 
+    [SerializeField] private Transform spawnablesParent;
+
     // Spawnables will be things like backgrounds, foregrounds, etc. They should be pretty modular I think, as their spawn position offsets will be local position dependant, allowing for customization from the parent transform itself.
     [SerializeField] protected CitySpawnable[] spawnables;
     private List<GameObject> spawnedSpawnables = new List<GameObject>();
 
     protected virtual void InitSpawnables()
     {
-        for (int i = 0; i < spawnables.Length; i++)
+        Dictionary<CitySpawnable, int> selectedSpawnables = new Dictionary<CitySpawnable, int>();
+        foreach (CitySpawnable spawnable in spawnables)
         {
-            CitySpawnable spawnable = spawnables[i];
-            Vector3 posMin = spawnable.spawnPosMin;
-            Vector3 posMax = spawnable.spawnPosMax;
-            int randomAmount = UnityEngine.Random.Range(spawnable.minAmount, spawnable.maxAmount + 1);
-            for (int spawn = 0; spawn < randomAmount; spawn++)
+            int amount = 0;
+            for (int i = 0; i < spawnable.spawnAmounts.Count; i++)
+                if (spawnable.spawnAmounts[i].rarity >= Random.Range(0f, 1f))
+                    amount++;
+
+            if (amount > 0)
+                selectedSpawnables.Add(spawnable, amount);
+        }
+
+        foreach (KeyValuePair<CitySpawnable, int> spawnable in selectedSpawnables)
+        {
+            for (int spawn = 0; spawn < spawnable.Value; spawn++)
             {
-                float distributeInterpolation = spawn / Mathf.Clamp(randomAmount - 1, 1, float.MaxValue);
+                Vector3 minPos = spawnable.Key.minPosition;
+                Vector3 maxPos = spawnable.Key.maxPosition;
 
-                Vector2 spawnPosition = !spawnable.distributeEqually ?
-                    new Vector3(UnityEngine.Random.Range(posMin.x, posMax.x), UnityEngine.Random.Range(posMin.y, posMax.y), UnityEngine.Random.Range(posMin.z, posMax.z)) :
-                    Vector3.Lerp(posMin, posMax, distributeInterpolation);
+                Vector3 minScale = spawnable.Key.minScale;
+                Vector3 maxScale = spawnable.Key.maxScale;
 
-                InstantiateSpawn(spawnable, 
-                    spawnPosition,
-                    Vector3.one,
-                    Quaternion.identity);
+                float distributeInterpolation = spawn / Mathf.Clamp(spawnable.Value - 1, 1, float.MaxValue);
+                Vector3 spawnPosition = !spawnable.Key.equalPositionDistribution ? 
+                    new Vector3(Random.Range(minPos.x, maxPos.x), Random.Range(minPos.y, maxPos.y), Random.Range(minPos.z, maxPos.z)) : 
+                    Vector3.Lerp(spawnable.Key.minPosition, spawnable.Key.maxPosition, distributeInterpolation);
+
+                float linkedScale = Random.Range(minScale.x, maxScale.x);
+                Vector3 spawnScale = !spawnable.Key.linkedScales ?
+                    new Vector3(Random.Range(minScale.x, maxScale.x), Random.Range(minScale.y, maxScale.y), Random.Range(minScale.z, maxScale.z)) :
+                    new Vector3(linkedScale, linkedScale, linkedScale);
+
+                if (spawnable.Key.scaleEffectsHeight)
+                    spawnPosition.y /= spawnScale.y;
+
+                InstantiateSpawn(spawnable.Key,
+                        spawnPosition,
+                        spawnScale,
+                        Quaternion.identity);
             }
         }
     }
 
     protected GameObject InstantiateSpawn(CitySpawnable citySpawnable, Vector3 position, Vector3 scale, Quaternion rotation)
     {
-        GameObject spawnObject = Instantiate(citySpawnable.spawnObject, citySpawnable.spawnParent);
+        GameObject spawnObject = Instantiate(citySpawnable.spawnObject, spawnablesParent);
         spawnObject.name = citySpawnable.spawnObject.name;
         spawnObject.transform.localPosition = position;
         spawnObject.transform.localScale = scale;
@@ -118,17 +140,4 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
                 saveData.PutSaveData(savedData);
         }
     }
-}
-
-[Serializable]
-public struct CitySpawnable
-{
-    [Header("Spawn Object Data")]
-    public GameObject spawnObject;
-    public Transform spawnParent;
-    public int minAmount, maxAmount;
-    [Space(15), Header("Spawn Postion Data")]
-    public Vector3 spawnPosMin;
-    public Vector3 spawnPosMax;
-    [Tooltip("Will spawn the objects at equal distributions between the spawnPosMin and spawnPosMax")]public bool distributeEqually;
 }

@@ -5,14 +5,22 @@ using UnityEngine.Rendering.Universal;
 public class ItemDrop : MonoBehaviour, ISaveData
 {
     [SerializeField] private Items items;
+
+    [Header("Light Customization")]
     [SerializeField] private float lightSpeed = 2.5f;
+    [SerializeField] private float maxIntensity = 0.75f;
+    [SerializeField] private float minIntensity = 0.25f;
+
+    [Header("Hover Customization")]
     [SerializeField] private float hoverSpeed = 2.5f;
+
     [Space(15), SerializeField] private SpriteRenderer itemSprite;
 
     private Item item;
     private int amount;
 
     private float collectDebounce = 1f;
+    private float waveOffsets;
 
     private Rigidbody2D rigidBody2D;
     private new Light2D light;
@@ -20,6 +28,7 @@ public class ItemDrop : MonoBehaviour, ISaveData
     private void Start()
     {
         light = GetComponent<Light2D>();
+        waveOffsets = Random.Range(-180f, 180f);
     }
 
     private void Update()
@@ -32,13 +41,13 @@ public class ItemDrop : MonoBehaviour, ISaveData
 
     private void UpdateLightIntensity()
     {
-        float waveValue = (Mathf.Sin(Time.time * lightSpeed) + 1) / 2;
-        light.intensity = Mathf.Lerp(0.25f, 0.75f, waveValue);
+        float waveValue = (Mathf.Sin((Time.time + waveOffsets) * lightSpeed) + 1) / 2;
+        light.intensity = Mathf.Lerp(minIntensity, maxIntensity, waveValue);
     }
     
     private void UpdateHover()
     {
-        float waveValue = (Mathf.Sin(Time.time * hoverSpeed) + 1) / 2;
+        float waveValue = (Mathf.Sin((Time.time + waveOffsets) * hoverSpeed) + 1) / 2;
         itemSprite.transform.eulerAngles = new Vector3(itemSprite.transform.eulerAngles.x, Mathf.Lerp(0f, 180f, waveValue), itemSprite.transform.eulerAngles.z);
         itemSprite.transform.localPosition = new Vector3(itemSprite.transform.localPosition.x, Mathf.Lerp(-0.05f, 0.05f, waveValue), itemSprite.transform.localPosition.z);
     }
@@ -63,7 +72,7 @@ public class ItemDrop : MonoBehaviour, ISaveData
 
     private void TryCollect(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && collectDebounce <= 0 && Inventory.Instance.CanPutItem(item))
+        if (collision.CompareTag("Player") && collectDebounce <= 0)
         {
             Inventory.Instance.PutItem(item, amount);
             ItemDropManager.Instance.DestroyDrop(this);

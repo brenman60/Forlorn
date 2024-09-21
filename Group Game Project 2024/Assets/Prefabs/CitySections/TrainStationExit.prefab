@@ -176,7 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4607112779828399078}
   m_Layer: 0
-  m_Name: Background
+  m_Name: Spawnables
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -904,7 +904,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2478475386574397843}
   m_Layer: 0
-  m_Name: Building
+  m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1279,6 +1279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   length: 5
+  spawnablesParent: {fileID: 4607112779828399078}
   spawnables: []
 --- !u!1 &6537093346896072599
 GameObject:

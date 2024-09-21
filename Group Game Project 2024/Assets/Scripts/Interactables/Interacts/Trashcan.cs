@@ -3,11 +3,9 @@ using UnityEngine;
 public class Trashcan : Interactable, ISaveData
 {
     [SerializeField] private DropLootTable[] drops;
-    [Space(15)]
-    [SerializeField] private Vector2 minDropVelocty;
+    [Space(15), SerializeField] private Vector2 minDropVelocty;
     [SerializeField] private Vector2 maxDropVelocity;
-
-    private bool opened;
+    [Space(15), SerializeField] private Rigidbody2D lidRigidbody;
 
     public override void Interact()
     {
@@ -18,18 +16,21 @@ public class Trashcan : Interactable, ISaveData
                 ItemDropManager.Instance.CreateDrop(drop.item, Random.Range(drop.minAmount, drop.maxAmount + 1), transform.position, new Vector2(Random.Range(minDropVelocty.x, maxDropVelocity.x), Random.Range(minDropVelocty.y, maxDropVelocity.y)));
         }
 
-        opened = true;
-        enabled = false;
+        lidRigidbody.constraints = RigidbodyConstraints2D.None;
+        lidRigidbody.velocity = new Vector2(Random.Range(minDropVelocty.x, maxDropVelocity.x), 1f);
+        lidRigidbody.angularVelocity = Mathf.Atan2(lidRigidbody.velocity.y, lidRigidbody.velocity.x) * Mathf.Rad2Deg;
+
+        interactable = false;
     }
 
     public string GetSaveData()
     {
-        return opened.ToString();
+        return interactable.ToString();
     }
 
     public void PutSaveData(string data)
     {
-        opened = bool.Parse(data);
-        if (opened) enabled = false;
+        interactable = bool.Parse(data);
+        if (!interactable) Destroy(lidRigidbody.gameObject);
     }
 }

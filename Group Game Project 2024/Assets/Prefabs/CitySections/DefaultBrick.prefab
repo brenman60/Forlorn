@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4607112779828399078}
   m_Layer: 0
-  m_Name: Background
+  m_Name: Spawnables
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -209,7 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2478475386574397843}
   m_Layer: 0
-  m_Name: Building
+  m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -449,42 +449,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   length: 2
+  spawnablesParent: {fileID: 4607112779828399078}
   spawnables:
-  - spawnObject: {fileID: 6027805560143271595, guid: e9c1e04c750d6384ca4b11372b400dd9, type: 3}
-    spawnParent: {fileID: 4607112779828399078}
-    minAmount: 1
-    maxAmount: 1
-    spawnPosMin: {x: -2.04, y: 0, z: 1.37}
-    spawnPosMax: {x: 2.04, y: 0, z: 3.52}
-    distributeEqually: 0
-  - spawnObject: {fileID: 6027805560143271595, guid: 37121a85143f8cc4799f9bfc62141363, type: 3}
-    spawnParent: {fileID: 4607112779828399078}
-    minAmount: 1
-    maxAmount: 1
-    spawnPosMin: {x: 0, y: -0.067, z: 0}
-    spawnPosMax: {x: 0, y: -0.067, z: 0}
-    distributeEqually: 0
-  - spawnObject: {fileID: 6027805560143271595, guid: ca6c6ee411460b44d9e078f91687e22a, type: 3}
-    spawnParent: {fileID: 4607112779828399078}
-    minAmount: 1
-    maxAmount: 1
-    spawnPosMin: {x: -0.6, y: -0.02, z: 0}
-    spawnPosMax: {x: 0.6, y: -0.02, z: 0}
-    distributeEqually: 0
-  - spawnObject: {fileID: 6027805560143271595, guid: 22101ae0ccd6f8f40ad8a52c1e19a7e5, type: 3}
-    spawnParent: {fileID: 4607112779828399078}
-    minAmount: 3
-    maxAmount: 3
-    spawnPosMin: {x: -0.55, y: 1, z: 0}
-    spawnPosMax: {x: 0.55, y: 1, z: 0}
-    distributeEqually: 1
-  - spawnObject: {fileID: 6027805560143271595, guid: ed1e2355aa8adf14281ebdf10fa13b7c, type: 3}
-    spawnParent: {fileID: 4607112779828399078}
-    minAmount: 0
-    maxAmount: 1
-    spawnPosMin: {x: -0.55, y: -0.0335, z: 0}
-    spawnPosMax: {x: 0.55, y: -0.0335, z: 0}
-    distributeEqually: 0
+  - {fileID: 11400000, guid: 1cd67a6c09769f645845c17ecb3616ce, type: 2}
 --- !u!1 &6537093346896072599
 GameObject:
   m_ObjectHideFlags: 0
