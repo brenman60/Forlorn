@@ -88,8 +88,12 @@ public class TransitionUI : MonoBehaviour
 
     private void CreateGrid()
     {
-        int width = Mathf.CeilToInt(Screen.width / gridSquareSize);
-        int height = Mathf.CeilToInt(Screen.height / gridSquareSize);
+        float widthRatio = 1920f / Screen.width;
+        float heightRatio = 1080f / Screen.height;
+
+        int width = Mathf.CeilToInt(Screen.width / gridSquareSize) * Mathf.CeilToInt(widthRatio);
+        int height = Mathf.CeilToInt(Screen.height / gridSquareSize) * Mathf.CeilToInt(heightRatio);
+
         gridWidth = width;
         gridHeight = height;
 
@@ -99,7 +103,8 @@ public class TransitionUI : MonoBehaviour
         gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         gridLayout.constraintCount = width;
 
-        for (int y = 0; y < height; y++) 
+        for (int y = 0; y < height; y++)
+        {
             for (int x = 0; x < width; x++)
             {
                 RectTransform newSquare = Instantiate(gridSquarePrefab, gridLayout.transform).GetComponent<RectTransform>();
@@ -112,6 +117,7 @@ public class TransitionUI : MonoBehaviour
                 newSquare.gameObject.SetActive(true);
                 gridSquares[y, x] = newSquare;
             }
+        }
     }
 
     private IEnumerator ShrinkGrid()
