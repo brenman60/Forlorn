@@ -41,13 +41,15 @@ public class Inventory : MonoBehaviour, ISaveData
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-            PutItem(items.GetItemByName("TornBandages"), 1);
-
         if (Input.mouseScrollDelta.y != 0f)
             currentSlotIndex += Mathf.RoundToInt(Input.mouseScrollDelta.y);
 
+        if (slots.Count > 0 && Input.GetKeyDown(Keybinds.GetKeybind(KeyType.ItemUse)))
+            UseItem();
+
         UpdatePanels();
+
+        if (DeathUI.PlayerDead) enabled = false;
     }
 
     private void UpdatePanels()
@@ -115,6 +117,9 @@ public class Inventory : MonoBehaviour, ISaveData
         slots[currentSlotIndex] = new KeyValuePair<Item, int>(slots[currentSlotIndex].Key, slots[currentSlotIndex].Value - 1);
         if (slots[currentSlotIndex].Value <= 0)
             slots.RemoveAt(currentSlotIndex);
+
+        if (selectedItem.useSound != null)
+            SoundManager.Instance.PlayAudio(selectedItem.useSound, true, selectedItem.useSoundVolume);
 
         ResetSlotsUI();
     }

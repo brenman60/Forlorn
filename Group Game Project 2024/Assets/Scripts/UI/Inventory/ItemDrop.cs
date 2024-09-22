@@ -76,6 +76,7 @@ public class ItemDrop : MonoBehaviour, ISaveData
         {
             Inventory.Instance.PutItem(item, amount);
             ItemDropManager.Instance.DestroyDrop(this);
+            SoundManager.Instance.PlayAudio("ItemPickup", true, Random.Range(0.5f, 0.75f));
         }
     }
 

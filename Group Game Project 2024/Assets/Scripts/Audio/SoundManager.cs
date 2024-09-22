@@ -21,17 +21,19 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void PlayAudio(string soundName, bool randomPitch)
+    public void PlayAudio(string soundName, bool randomPitch, float initialVolume = 1)
     {
         Sound sound = sounds.GetSoundByName(soundName);
         AudioSource soundObject = CreateSoundObject(sound);
         soundObject.pitch = !randomPitch ? 1f : Random.Range(0.8f, 1.2f);
+        soundObject.volume = initialVolume;
     }
 
-    public void PlayAudio(Sound sound, bool randomPitch)
+    public void PlayAudio(Sound sound, bool randomPitch, float initialVolume = 1)
     {
         AudioSource soundObject = CreateSoundObject(sound);
         soundObject.pitch = !randomPitch ? 1f : Random.Range(0.8f, 1.2f);
+        soundObject.volume = initialVolume;
     }
 
     private AudioSource CreateSoundObject(Sound sound)

@@ -18,7 +18,11 @@ public static class SaveSystem
     }
     private static bool globalDataExists
     {
+#if !UNITY_WEBGL
         get { return File.Exists(globalDataPath); }
+#elif UNITY_WEBGL
+        get { return PlayerPrefs.HasKey("Global"); }
+#endif
     }
     private static string runPath
     {
@@ -123,39 +127,127 @@ public static class SaveSystem
 #elif UNITY_WEBGL // I will be putting some basic WebGL support in regards to save data, but it will probably be limited to this depth (mostly the fault of WebGL's limits with save data, that being, the 1 MB limit)
     public static void SaveGlobal()
     {
+        if (!initialized) return;
+
         try
         {
-            PlayerPrefs.SetString("Keybinds", Keybinds.Instance.GetSaveData());
-            PlayerPrefs.SetString("Settings", GameSettings.Instance.GetSaveData());
+            string[] globalData = new string[2] 
+            {
+                Keybinds.Instance.GetSaveData(),
+                GameSettings.Instance.GetSaveData(),
+            };
+
+            PlayerPrefs.SetString("Global", JsonConvert.SerializeObject(globalData));
             PlayerPrefs.Save();
         }
         catch (Exception e)
         {
-            Debug.LogError("WebGL save data encoutered an error while putting global data: " + e.GetBaseException());
+            Debug.LogError("WebGL save data encountered an error while putting global data: " + e.GetBaseException());
         }
     }
 
-    public static void SaveRun() 
+    public static void SaveRunData()
     {
         try
         {
+            string[] runData = new string[3]
+            {
+                RunManager.Instance.GetSaveData(),
+                WorldGeneration.Instance.GetSaveData(),
+                GameManager.Instance.GetSaveData(),
+            };
+
+            PlayerPrefs.SetString(runDataPath, JsonConvert.SerializeObject(runData));
+
+            List<string> levelsPaths = PlayerPrefs.HasKey("LevelsList") ? JsonConvert.DeserializeObject<List<string>>(PlayerPrefs.GetString("LevelsList")) : new List<string>();
+            if (!levelsPaths.Contains(runDataPath))
+            {
+                levelsPaths.Add(runDataPath);
+                PlayerPrefs.SetString("LevelsList", JsonConvert.SerializeObject(levelsPaths));
+            }
+
             PlayerPrefs.Save();
         }
         catch (Exception e)
         {
-            Debug.LogError("WebGL save data encoutered an error while putting run data: " + e.GetBaseException());
+            Debug.LogError("WebGL save data encountered an error while putting run data: " + e.GetBaseException());
         }
     }
 
+    public static void SaveRunMap(string worldSection, string section, string dataJson)
+    {
+        string worldSectionPath = Path.Combine(runWorldPath, worldSection);
+        string sectionPath = Path.Combine(worldSectionPath, section + ".ggp");
+
+        try
+        {
+            PlayerPrefs.SetString(sectionPath, dataJson);
+            PlayerPrefs.Save();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("WebGL save data encountered an error while putting run map: " + e.GetBaseException());
+        }
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void LoadGlobal()
     {
-        Keybinds.Instance.PutSaveData(PlayerPrefs.GetString("Keybinds"));
-        GameSettings.Instance.PutSaveData(PlayerPrefs.GetString("Settings"));
+        if (initialized) return;
+        if (!globalDataExists)
+        {
+            initialized = true;
+            return;
+        }
+
+        string[] globalData = JsonConvert.DeserializeObject<string[]>(PlayerPrefs.GetString("Global"));
+        Keybinds.Instance.PutSaveData(globalData[0]);
+        GameSettings.Instance.PutSaveData(globalData[1]);
+
+        initialized = true;
     }
 
-    public static void LoadRun()
+    public static async Task LoadRunData() // Same as below
     {
-        
+        try
+        {
+            string[] dataPoints = JsonConvert.DeserializeObject<string[]>(PlayerPrefs.GetString(runDataPath));
+            if (dataPoints.Length >= 1) RunManager.Instance.PutSaveData(dataPoints[0]);
+            if (dataPoints.Length >= 2) WorldGeneration.Instance.PutSaveData(dataPoints[1]);
+            if (dataPoints.Length >= 3) GameManager.Instance.PutSaveData(dataPoints[2]);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("WebGL save data encountered an error while loading run data: " + e.GetBaseException());
+        }
+    }
+
+    public static async Task<string> LoadRunMap(string worldSection, string section) // This method shouldn't be async, but to save myself the trouble of making other functions that use this one platform dependant, it stays this way.
+    {
+        string mapPath = Path.Combine(runWorldPath, worldSection, section + ".ggp");
+        try
+        {
+            if (PlayerPrefs.HasKey(mapPath))
+                return PlayerPrefs.GetString(mapPath);
+            else
+                return string.Empty;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("WebGL save data encountered an error while loading run map: " + e.GetBaseException());
+            return string.Empty;
+        }
+    }
+
+    public static List<string> GetAllRuns()
+    {
+        if (PlayerPrefs.HasKey("LevelsList"))
+        {
+            List<string> runs = JsonConvert.DeserializeObject<List<string>>(PlayerPrefs.GetString("LevelsList"));
+            return runs;
+        }
+        else
+            return new List<string>();
     }
 #endif
 

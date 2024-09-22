@@ -20,6 +20,8 @@ public class Trashcan : Interactable, ISaveData
         lidRigidbody.velocity = new Vector2(Random.Range(minDropVelocty.x, maxDropVelocity.x), 1f);
         lidRigidbody.angularVelocity = Mathf.Atan2(lidRigidbody.velocity.y, lidRigidbody.velocity.x) * Mathf.Rad2Deg;
 
+        SoundManager.Instance.PlayAudio("TrashcanOpen", false, 0.5f);
+
         interactable = false;
     }
 

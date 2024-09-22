@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: e4bf8bab81e8ec143904bee6608d7c77, type: 3}
   visibleName: Torn Bandages
+  useSound: {fileID: 11400000, guid: f25c33dd8339c944687a3ec7f1d5e62a, type: 2}
+  useSoundVolume: 0.5
   useStats:
   - targetStat: 0
     change: 15

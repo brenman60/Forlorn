@@ -26,9 +26,9 @@ public class RunManager : MonoBehaviour, ISaveData
 
     private void Start()
     {
-        statManager.ApplyEffect(new HungerEffect(statManager, false));
-        statManager.ApplyEffect(new ThirstEffect(statManager, false));
-        statManager.ApplyEffect(new HealthEffect(statManager, false));
+        statManager.ApplyEffect(new HungerEffect(false));
+        statManager.ApplyEffect(new ThirstEffect(false));
+        statManager.ApplyEffect(new HealthEffect(false));
 
         InvokeRepeating(nameof(TickStatManager), 1f, 1f);
     }

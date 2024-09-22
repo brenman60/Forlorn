@@ -17,7 +17,12 @@ public class RunInfo : MonoBehaviour
 
     private async void Start()
     {
+#if !UNITY_WEBGL
         string runDataRaw = await SaveSystem.ReadFromFile(Path.Combine(SaveSystem.GetRunPath(runId), SaveSystem.runDataFile));
+#elif UNITY_WEBGL
+        string runDataRaw = PlayerPrefs.GetString(runId);
+        if (string.IsNullOrEmpty(runDataRaw)) return;
+#endif
         string[] runData = JsonConvert.DeserializeObject<string[]>(runDataRaw); // [2] = GameManager (day and time)
         string[] gameManagerData = JsonConvert.DeserializeObject<string[]>(runData[2]);
         dayText.text = "Day " + (int.Parse(gameManagerData[0]) + 1);
@@ -41,6 +46,7 @@ public class RunInfo : MonoBehaviour
         timeText.text = currentHour + ":" + currentMinute.ToString("00") + " " + period;
     }
 
+#if !UNITY_WEBGL
     private void GetFileData()
     {
         DirectoryInfo runDirectoryInfo = new DirectoryInfo(SaveSystem.GetRunPath(runId));
@@ -54,4 +60,19 @@ public class RunInfo : MonoBehaviour
         await SaveSystem.LoadRunData();
         TransitionUI.Instance.TransitionTo("Game");
     }
+#elif UNITY_WEBGL
+    private void GetFileData()
+    {
+        lastPlayedText.text = string.Empty;
+        createdText.text = string.Empty;
+    }
+
+    public async void ContinueRun()
+    {
+        string[] runIds = runId.Split("\\", System.StringSplitOptions.RemoveEmptyEntries);
+        GameManager.runId = runIds[runIds.Length - 2];
+        await SaveSystem.LoadRunData();
+        TransitionUI.Instance.TransitionTo("Game");
+    }
+#endif
 }

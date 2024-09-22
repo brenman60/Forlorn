@@ -5,9 +5,15 @@ using TypeReferences;
 [CreateAssetMenu(menuName = "Inventory/New Item", fileName = "New Item")]
 public class Item : ScriptableObject
 {
+    [Header("Look")]
     public Sprite icon;
-    public string visibleName;
-    [Space(15)]
+    public string visibleName = "New Item";
+
+    [Header("Audio")]
+    public Sound useSound;
+    public float useSoundVolume = 1;
+
+    [Header("Usage")]
     public UseStat[] useStats;
     public UseEffect[] useEffects;
     public UseModifier[] useModifiers;

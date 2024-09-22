@@ -1,6 +1,6 @@
 ﻿public class HealthEffect : Effect
 {
-    public HealthEffect(StatManager statManager, bool saveable) : base(statManager, saveable)
+    public HealthEffect(bool saveable) : base(saveable)
     {
     }
 
@@ -13,21 +13,21 @@
 
     private void HealthRegeneration()
     {
-        statManager.stats[StatType.Health].currentValue += statManager.stats[StatType.HealthRegeneration].maxValue;
+        RunManager.Instance.statManager.stats[StatType.Health].currentValue += RunManager.Instance.statManager.stats[StatType.HealthRegeneration].maxValue;
     }
 
     private void HealthRequirements()
     {
-        float currentHunger = statManager.stats[StatType.Hunger].currentValue;
-        float currentThirst = statManager.stats[StatType.Thirst].currentValue;
+        float currentHunger = RunManager.Instance.statManager.stats[StatType.Hunger].currentValue;
+        float currentThirst = RunManager.Instance.statManager.stats[StatType.Thirst].currentValue;
 
         if (currentHunger <= 10f || currentThirst <= 10f)
-            statManager.stats[StatType.Health].currentValue -= statManager.stats[StatType.HealthRegeneration].maxValue * 2.5f;
+            RunManager.Instance.statManager.stats[StatType.Health].currentValue -= RunManager.Instance.statManager.stats[StatType.HealthRegeneration].maxValue * 2.5f;
     }
 
     private void HealthCheck()
     {
-        if (statManager.stats[StatType.Health].currentValue <= 0 && !DeathUI.PlayerDead)
+        if (RunManager.Instance.statManager.stats[StatType.Health].currentValue <= 0 && !DeathUI.PlayerDead)
             DeathUI.Instance.PlayerDeath();
     }
 

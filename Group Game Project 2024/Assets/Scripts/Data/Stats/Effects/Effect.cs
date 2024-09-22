@@ -1,11 +1,9 @@
 ﻿public abstract class Effect : ISaveData
 {
-    protected StatManager statManager;
     public bool saveable { get; protected set; }
 
-    public Effect(StatManager statManager, bool saveable)
+    public Effect(bool saveable)
     {
-        this.statManager = statManager;
         this.saveable = saveable;
     }
 

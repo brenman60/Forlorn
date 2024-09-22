@@ -1,14 +1,14 @@
 ﻿public class ThirstEffect : Effect
 {
-    public ThirstEffect(StatManager statManager, bool saveable) : base(statManager, saveable)
+    public ThirstEffect(bool saveable) : base(saveable)
     {
     }
 
     public override void Tick()
     {
-        float thirstDegrade = statManager.stats[StatType.ThirstDegradation].maxValue;
-        float thirstSuppression = statManager.stats[StatType.ThirstSuppression].maxValue;
-        statManager.stats[StatType.Thirst].currentValue -= thirstDegrade / thirstSuppression;
+        float thirstDegrade = RunManager.Instance.statManager.stats[StatType.ThirstDegradation].maxValue;
+        float thirstSuppression = RunManager.Instance.statManager.stats[StatType.ThirstSuppression].maxValue;
+        RunManager.Instance.statManager.stats[StatType.Thirst].currentValue -= thirstDegrade / thirstSuppression;
     }
 
     public override string GetSaveData()
