@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80e9adb36cd3c634fa9c4b8eca6c3be6, type: 3}
+  m_Name: CitySections
+  m_EditorClassIdentifier: 
+  sections:
+  - {fileID: 11400000, guid: 078145d810074864690e5d854f7e5d53, type: 2}
+  - {fileID: 11400000, guid: e8d99fac35e70184aa18254080b17092, type: 2}
+  - {fileID: 11400000, guid: d7df0c7429cc6b04db28a64a1839333c, type: 2}
+  - {fileID: 11400000, guid: 09f404010ce16054a8820056352be1b4, type: 2}
+  - {fileID: 11400000, guid: 0eab9955ba0952e4f99aab63d2d80dee, type: 2}
+  - {fileID: 11400000, guid: a7c5f03f6c2c920458e185e4cc49c57d, type: 2}
+  - {fileID: 11400000, guid: c0396e4377a2e5142b4664d809218c5b, type: 2}
