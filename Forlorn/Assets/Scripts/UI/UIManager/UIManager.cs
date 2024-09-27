@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -38,5 +38,21 @@ public class UIManager : MonoBehaviour
         EventTrigger.Entry entry = new EventTrigger.Entry { eventID = eventType };
         entry.callback.AddListener((eventData) => action());
         trigger.triggers.Add(entry);
+    }
+
+    public static List<RaycastResult> GetUIsOnMouse()
+    {
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+        pointerEventData.position = Input.mousePosition;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerEventData, results);
+
+        List<RaycastResult> finalResults = new List<RaycastResult>();
+        foreach (RaycastResult result in results)
+            if (result.gameObject.layer == LayerMask.NameToLayer("UI"))
+                finalResults.Add(result);
+
+        return finalResults;
     }
 }

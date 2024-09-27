@@ -44,7 +44,7 @@ public class Inventory : MonoBehaviour, ISaveData
         if (Input.mouseScrollDelta.y != 0f)
             currentSlotIndex += Mathf.RoundToInt(Input.mouseScrollDelta.y);
 
-        if (slots.Count > 0 && Input.GetKeyDown(Keybinds.GetKeybind(KeyType.ItemUse)) && !GameManager.paused)
+        if (slots.Count > 0 && Input.GetKeyDown(Keybinds.GetKeybind(KeyType.ItemUse)) && !GameManager.paused && UIManager.GetUIsOnMouse().Count == 0)
             UseItem();
 
         UpdatePanels();

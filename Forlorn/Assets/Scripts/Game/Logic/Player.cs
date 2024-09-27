@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour, ISaveData
 {
@@ -9,9 +10,14 @@ public class Player : MonoBehaviour, ISaveData
 
     private Animator animator;
 
+    private PlayerInput playerControls;
+    private InputAction controlMove;
+
     private void Awake()
     {
         Instance = this;
+
+        playerControls = new PlayerInput();
     }
 
     private void Start()
@@ -27,12 +33,8 @@ public class Player : MonoBehaviour, ISaveData
 
     private void Movement()
     {
-        Vector3 finalVelocity = new Vector2();
-        if (Input.GetKey(Keybinds.GetKeybind(KeyType.Left)))
-            finalVelocity.x += -1f;
-
-        if (Input.GetKey(Keybinds.GetKeybind(KeyType.Right)))
-            finalVelocity.x += 1f;
+        Vector3 finalVelocity = controlMove.ReadValue<Vector2>();
+        finalVelocity.y = 0;
 
         bool walking = finalVelocity.x != 0;
         bool sprinting = Input.GetKey(Keybinds.GetKeybind(KeyType.Sprint));
@@ -54,6 +56,11 @@ public class Player : MonoBehaviour, ISaveData
         animator.SetBool("running", sprinting && walking);
     }
 
+    public void PlayFootStepAudio()
+    {
+        SoundManager.Instance.PlayAudio("Footstep", true, 0.25f);
+    }
+
     public string GetSaveData()
     {
         string[] dataPoints = new string[3]
@@ -72,5 +79,16 @@ public class Player : MonoBehaviour, ISaveData
         transform.position = dataPoints[0].ToVector3();
         transform.localScale = dataPoints[1].ToVector3();
         transform.rotation = dataPoints[2].ToQuaternion();
+    }
+
+    private void OnEnable()
+    {
+        controlMove = playerControls.Player.Movement;
+        controlMove.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controlMove.Disable();
     }
 }

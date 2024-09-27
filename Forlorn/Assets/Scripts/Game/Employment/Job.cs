@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TypeReferences;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "City/New Job", fileName = "New Job")]
@@ -7,7 +8,7 @@ public class Job : ScriptableObject
 {
     public List<JobRank> ranks = new List<JobRank>()
     {
-        new JobRank("Template Rank", 0, 0),
+        new JobRank("Template Rank", 0, 0, new List<TypeReference>()),
     };
 }
 
@@ -24,10 +25,14 @@ public struct JobRank
     [Header("Statistics")]
     public float paycheckAmount;
 
-    public JobRank(string name, int rankLevel, float paycheckAmount)
+    [Header("Effects")]
+    [Inherits(typeof(StatModifier))] public List<TypeReference> modifiers;
+
+    public JobRank(string name, int rankLevel, float paycheckAmount, List<TypeReference> modifiers)
     {
         this.name = name;
         this.rankLevel = rankLevel;
         this.paycheckAmount = paycheckAmount;
+        this.modifiers = modifiers;
     }
 }

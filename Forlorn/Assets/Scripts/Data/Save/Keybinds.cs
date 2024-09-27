@@ -1,10 +1,14 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Keybinds : MonoBehaviour, ISaveData
 {
     public static Keybinds Instance { get; private set; }
+
+    public static PlayerInput playerControls { get; private set; }
+    public static InputAction controlMove { get; private set; }
 
     private static bool saveLoaded = false;
 
@@ -22,6 +26,8 @@ public class Keybinds : MonoBehaviour, ISaveData
             DontDestroyOnLoad(keybindObject);
 
             keybinds.ResetAllBinds();
+
+            playerControls = new PlayerInput();
         }
     }
 
@@ -35,6 +41,7 @@ public class Keybinds : MonoBehaviour, ISaveData
         [KeyType.Sprint] = KeyCode.LeftShift,
         [KeyType.Interact] = KeyCode.E,
         [KeyType.ItemUse] = KeyCode.Mouse0,
+        //[KeyType.ItemUse] = KeyCode.Q,
     };
 
     public Dictionary<KeyType, KeyCode> Binds { get; private set; } = new Dictionary<KeyType, KeyCode>()
@@ -86,6 +93,21 @@ public class Keybinds : MonoBehaviour, ISaveData
                 Binds[bind.Key] = bind.Value;
 
         saveLoaded = true;
+    }
+
+    private void OnEnable()
+    {
+        if (playerControls != null)
+        {
+            controlMove = playerControls.Player.Movement;
+            controlMove.Enable();
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (controlMove != null)
+            controlMove.Disable();
     }
 }
 

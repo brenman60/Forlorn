@@ -9,15 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 887b71eb86c53e844baceb90fa9441a5, type: 3}
-  m_Name: PizzaShop
+  m_Script: {fileID: 11500000, guid: 56f886985dd5108438085a09844e75da, type: 3}
+  m_Name: Footstep
   m_EditorClassIdentifier: 
-  ranks:
-  - name: Template Rank
-    rankLevel: 0
-    paycheckAmount: 0
-    modifiers:
-    - GuidAssignmentFailed: 0
-      GUID: 
-      _typeNameAndAssembly: 
-      _suppressLogs: 0
+  soundClip: {fileID: 8300000, guid: 40467c6e8aa9e4946a35cbe88406ce49, type: 3}
+  soundType: 3
