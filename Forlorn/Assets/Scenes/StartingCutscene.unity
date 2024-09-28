@@ -6210,12 +6210,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cutsceneTexts:
   - cutsceneText: Fleeing from your war-torn homeland, you have ended up on the outskirts
-      of a destitute city,  searching for any and every opportunity to rebuild some
-      semblance of your past life.
-    waitTime: 4
-  - cutsceneText: The cities you wander will seldom be welcoming, and maintaining
-      the delicate balance of your circumstances will prove even less forgiving.
-    waitTime: 3
+      of a destitute city,  searching desperately for safe passage towards a new
+      life. Proper documentation will surely be required if you wish to hold any
+      hope of escaping this harsh reality.
+    waitTime: 2
   cutsceneDialogue: {fileID: 0}
   typewriteSpeed: 0.005
 --- !u!1 &1086402769

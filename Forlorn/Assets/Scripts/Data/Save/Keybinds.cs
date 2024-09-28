@@ -42,6 +42,8 @@ public class Keybinds : MonoBehaviour, ISaveData
         [KeyType.Interact] = KeyCode.E,
         [KeyType.ItemUse] = KeyCode.Mouse0,
         //[KeyType.ItemUse] = KeyCode.Q,
+        [KeyType.SkillsUIDrag] = KeyCode.Mouse1,
+        [KeyType.SkillsUIOpen] = KeyCode.Tab,
     };
 
     public Dictionary<KeyType, KeyCode> Binds { get; private set; } = new Dictionary<KeyType, KeyCode>()
@@ -121,4 +123,6 @@ public enum KeyType
     CutsceneSkip,
     Interact,
     ItemUse,
+    SkillsUIDrag,
+    SkillsUIOpen,
 }

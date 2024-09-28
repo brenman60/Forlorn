@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e747b6609f2f3c14ea4edcc6de1bd810, type: 3}
-  m_Name: TestSkill
+  m_Name: Unquenchable2
   m_EditorClassIdentifier: 
-  saveName: Health Increase
-  displayDescription: Template Description
+  saveName: Unquenchable2
+  visibleName: Unquenchable 2
+  displayDescription: Increases maximum thirst by <color=#34abeb>+20%</color>.
   modifiers:
-  - statType: 0
-    statChange: 1.5
+  - statType: 4
+    statChange: 1.2
     isMultiplicative: 1
-    displayText: +50% Max Health
