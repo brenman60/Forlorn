@@ -1,10 +1,13 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillsUI : MonoBehaviour
+public class SkillsUI : MonoBehaviour, ISaveData
 {
+    public static SkillsUI Instance { get; private set; }
+
     [Header("Customization")]
     [SerializeField] private float openSpeed = 10f;
     [SerializeField] private float dragSpeed = 4f;
@@ -15,6 +18,7 @@ public class SkillsUI : MonoBehaviour
     [SerializeField] private RectTransform skillsCollection;
     [SerializeField] private List<RectTransform> scalableRects;
     [SerializeField] private Slider scrollSlider;
+    public List<SkillUI> skills;
 
     private Camera mainCam;
     private CanvasGroup canvasGroup;
@@ -25,6 +29,11 @@ public class SkillsUI : MonoBehaviour
     private float scaleFactor = 1f;
 
     private bool open;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -107,5 +116,21 @@ public class SkillsUI : MonoBehaviour
     {
         open = !open;
         if (open) SoundManager.Instance.PlayAudio("SkillsOpen", false, 0.5f);
+    }
+
+    public string GetSaveData()
+    {
+        List<string> skillsData = new List<string>();
+        foreach (SkillUI skill in skills)
+            skillsData.Add(skill.GetSaveData());
+
+        return JsonConvert.SerializeObject(skillsData);
+    }
+
+    public void PutSaveData(string data)
+    {
+        List<string> skillsData = JsonConvert.DeserializeObject<List<string>>(data);
+        for (int i = 0; i < skillsData.Count; i++)
+            skills[i].PutSaveData(skillsData[i]);
     }
 }

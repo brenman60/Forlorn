@@ -8,8 +8,11 @@ public class Skill : ScriptableObject
     public string saveName;
     public string visibleName;
     [TextArea(10, int.MaxValue)] public string displayDescription;
-    [Space(15)]
-    public List<SkillModifier> modifiers;
+    [Header("Rewards")]
+    public List<SkillModifier> modifiers = new List<SkillModifier>();
+    [Header("Cost")]
+    public List<SkillStatCost> skillStatCosts = new List<SkillStatCost>();
+    public List<SkillItemCost> skillItemCosts = new List<SkillItemCost>();
 }
 
 [Serializable]
@@ -18,4 +21,21 @@ public struct SkillModifier
     public StatType statType;
     public float statChange;
     public bool isMultiplicative;
+}
+
+[Serializable]
+public struct SkillStatCost
+{
+    public StatType statType;
+    public float requiredAmount;
+    public bool isPercentage;
+    public bool removesAmount;
+}
+
+[Serializable]
+public struct SkillItemCost
+{
+    public Item item;
+    public float requiredAmount;
+    public bool removesAmount;
 }

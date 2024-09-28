@@ -1,21 +1,34 @@
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [Header("Customization")]
     [SerializeField] private Skill skill;
+    [SerializeField] private SkillUI requiredUnlockedSkill;
     [Space(20), SerializeField] private float hoverSpeed = 4f;
     [SerializeField] private float hoverSizeIncrease = 1.25f;
     [SerializeField] private float hoverOutlineSpeed = 0.5f;
     [SerializeField] private float hoverOutlineCatchupSpeed = 4f;
+    [Space(20), SerializeField] private Color lockedColor;
+    [SerializeField] private Color unlockedColor;
+    [SerializeField] private Sprite lockedBackgroundSprite;
+    [SerializeField] private Sprite unlockedBackgroundSprite;
     [Header("References")]
     [SerializeField] private SkillInformation skillInformation;
+    [SerializeField] private UnlockInformation unlockInformation;
+    [SerializeField] private RectTransform lockedCover;
     [SerializeField] private RectTransform backgroundOutline;
+    [SerializeField] private Image backgroundOutlineImage;
 
+    private bool unlockable;
+    private bool unlocked;
     private bool hovered;
 
     private Vector2 initialSize;
+    private Vector2 initialBackgroundOutlineSize;
     private float targetOutlineRotation = 45f;
 
     private RectTransform rectTransform;
@@ -24,12 +37,15 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         rectTransform = GetComponent<RectTransform>();
         initialSize = rectTransform.sizeDelta;
+        initialBackgroundOutlineSize = backgroundOutline.sizeDelta;
     }
 
     private void Update()
     {
         UpdateTransform();
         UpdateOutline();
+        UpdateUnlockedColor();
+        UpdateUnlockableState();
     }
 
     private void UpdateTransform()
@@ -63,8 +79,23 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         targetOutlineRotation = clampedValue;
     }
 
+    private void UpdateUnlockedColor()
+    {
+        backgroundOutlineImage.color = Color.Lerp(backgroundOutlineImage.color, unlocked ? unlockedColor : lockedColor, Time.deltaTime * hoverOutlineSpeed);
+        backgroundOutlineImage.sprite = unlocked ? unlockedBackgroundSprite : lockedBackgroundSprite;
+        backgroundOutline.sizeDelta = Vector2.Lerp(backgroundOutline.sizeDelta, initialBackgroundOutlineSize, Time.deltaTime * hoverSpeed / 3f);
+    }
+
+    private void UpdateUnlockableState()
+    {
+        unlockable = requiredUnlockedSkill != null ? requiredUnlockedSkill.unlocked : true;
+        lockedCover.gameObject.SetActive(!unlockable);
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!unlockable) return;
+
         hovered = true;
 
         skillInformation.Open(skill.visibleName, skill.displayDescription);
@@ -76,5 +107,39 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         SnapOutlineRotation();
 
         skillInformation.Close();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (!unlockInformation.selectedSkill != this || unlockInformation.selectedSkill == null)
+            unlockInformation.Open(this);
+        else
+            unlockInformation.Close();
+    }
+
+    private void UnlockSkill()
+    {
+        if (!unlockable || unlocked) return;
+
+        unlocked = true;
+        backgroundOutline.sizeDelta += Vector2.one * 35f;
+        SoundManager.Instance.PlayAudio("SkillUnlock", true);
+
+        foreach (SkillModifier modifier in skill.modifiers)
+        {
+            Stat selectedStat = RunManager.Instance.statManager.stats[modifier.statType];
+            StatModifier statModifier = new StatModifier(selectedStat, modifier.statChange, modifier.isMultiplicative);
+            RunManager.Instance.statManager.ApplyModifier(statModifier);
+        }
+    }
+
+    public string GetSaveData()
+    {
+        return JsonConvert.SerializeObject(unlocked);
+    }
+
+    public void PutSaveData(string data)
+    {
+        unlocked = JsonConvert.DeserializeObject<bool>(data);
     }
 }

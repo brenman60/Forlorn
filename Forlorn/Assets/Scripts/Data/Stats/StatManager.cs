@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class StatManager : ISaveData
 {
@@ -102,6 +103,7 @@ public class StatManager : ISaveData
             // This sucks
             StatModifier modifier = new StatModifier(stats[JsonConvert.DeserializeObject<StatType>(modifierData[0])], 0, false);
             modifier.PutSaveData(modifierDataRaw);
+            ApplyModifier(modifier);
         }
 
         foreach (EffectData effectData in compiledEffects)

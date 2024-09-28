@@ -118,6 +118,8 @@ public class Inventory : MonoBehaviour, ISaveData
         if (slots[currentSlotIndex].Value <= 0)
             slots.RemoveAt(currentSlotIndex);
 
+        currentSlotIndex = currentSlotIndex_;
+
         if (selectedItem.useSound != null)
             SoundManager.Instance.PlayAudio(selectedItem.useSound, true, selectedItem.useSoundVolume);
 

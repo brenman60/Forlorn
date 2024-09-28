@@ -40,10 +40,11 @@ public class RunManager : MonoBehaviour, ISaveData
 
     public string GetSaveData()
     {
-        string[] dataPoints = new string[2]
+        string[] dataPoints = new string[3]
         {
             statManager.GetSaveData(),
             Inventory.Instance != null ? Inventory.Instance.GetSaveData() : string.Empty,
+            SkillsUI.Instance != null ? SkillsUI.Instance.GetSaveData() : string.Empty,
         };
 
         return JsonConvert.SerializeObject(dataPoints);
@@ -54,12 +55,19 @@ public class RunManager : MonoBehaviour, ISaveData
         string[] dataPoints = JsonConvert.DeserializeObject<string[]>(data);
         statManager.PutSaveData(dataPoints[0]);
         if (!string.IsNullOrEmpty(dataPoints[1])) StartCoroutine(WaitForInventory(dataPoints[1]));
+        if (!string.IsNullOrEmpty(dataPoints[2])) StartCoroutine(WaitForSkillsUI(dataPoints[2]));
     }
 
     private IEnumerator WaitForInventory(string inventoryData)
     {
         yield return new WaitUntil(() => Inventory.Instance != null);
         Inventory.Instance.PutSaveData(inventoryData);
+    }
+
+    private IEnumerator WaitForSkillsUI(string skillsData)
+    {
+        yield return new WaitUntil(() => SkillsUI.Instance != null);
+        SkillsUI.Instance.PutSaveData(skillsData);
     }
 }
 
