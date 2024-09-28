@@ -76,18 +76,18 @@ public class Inventory : MonoBehaviour, ISaveData
         }
     }
 
-    public bool HasItem(Item item)
+    public int HasItem(Item item)
     {
         foreach (KeyValuePair<Item, int> slot in slots)
             if (slot.Key == item)
-                return true;
+                return slot.Value;
 
-        return false;
+        return 0;
     }
 
     public void PutItem(Item item, int amount)
     {
-        if (HasItem(item))
+        if (HasItem(item) > 0)
         {
             for (int i = 0; i < slots.Count; i++)
                 if (slots[i].Key == item)
@@ -123,6 +123,25 @@ public class Inventory : MonoBehaviour, ISaveData
         if (selectedItem.useSound != null)
             SoundManager.Instance.PlayAudio(selectedItem.useSound, true, selectedItem.useSoundVolume);
 
+        ResetSlotsUI();
+    }
+
+    public void TakeItem(Item item, int amount)
+    {
+        int slotIndex = -1;
+        for (int i = 0; i < slots.Count; i++)
+            if (slots[i].Key == item)
+            {
+                slotIndex = i;
+                break;
+            }
+
+        if (slotIndex == -1) return;
+        slots[slotIndex] = new KeyValuePair<Item, int>(item, slots[slotIndex].Value - amount);
+        if (slots[slotIndex].Value <= 0)
+            slots.RemoveAt(slotIndex);
+
+        currentSlotIndex = currentSlotIndex_;
         ResetSlotsUI();
     }
 

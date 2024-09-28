@@ -24,7 +24,7 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
     [SerializeField] private Image backgroundOutlineImage;
 
     private bool unlockable;
-    private bool unlocked;
+    public bool unlocked { get; private set; }
     private bool hovered;
 
     private Vector2 initialSize;
@@ -111,13 +111,15 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!unlockInformation.selectedSkill != this || unlockInformation.selectedSkill == null)
-            unlockInformation.Open(this);
+        if (!unlockable || unlocked) return;
+
+        if (unlockInformation.selectedSkill != this || unlockInformation.selectedSkill == null)
+            unlockInformation.Open(this, skill);
         else
             unlockInformation.Close();
     }
 
-    private void UnlockSkill()
+    public void UnlockSkill()
     {
         if (!unlockable || unlocked) return;
 
@@ -130,6 +132,26 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
             Stat selectedStat = RunManager.Instance.statManager.stats[modifier.statType];
             StatModifier statModifier = new StatModifier(selectedStat, modifier.statChange, modifier.isMultiplicative);
             RunManager.Instance.statManager.ApplyModifier(statModifier);
+        }
+
+        foreach (SkillStatCost statCost in skill.skillStatCosts)
+        {
+            if (!statCost.removesAmount) continue;
+
+            Stat stat = RunManager.Instance.statManager.stats[statCost.statType];
+            float percentageSubtraction = (statCost.requiredAmount / 100f) * stat.maxValue;
+
+            if (statCost.isPercentage)
+                stat.currentValue -= percentageSubtraction;
+            else
+                stat.currentValue -= statCost.requiredAmount;
+        }
+
+        foreach (SkillItemCost itemCost in skill.skillItemCosts)
+        {
+            if (!itemCost.removesAmount) continue;
+
+            Inventory.Instance.TakeItem(itemCost.item, itemCost.requiredAmount);
         }
     }
 

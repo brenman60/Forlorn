@@ -30,12 +30,14 @@ public struct SkillStatCost
     public float requiredAmount;
     public bool isPercentage;
     public bool removesAmount;
+    [TextArea(2, int.MaxValue)] public string displayText;
 }
 
 [Serializable]
 public struct SkillItemCost
 {
     public Item item;
-    public float requiredAmount;
+    public int requiredAmount;
     public bool removesAmount;
+    [TextArea(2, int.MaxValue)] public string displayText;
 }
