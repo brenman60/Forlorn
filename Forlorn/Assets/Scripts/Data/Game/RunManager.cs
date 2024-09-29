@@ -35,7 +35,7 @@ public class RunManager : MonoBehaviour, ISaveData
 
     private void TickStatManager()
     {
-        if (GameManager.Instance.gameActive) statManager.TickEffects();
+        if (GameManager.Instance.gameActive && TransitionUI.doneLoading) statManager.TickEffects();
     }
 
     public string GetSaveData()

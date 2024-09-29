@@ -34,6 +34,7 @@ public class Player : MonoBehaviour, ISaveData
     private void Movement()
     {
         Vector3 finalVelocity = controlMove.ReadValue<Vector2>();
+        if (finalVelocity.x != 0) finalVelocity.x = Mathf.RoundToInt(finalVelocity.x);
         finalVelocity.y = 0;
 
         bool walking = finalVelocity.x != 0;

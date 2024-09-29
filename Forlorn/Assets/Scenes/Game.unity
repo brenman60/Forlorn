@@ -3111,10 +3111,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9cad80cefadc164e9e033d233fd2ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instantRelocate: 1
-  relocateSpeed: 50
+  relocateSpeed: 50000
   player: {fileID: 960499724}
   positionOffset: {x: 0, y: 0.25, z: 0}
+  minPosition: {x: 0, y: 0}
+  maxPosition: {x: 0, y: 0}
 --- !u!1 &527236064
 GameObject:
   m_ObjectHideFlags: 0

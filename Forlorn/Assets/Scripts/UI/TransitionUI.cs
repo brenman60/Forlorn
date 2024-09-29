@@ -10,6 +10,13 @@ public class TransitionUI : MonoBehaviour
     public static TransitionUI Instance { get; private set; }
 
     public static List<string> openPrevention = new List<string>();
+    public static bool doneLoading
+    {
+        get
+        {
+            return !Instance.transitioning && openPrevention.Count == 0;
+        }
+    }
 
     [SerializeField] private GameObject gridSquarePrefab;
     [SerializeField] private GridLayoutGroup gridLayout;
