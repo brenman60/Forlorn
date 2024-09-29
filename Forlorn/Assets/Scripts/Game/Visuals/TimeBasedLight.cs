@@ -5,8 +5,12 @@ using UnityEngine.Rendering.Universal;
 
 public class TimeBasedLight : MonoBehaviour
 {
+    [Header("Customization")]
+    [SerializeField] private bool randomEnableStatus;
     [SerializeField] private float lightChangeSpeed = 0.25f;
     [SerializeField] private List<TimeLightSetting> lightSettings = new List<TimeLightSetting>();
+    [Header("References")]
+    [SerializeField] private List<GameObject> lightDependentObject = new List<GameObject>();
 
     private TimeLightSetting selectedSetting = new TimeLightSetting(DayStatus.None, 0);
 
@@ -15,8 +19,15 @@ public class TimeBasedLight : MonoBehaviour
     private void Start()
     {
         light = GetComponent<Light2D>();
+        light.enabled = randomEnableStatus ? UnityEngine.Random.Range(0, 2) == 0 : true;
+
+        if (!light.enabled)
+            foreach (GameObject dependent in lightDependentObject)
+                dependent.SetActive(false);
+
         GameManager.Instance.dayStatusChanged += TimeChanged;
         TimeChanged(null, GameManager.Instance.dayStatus);
+        light.intensity = selectedSetting.intensity;
     }
 
     private void Update()

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveName: Unquenchable2
   visibleName: Unquenchable 2
-  displayDescription: Increases maximum thirst by <color=#34abeb>+25%</color>.
+  displayDescription: Increases maximum thirst by <color=#34abeb>+20%</color>.
   modifiers:
   - statType: 4
-    statChange: 1.25
+    statChange: 1.2
     isMultiplicative: 1
   skillStatCosts:
   - statType: 0

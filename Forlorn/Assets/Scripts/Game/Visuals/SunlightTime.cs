@@ -20,6 +20,7 @@ public class SunlightTime : MonoBehaviour
         globalLight = GetComponent<Light2D>();
         GameManager.Instance.dayStatusChanged += DayStatusChanged;
         DayStatusChanged(null, GameManager.Instance.dayStatus);
+        globalLight.intensity = statusIntensities[dayStatus];
     }
 
     private void DayStatusChanged(object sender, DayStatus newStatus)
