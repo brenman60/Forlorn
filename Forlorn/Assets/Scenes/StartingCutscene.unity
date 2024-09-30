@@ -6208,14 +6208,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1080eefb22726e843aa383353492df93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutsceneTexts:
-  - cutsceneText: Fleeing from your war-torn homeland, you have ended up on the outskirts
-      of a destitute city,  searching desperately for safe passage towards a new
-      life. Proper documentation will surely be required if you wish to hold any
-      hope of escaping this harsh reality.
-    waitTime: 2
-  cutsceneDialogue: {fileID: 0}
-  typewriteSpeed: 0.005
+  startingNode: {fileID: 11400000, guid: 6ee7c367194569944ae8a76e583c57a4, type: 2}
+  totalCutsceneTime: 4
 --- !u!1 &1086402769
 GameObject:
   m_ObjectHideFlags: 0

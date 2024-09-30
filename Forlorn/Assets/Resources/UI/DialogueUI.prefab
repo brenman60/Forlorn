@@ -134,6 +134,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  clickSound: UIClick
 --- !u!114 &4772481325950914298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -799,7 +800,8 @@ MonoBehaviour:
   openHeightIncrease: 50
   closedHeightDecrease: -50
   topText: {fileID: 736457352621582781}
-  buttonsList: {fileID: 7876613785030407231}
+  optionTemplate: {fileID: 2437177554369671461}
+  optionsList: {fileID: 7876613785030407231}
 --- !u!225 &234458319235660337
 CanvasGroup:
   m_ObjectHideFlags: 0

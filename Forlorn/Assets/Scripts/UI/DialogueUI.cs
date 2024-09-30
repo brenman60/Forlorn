@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -18,13 +20,15 @@ public class DialogueUI : MonoBehaviour
     [Space(15), SerializeField] private float textFadeInTime;
     [Space(15), SerializeField] private float openHeightIncrease, closedHeightDecrease;
     [Space(15), SerializeField] private Transform topText;
-    [SerializeField] private Transform buttonsList;
+    [SerializeField] private GameObject optionTemplate;
+    [SerializeField] private Transform optionsList;
 
-    private List<DialogueProperties> queuedDialogues = new List<DialogueProperties>();
+    private List<DialogueNode> queuedDialogues = new List<DialogueNode>();
 
     private bool dialogueInProgress;
     private float initialDialogueY;
     private Coroutine currentDialogue;
+    private Dictionary<GameObject, DialogueOption> optionButtons = new Dictionary<GameObject, DialogueOption>();
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void InitUI()
@@ -55,49 +59,111 @@ public class DialogueUI : MonoBehaviour
 
         if (!dialogueInProgress && queuedDialogues.Count > 0)
         {
-            DialogueProperties nextDialogue = queuedDialogues[0];
+            DialogueNode nextDialogue = queuedDialogues[0];
             currentDialogue = StartCoroutine(ShowDialogue(nextDialogue));
             queuedDialogues.Remove(nextDialogue);
         }
 
-        buttonsList.transform.position = new Vector3(buttonsList.transform.position.x, topText.transform.position.y + 30, buttonsList.transform.position.z);
+        optionsList.transform.position = new Vector3(optionsList.transform.position.x, topText.transform.position.y + 30, optionsList.transform.position.z);
     }
 
-    private IEnumerator ShowDialogue(DialogueProperties properties)
+    private IEnumerator ShowDialogue(DialogueNode node)
     {
         dialogueInProgress = true;
 
-        dialogueText.color = properties.textColor;
-        dialogueBackground.color = properties.backgroundColor;
+        dialogueText.color = node.textColor;
+        dialogueBackground.color = node.backgroundColor;
 
-        if (!properties.useTypewriter)
-            dialogueText.text = properties.dialogue;
+        if (!node.useTypewriter)
+            dialogueText.text = node.dialogue;
         else
         {
             dialogueText.text = string.Empty;
-            for (int i = 0; i < properties.dialogue.Length; i++)
+            for (int i = 0; i < node.dialogue.Length; i++)
             {
-                dialogueText.text += properties.dialogue[i];
+                dialogueText.text += node.dialogue[i];
                 SoundManager.Instance.PlayAudio("DialogueType", false);
-                yield return new WaitForSeconds(properties.specificCharacterSpeeds.TryGetValue(properties.dialogue[i], out float specificSpeed) ? specificSpeed : properties.typewriterSpeed);
+                yield return new WaitForSeconds(node.typewriterSpeed);
             }
         }
 
-        yield return new WaitForSeconds(properties.displayTime);
+        yield return new WaitForSeconds(node.displayTime);
 
-        dialogueInProgress = false;
+        // Either show all options if any, or if no options then just close UI
 
-        for (int i = 0; i < properties.dialogue.Length; i++)
+        if (node.options.Count == 0)
         {
-            dialogueText.text = dialogueText.text.Remove(dialogueText.text.Length - 1);
-            yield return new WaitForSeconds(properties.typewriterSpeed / dialogueText.text.Length);
+            dialogueInProgress = false;
+            StartCoroutine(CloseDialogue(node));
+        }
+        else
+        {
+            foreach (Transform previousButton in optionsList) if (previousButton.gameObject != optionTemplate) Destroy(previousButton.gameObject);
+            optionButtons.Clear();
+
+            foreach (DialogueOption option in node.options)
+            {
+                GameObject button = Instantiate(optionTemplate, optionsList);
+                button.GetComponentInChildren<TextMeshProUGUI>().text = option.optionText;
+                button.SetActive(true);
+
+                optionButtons.Add(button, option);
+            }
         }
     }
 
-    public async Task AddDialogue(DialogueProperties properties)
+    private IEnumerator CloseDialogue(DialogueNode node)
     {
-        queuedDialogues.Add(properties);
-        while (queuedDialogues.Contains(properties))
+        while (dialogueText.text.Length > 0 && !dialogueInProgress)
+        {
+            dialogueText.text = dialogueText.text.Remove(dialogueText.text.Length - 1);
+            yield return new WaitForSeconds(node.typewriterSpeed / dialogueText.text.Length);
+        }
+    }
+
+    public void ChooseOption(GameObject optionButton)
+    {
+        DialogueOption option = optionButtons[optionButton];
+
+        Type targetType = Type.GetType(option.onSelectClass);
+        if (targetType == null)
+        {
+            Debug.LogError("Type '" + option.onSelectClass + "' not found.");
+            return;
+        }
+
+        MethodInfo targetMethod = targetType.GetMethod(option.onSelectMethod, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
+        if (targetMethod == null)
+        {
+            Debug.LogError("Method '" + option.onSelectMethod + "' not found.");
+            return;
+        }
+        
+        if (targetMethod.IsStatic)
+            targetMethod.Invoke(null, option.onSelectArguments);
+        else
+        {
+            var targetObject = FindObjectOfType(targetType);
+            if (targetObject != null)
+                targetMethod.Invoke(targetObject, option.onSelectArguments);
+        }
+
+        print(targetType.Name);
+        print(targetMethod.Name);
+
+        if (option.nextNode == null)
+        {
+            dialogueInProgress = false;
+            StartCoroutine(CloseDialogue(null));
+        }
+        else
+            StartCoroutine(ShowDialogue(option.nextNode));
+    }
+
+    public async Task AddDialogue(DialogueNode node)
+    {
+        queuedDialogues.Add(node);
+        while (queuedDialogues.Contains(node))
             await Task.Yield();
     }
 
@@ -107,34 +173,5 @@ public class DialogueUI : MonoBehaviour
         if (currentDialogue != null) StopCoroutine(currentDialogue);
         dialogueInProgress = false;
         dialogueText.text = string.Empty;
-    }
-}
-
-public struct DialogueProperties
-{
-    public string dialogue;
-    public Color textColor;
-    public Color backgroundColor;
-    public float displayTime;
-    public bool useTypewriter;
-    public float typewriterSpeed;
-    public Dictionary<char, float> specificCharacterSpeeds;
-
-    public DialogueProperties(
-        string dialogue, 
-        Color textColor, 
-        Color backgroundColor, 
-        float displayTime, 
-        bool useTypewriter, 
-        float typewriterSpeed, 
-        Dictionary<char, float> specificCharacterSpeeds)
-    {
-        this.dialogue = dialogue;
-        this.textColor = textColor;
-        this.backgroundColor = backgroundColor;
-        this.displayTime = displayTime;
-        this.useTypewriter = useTypewriter;
-        this.typewriterSpeed = typewriterSpeed;
-        this.specificCharacterSpeeds = specificCharacterSpeeds;
     }
 }
