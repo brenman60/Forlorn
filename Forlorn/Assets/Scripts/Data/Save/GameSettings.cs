@@ -10,6 +10,8 @@ public class GameSettings : MonoBehaviour, ISaveData
 
     public static bool saveLoaded { get; private set; } = false;
 
+    private float saveTimer;
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Init()
     {
@@ -47,6 +49,16 @@ public class GameSettings : MonoBehaviour, ISaveData
 
     };
 
+    private void Update()
+    {
+        if (saveTimer > 0)
+        {
+            saveTimer -= Time.deltaTime;
+            if (saveTimer <= 0)
+                SaveSystem.SaveGlobal();
+        }
+    }
+
     // I love generics
     public static T GetSetting<T>(SettingType setting)
     {
@@ -62,14 +74,14 @@ public class GameSettings : MonoBehaviour, ISaveData
 
         Settings[setting] = newSettingValue;
 
-        SaveSystem.SaveGlobal();
+        saveTimer = 0.25f;
     }
 
     public void ResetSetting(SettingType setting)
     {
         Settings[setting] = defaultSettings[setting];
 
-        SaveSystem.SaveGlobal();
+        saveTimer = 0.25f;
     }
 
     public void ResetAllSettings()

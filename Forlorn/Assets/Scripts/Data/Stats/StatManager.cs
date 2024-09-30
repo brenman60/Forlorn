@@ -114,6 +114,12 @@ public class StatManager : ISaveData
 
         RecalculateAllMax();
     }
+
+    public void ClearAll()
+    {
+        modifiers.Clear();
+        effects.Clear();
+    }
 }
 
 public enum StatType

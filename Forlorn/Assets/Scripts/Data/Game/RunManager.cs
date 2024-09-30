@@ -26,10 +26,6 @@ public class RunManager : MonoBehaviour, ISaveData
 
     private void Start()
     {
-        statManager.ApplyEffect(new HungerEffect(false));
-        statManager.ApplyEffect(new ThirstEffect(false));
-        statManager.ApplyEffect(new HealthEffect(false));
-
         InvokeRepeating(nameof(TickStatManager), 1f, 1f);
     }
 
@@ -52,6 +48,12 @@ public class RunManager : MonoBehaviour, ISaveData
 
     public void PutSaveData(string data)
     {
+        statManager.ClearAll();
+
+        statManager.ApplyEffect(new HungerEffect(false));
+        statManager.ApplyEffect(new ThirstEffect(false));
+        statManager.ApplyEffect(new HealthEffect(false));
+
         string[] dataPoints = JsonConvert.DeserializeObject<string[]>(data);
         statManager.PutSaveData(dataPoints[0]);
         if (!string.IsNullOrEmpty(dataPoints[1])) StartCoroutine(WaitForInventory(dataPoints[1]));

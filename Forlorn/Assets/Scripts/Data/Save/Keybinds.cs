@@ -12,6 +12,8 @@ public class Keybinds : MonoBehaviour, ISaveData
 
     private static bool saveLoaded = false;
 
+    private float saveTimer;
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Init()
     {
@@ -51,6 +53,16 @@ public class Keybinds : MonoBehaviour, ISaveData
 
     };
 
+    private void Update()
+    {
+        if (saveTimer > 0)
+        {
+            saveTimer -= Time.deltaTime;
+            if (saveTimer <= 0)
+                SaveSystem.SaveGlobal();
+        }
+    }
+
     public static KeyCode GetKeybind(KeyType key)
     {
         if (saveLoaded)
@@ -63,14 +75,14 @@ public class Keybinds : MonoBehaviour, ISaveData
     {
         Binds[key] = newKeyCode;
 
-        SaveSystem.SaveGlobal();
+        saveTimer = 0.25f;
     }
 
     public void ResetKeybind(KeyType key)
     {
         Binds[key] = defaultBinds[key];
 
-        SaveSystem.SaveGlobal();
+        saveTimer = 0.25f;
     }
 
     public void ResetAllBinds()

@@ -39,6 +39,13 @@ public static class SaveSystem
         get { if (!Directory.Exists(runPath)) Directory.CreateDirectory(runPath); return Path.Combine(runPath, "map"); } 
     }
 
+    private static readonly JsonSerializerSettings serializerSettings = new JsonSerializerSettings
+    {
+        TypeNameHandling = TypeNameHandling.Auto,
+        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+        Formatting = Formatting.Indented,
+    };
+
 #if !UNITY_WEBGL
     // File structure is going to be in an array for general organization (will prevent having to make lists of strings and adding the values during the save process which is messy)
     // Each component in need of saving can just have their "GetSaveData" method in the string array (will need to make checks during loading process for missing values when values are added while previous save data exists)
@@ -52,7 +59,8 @@ public static class SaveSystem
             GameSettings.Instance.GetSaveData(),
         };
 
-        await WriteToFile(globalDataPath, JsonConvert.SerializeObject(globalData));
+        Debug.Log(JsonConvert.SerializeObject(globalData, serializerSettings));
+        await WriteToFile(globalDataPath, JsonConvert.SerializeObject(globalData, serializerSettings));
     }
 
     public static async void SaveRunData()
@@ -64,7 +72,7 @@ public static class SaveSystem
             GameManager.Instance.GetSaveData(),
         };
 
-        await WriteToFile(runDataPath, JsonConvert.SerializeObject(runData));
+        await WriteToFile(runDataPath, JsonConvert.SerializeObject(runData, serializerSettings));
     }
 
     public static async void SaveRunMap(string worldSection, string section, string dataJson)
@@ -87,7 +95,7 @@ public static class SaveSystem
             return;
         }
 
-        string[] dataPoints = JsonConvert.DeserializeObject<string[]>(await ReadFromFile(globalDataPath));
+        string[] dataPoints = JsonConvert.DeserializeObject<string[]>(await ReadFromFile(globalDataPath), serializerSettings);
         if (dataPoints.Length >= 1) Keybinds.Instance.PutSaveData(dataPoints[0]);
         if (dataPoints.Length >= 2) GameSettings.Instance.PutSaveData(dataPoints[1]);
 
@@ -96,7 +104,7 @@ public static class SaveSystem
 
     public static async Task LoadRunData()
     {
-        string[] dataPoints = JsonConvert.DeserializeObject<string[]>(await ReadFromFile(runDataPath));
+        string[] dataPoints = JsonConvert.DeserializeObject<string[]>(await ReadFromFile(runDataPath), serializerSettings);
         if (dataPoints.Length >= 1) RunManager.Instance.PutSaveData(dataPoints[0]);
         if (dataPoints.Length >= 2) WorldGeneration.Instance.PutSaveData(dataPoints[1]);
         if (dataPoints.Length >= 3) GameManager.Instance.PutSaveData(dataPoints[2]);
@@ -137,7 +145,7 @@ public static class SaveSystem
                 GameSettings.Instance.GetSaveData(),
             };
 
-            PlayerPrefs.SetString("Global", JsonConvert.SerializeObject(globalData));
+            PlayerPrefs.SetString("Global", JsonConvert.SerializeObject(globalData, serializerSettings));
             PlayerPrefs.Save();
         }
         catch (Exception e)
@@ -157,13 +165,13 @@ public static class SaveSystem
                 GameManager.Instance.GetSaveData(),
             };
 
-            PlayerPrefs.SetString(runDataPath, JsonConvert.SerializeObject(runData));
+            PlayerPrefs.SetString(runDataPath, JsonConvert.SerializeObject(runData, serializerSettings));
 
             List<string> levelsPaths = PlayerPrefs.HasKey("LevelsList") ? JsonConvert.DeserializeObject<List<string>>(PlayerPrefs.GetString("LevelsList")) : new List<string>();
             if (!levelsPaths.Contains(runDataPath))
             {
                 levelsPaths.Add(runDataPath);
-                PlayerPrefs.SetString("LevelsList", JsonConvert.SerializeObject(levelsPaths));
+                PlayerPrefs.SetString("LevelsList", JsonConvert.SerializeObject(levelsPaths, serializerSettings));
             }
 
             PlayerPrefs.Save();
@@ -200,7 +208,7 @@ public static class SaveSystem
             return;
         }
 
-        string[] globalData = JsonConvert.DeserializeObject<string[]>(PlayerPrefs.GetString("Global"));
+        string[] globalData = JsonConvert.DeserializeObject<string[]>(PlayerPrefs.GetString("Global"), serializerSettings);
         Keybinds.Instance.PutSaveData(globalData[0]);
         GameSettings.Instance.PutSaveData(globalData[1]);
 
@@ -211,7 +219,7 @@ public static class SaveSystem
     {
         try
         {
-            string[] dataPoints = JsonConvert.DeserializeObject<string[]>(PlayerPrefs.GetString(runDataPath));
+            string[] dataPoints = JsonConvert.DeserializeObject<string[]>(PlayerPrefs.GetString(runDataPath), serializerSettings);
             if (dataPoints.Length >= 1) RunManager.Instance.PutSaveData(dataPoints[0]);
             if (dataPoints.Length >= 2) WorldGeneration.Instance.PutSaveData(dataPoints[1]);
             if (dataPoints.Length >= 3) GameManager.Instance.PutSaveData(dataPoints[2]);

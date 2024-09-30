@@ -15,7 +15,7 @@ MonoBehaviour:
   prefabObject: {fileID: 6297697741929756436, guid: 6b4e3ddf91b45a64d8db08199efdf3c2, type: 3}
   requiredInSections: []
   requiredInAnySection: 0
-  maxPerSection: 0
+  maxPerSection: 1
   requiredInCity: 1
   maxPerCity: 1
   rarity: 1

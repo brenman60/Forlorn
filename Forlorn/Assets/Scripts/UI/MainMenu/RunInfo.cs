@@ -17,17 +17,24 @@ public class RunInfo : MonoBehaviour
 
     private async void Start()
     {
+        try
+        {
 #if !UNITY_WEBGL
-        string runDataRaw = await SaveSystem.ReadFromFile(Path.Combine(SaveSystem.GetRunPath(runId), SaveSystem.runDataFile));
+            string runDataRaw = await SaveSystem.ReadFromFile(Path.Combine(SaveSystem.GetRunPath(runId), SaveSystem.runDataFile));
 #elif UNITY_WEBGL
         string runDataRaw = PlayerPrefs.GetString(runId);
         if (string.IsNullOrEmpty(runDataRaw)) return;
 #endif
-        string[] runData = JsonConvert.DeserializeObject<string[]>(runDataRaw); // [2] = GameManager (day and time)
-        string[] gameManagerData = JsonConvert.DeserializeObject<string[]>(runData[2]);
-        dayText.text = "Day " + (int.Parse(gameManagerData[0]) + 1);
-        SetTimeText(float.Parse(gameManagerData[1]));
-        GetFileData();
+            string[] runData = JsonConvert.DeserializeObject<string[]>(runDataRaw); // [2] = GameManager (day and time)
+            string[] gameManagerData = JsonConvert.DeserializeObject<string[]>(runData[2]);
+            dayText.text = "Day " + (int.Parse(gameManagerData[0]) + 1);
+            SetTimeText(float.Parse(gameManagerData[1]));
+            GetFileData();
+        }
+        catch
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void SetTimeText(float gameTime) // Taken from TimeInfo.cs

@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SkillsUI : MonoBehaviour, ISaveData
@@ -32,7 +33,13 @@ public class SkillsUI : MonoBehaviour, ISaveData
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+            Destroy(gameObject);
     }
 
     private void Start()
@@ -44,6 +51,17 @@ public class SkillsUI : MonoBehaviour, ISaveData
         scrollSlider.minValue = minScrollSize;
         scrollSlider.maxValue = maxScrollSize;
         scrollSlider.value = scaleFactor;
+
+        SceneManager.sceneLoaded += NewSceneLoaded;
+    }
+
+    private void NewSceneLoaded(Scene newScene, LoadSceneMode sceneLoadMode)
+    {
+        if (newScene.name != "Game")
+        {
+            Instance = null;
+            if (gameObject != null) Destroy(gameObject);
+        }
     }
 
     private void Update()
