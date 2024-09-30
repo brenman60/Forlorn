@@ -9,12 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e37bc05fb09a5f4f82d175fcd9b1a83, type: 3}
-  m_Name: TrainStationExit
+  m_Script: {fileID: 11500000, guid: 56f886985dd5108438085a09844e75da, type: 3}
+  m_Name: TrainDoorOpen
   m_EditorClassIdentifier: 
-  prefabObject: {fileID: 6297697741929756436, guid: 4f9206676a1a1b84b9d05397c580ad07, type: 3}
-  requiredInSections: []
-  maxPerSection: 0
-  requiredInCity: 1
-  maxPerCity: 1
-  rarity: 0.25
+  soundClip: {fileID: 8300000, guid: f76c3b2f64575fe40a85d61c894430c7, type: 3}
+  soundType: 3

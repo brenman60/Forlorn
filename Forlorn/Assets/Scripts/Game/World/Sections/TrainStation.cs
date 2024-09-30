@@ -25,6 +25,7 @@ public class TrainStation : CityBlock
         Player.Instance.gameObject.SetActive(false);
         PlayerCamera.Instance.SetNewFollowing(carriageHolder.GetChild(0), transform.position - new Vector3(length / 4, 0), transform.position, 1f);
         yield return StartCoroutine(MoveCarriage(1.5f, carriageStartPosition, carriageCenterPosition, 0.35f, 0.01f, true));
+        yield return new WaitForSeconds(0.65f);
         Player.Instance.gameObject.SetActive(true);
         PlayerCamera.Instance.ResetFollowing();
     }
@@ -36,16 +37,26 @@ public class TrainStation : CityBlock
         carriageHolder.transform.localPosition = new Vector3(startPos, carriageHolder.transform.localPosition.y, carriageHolder.transform.localPosition.z);
         yield return new WaitForSeconds(delay);
 
+        bool playedAudio = false;
         while (carriageTimer < 1f)
         {
             carriageTimer += Time.deltaTime * Mathf.Lerp(startSpeed, endSpeed, carriageTimer);
             float newX = Mathf.Lerp(startPos, endPos, carriageTimer);
             carriageHolder.transform.localPosition = new Vector3(newX, carriageHolder.transform.localPosition.y, carriageHolder.transform.localPosition.z);
+
+            if (!playedAudio && carriageTimer >= 0.98f)
+            {
+                playedAudio = true;
+                SoundManager.Instance.PlayAudio("TrainStop", false);
+            }
+
             yield return new WaitForEndOfFrame();
         }
 
         carriageHolder.transform.localPosition = new Vector3(endPos, carriageHolder.transform.localPosition.y, carriageHolder.transform.localPosition.z);
 
         if (useStopSmoke) stopSmoke.Play();
+
+        SoundManager.Instance.PlayAudio("TrainDoorOpen", true);
     }
 }
