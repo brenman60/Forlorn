@@ -42,6 +42,7 @@ public class ItemDropManager : MonoBehaviour, ISaveData
 
     public string GetSaveData()
     {
+        print("Getting drops");
         List<string> dropsData = new List<string>();
         foreach (ItemDrop itemDrop in drops)
             dropsData.Add(itemDrop.GetSaveData());
@@ -51,6 +52,7 @@ public class ItemDropManager : MonoBehaviour, ISaveData
 
     public void PutSaveData(string data)
     {
+        print("Putting drops");
         List<string> dropsData = JsonConvert.DeserializeObject<List<string>>(data);
         foreach (string dropData in dropsData)
         {

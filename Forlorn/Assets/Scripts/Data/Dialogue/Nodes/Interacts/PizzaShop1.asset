@@ -10,15 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11be5f20f5c49ee4b9aa9cd8f14d75b2, type: 3}
-  m_Name: StartingCutscene1
+  m_Name: PizzaShop1
   m_EditorClassIdentifier: 
-  dialogue: Fleeing from your war-torn homeland, you have ended up on the outskirts
-    of a destitute city,  searching desperately for safe passage towards a new life.
-    Proper documentation will surely be required if you wish to hold any hope of
-    escaping this harsh reality.
+  dialogue: Enter Pizza Shop?
   textColor: {r: 1, g: 1, b: 1, a: 1}
   backgroundColor: {r: 0, g: 0, b: 0, a: 0.5019608}
-  displayTime: 4
+  displayTime: 0.25
   useTypewriter: 1
   typewriterSpeed: 0.025
-  options: []
+  options:
+  - optionText: Get Food
+    nextNode: {fileID: 0}
+    optionRequirements:
+    - requirement: Money
+      requiredAmount: 5
+      amountIsPercentage: 0
+      type: 0
+    onSelectClass: Inventory
+    onSelectMethod: PutItem
+    onSelectArguments:
+    - argument: MoldyBread
+      type: 4
+    - argument: 20
+      type: 2

@@ -1,10 +1,9 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class StatManager : ISaveData
 {
-    public Dictionary<StatType, Stat> stats = new Dictionary<StatType, Stat>()
+    public Dictionary<StatType, Stat> defaultStats = new Dictionary<StatType, Stat>()
     {
         [StatType.Health] = new Stat(100f, StatType.Health),
         [StatType.HealthRegeneration] = new Stat(1f, StatType.HealthRegeneration),
@@ -19,6 +18,8 @@ public class StatManager : ISaveData
 
         [StatType.Money] = new Stat(25f, StatType.Money),
     };
+
+    public Dictionary<StatType, Stat> stats = new Dictionary<StatType, Stat>();
 
     private List<StatModifier> modifiers = new List<StatModifier>(); // Modifiers are objects that change a stat's max value
     private List<Effect> effects = new List<Effect>(); // Effects are objects that tick every x seconds and can change a stat's value
@@ -117,6 +118,7 @@ public class StatManager : ISaveData
 
     public void ClearAll()
     {
+        stats = defaultStats;
         modifiers.Clear();
         effects.Clear();
     }

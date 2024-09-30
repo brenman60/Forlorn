@@ -59,7 +59,6 @@ public static class SaveSystem
             GameSettings.Instance.GetSaveData(),
         };
 
-        Debug.Log(JsonConvert.SerializeObject(globalData, serializerSettings));
         await WriteToFile(globalDataPath, JsonConvert.SerializeObject(globalData, serializerSettings));
     }
 

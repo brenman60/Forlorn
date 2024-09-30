@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 109219634474364326}
   - component: {fileID: 3284994457136347812}
   - component: {fileID: 235107835328456522}
+  - component: {fileID: 6875643759795297338}
   m_Layer: 0
   m_Name: GlassDoor
   m_TagString: Untagged
@@ -264,8 +265,22 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.32, y: 0.64}
+  m_Size: {x: 0.32, y: 2.17}
   m_EdgeRadius: 0
+--- !u!114 &6875643759795297338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2748517062036814473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f14361cda27bf514eb201c07582624c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactText: Enter Pizza Shop?
+  startingNode: {fileID: 11400000, guid: 116a9d4e57623b74fbee2b54df1ffd99, type: 2}
 --- !u!1 &3519433944231231139
 GameObject:
   m_ObjectHideFlags: 0

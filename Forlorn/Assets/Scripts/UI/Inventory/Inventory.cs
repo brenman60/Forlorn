@@ -42,7 +42,7 @@ public class Inventory : MonoBehaviour, ISaveData
     private void Update()
     {
         if (Input.mouseScrollDelta.y != 0f)
-            currentSlotIndex += Mathf.RoundToInt(Input.mouseScrollDelta.y);
+            currentSlotIndex -= Mathf.RoundToInt(Input.mouseScrollDelta.y);
 
         if (slots.Count > 0 && Input.GetKeyDown(Keybinds.GetKeybind(KeyType.ItemUse)) && !GameManager.paused && UIManager.GetUIsOnMouse().Count == 0)
             UseItem();

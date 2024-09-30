@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 9117443084653688983}
   - component: {fileID: 8302896833467136636}
   - component: {fileID: 4772481325950914298}
+  - component: {fileID: 2843970691778934258}
+  - component: {fileID: 9085351968727576553}
   m_Layer: 5
   m_Name: TemplateOption
   m_TagString: Untagged
@@ -122,13 +124,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
-        m_MethodName: NewRun
-        m_Mode: 1
+      - m_Target: {fileID: 4564287085637461861}
+        m_TargetAssemblyTypeName: DialogueUI, Assembly-CSharp
+        m_MethodName: ChooseOption
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 2437177554369671461}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -150,6 +152,32 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!225 &2843970691778934258
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2437177554369671461}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &9085351968727576553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2437177554369671461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0add98bc16a905248beb570d77a20179, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  optionText: {fileID: 5928815141494469649}
+  canvasGroup: {fileID: 2843970691778934258}
 --- !u!1 &3320053578694343990
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,6 +819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 118e9c1eaae13da44ae31865f4fbdec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  items: {fileID: 11400000, guid: 50cd87991d331a743916fb3d7111b354, type: 2}
   dialogueCanvasGroup: {fileID: 234458319235660337}
   showSpeed: 4
   dialogueRect: {fileID: 6223648515213059941}

@@ -23,8 +23,42 @@ public struct DialogueOption
     [Header("Customization")]
     public string optionText;
     public DialogueNode nextNode;
+    [Header("Requirements")]
+    public List<DialogueOptionRequirement> optionRequirements;
+
     [Header("Selection")]
     public string onSelectClass;
     public string onSelectMethod;
-    public string[] onSelectArguments;
+    public List<DialogueOnSelectArgument> onSelectArguments;
+}
+
+[Serializable]
+public struct DialogueOptionRequirement
+{
+    public string requirement;
+    public int requiredAmount;
+    public bool amountIsPercentage;
+    public DialogueOptionRequirementType type;
+}
+
+public enum DialogueOptionRequirementType
+{
+    Stat,
+    Item,
+}
+
+[Serializable]
+public struct DialogueOnSelectArgument
+{
+    public string argument;
+    public ArgumentType type;
+}
+
+public enum ArgumentType
+{
+    String,
+    Bool,
+    Int,
+    Float,
+    Item,
 }

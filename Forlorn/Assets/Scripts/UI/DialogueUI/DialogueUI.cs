@@ -12,7 +12,8 @@ public class DialogueUI : MonoBehaviour
 {
     public static DialogueUI Instance { get; private set; }
 
-    [SerializeField] private CanvasGroup dialogueCanvasGroup;
+    [SerializeField] private Items items;
+    [Space(15), SerializeField] private CanvasGroup dialogueCanvasGroup;
     [SerializeField, Space(15)] private float showSpeed;
     [SerializeField] private RectTransform dialogueRect;
     [SerializeField] private TextMeshProUGUI dialogueText;
@@ -55,6 +56,9 @@ public class DialogueUI : MonoBehaviour
     private void Update()
     {
         dialogueCanvasGroup.alpha = Mathf.Lerp(dialogueCanvasGroup.alpha, dialogueInProgress ? 1f : 0f, Time.deltaTime * showSpeed);
+        dialogueCanvasGroup.interactable = dialogueInProgress;
+        dialogueCanvasGroup.blocksRaycasts = dialogueInProgress;
+
         dialogueRect.position = Vector3.Lerp(dialogueRect.position, new Vector3(dialogueRect.position.x, initialDialogueY + (dialogueInProgress ? openHeightIncrease : closedHeightDecrease), dialogueRect.position.z), Time.deltaTime * showSpeed);
 
         if (!dialogueInProgress && queuedDialogues.Count > 0)
@@ -69,6 +73,9 @@ public class DialogueUI : MonoBehaviour
 
     private IEnumerator ShowDialogue(DialogueNode node)
     {
+        foreach (Transform previousButton in optionsList) if (previousButton.gameObject != optionTemplate) Destroy(previousButton.gameObject);
+        optionButtons.Clear();
+
         dialogueInProgress = true;
 
         dialogueText.color = node.textColor;
@@ -97,19 +104,20 @@ public class DialogueUI : MonoBehaviour
             StartCoroutine(CloseDialogue(node));
         }
         else
-        {
-            foreach (Transform previousButton in optionsList) if (previousButton.gameObject != optionTemplate) Destroy(previousButton.gameObject);
-            optionButtons.Clear();
-
             foreach (DialogueOption option in node.options)
-            {
-                GameObject button = Instantiate(optionTemplate, optionsList);
-                button.GetComponentInChildren<TextMeshProUGUI>().text = option.optionText;
-                button.SetActive(true);
+                CreateOption(option);
+    }
 
-                optionButtons.Add(button, option);
-            }
-        }
+    private void CreateOption(DialogueOption option)
+    {
+        GameObject button = Instantiate(optionTemplate, optionsList);
+        DialogueOptionUI optionUI = button.GetComponent<DialogueOptionUI>();
+        optionUI.optionText.text = option.optionText;
+
+
+
+        button.SetActive(true);
+        optionButtons.Add(button, option);
     }
 
     private IEnumerator CloseDialogue(DialogueNode node)
@@ -117,7 +125,7 @@ public class DialogueUI : MonoBehaviour
         while (dialogueText.text.Length > 0 && !dialogueInProgress)
         {
             dialogueText.text = dialogueText.text.Remove(dialogueText.text.Length - 1);
-            yield return new WaitForSeconds(node.typewriterSpeed / dialogueText.text.Length);
+            yield return new WaitForSeconds(node != null ? node.typewriterSpeed / dialogueText.text.Length : 0.025f / 4f);
         }
     }
 
@@ -138,18 +146,15 @@ public class DialogueUI : MonoBehaviour
             Debug.LogError("Method '" + option.onSelectMethod + "' not found.");
             return;
         }
-        
+
         if (targetMethod.IsStatic)
-            targetMethod.Invoke(null, option.onSelectArguments);
+            targetMethod.Invoke(null, ConvertSelectArguments(option.onSelectArguments));
         else
         {
             var targetObject = FindObjectOfType(targetType);
             if (targetObject != null)
-                targetMethod.Invoke(targetObject, option.onSelectArguments);
+                targetMethod.Invoke(targetObject, ConvertSelectArguments(option.onSelectArguments));
         }
-
-        print(targetType.Name);
-        print(targetMethod.Name);
 
         if (option.nextNode == null)
         {
@@ -158,6 +163,34 @@ public class DialogueUI : MonoBehaviour
         }
         else
             StartCoroutine(ShowDialogue(option.nextNode));
+    }
+
+    private object[] ConvertSelectArguments(List<DialogueOnSelectArgument> arguments)
+    {
+        object[] newArguments = new object[arguments.Count];
+        for (int i = 0; i < arguments.Count; i++)
+        {
+            switch (arguments[i].type)
+            {
+                case ArgumentType.Int:
+                    newArguments[i] = int.Parse(arguments[i].argument);
+                    break;
+                case ArgumentType.Float:
+                    newArguments[i] = float.Parse(arguments[i].argument);
+                    break;
+                case ArgumentType.Bool:
+                    newArguments[i] = bool.Parse(arguments[i].argument);
+                    break;
+                case ArgumentType.Item:
+                    newArguments[i] = items.GetItemByName(arguments[i].argument);
+                    break;
+                default:
+                    newArguments[i] = arguments[i].argument;
+                    break;
+            }
+        }
+
+        return newArguments;
     }
 
     public async Task AddDialogue(DialogueNode node)

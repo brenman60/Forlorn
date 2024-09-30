@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnObject: {fileID: 6027805560143271595, guid: ed1e2355aa8adf14281ebdf10fa13b7c, type: 3}
   spawnAmounts:
-  - rarity: 0.25
+  - rarity: 0.5
   minPosition: {x: -0.85, y: -0.06, z: 0}
   maxPosition: {x: 0.85, y: -0.08, z: 0}
   equalPositionDistribution: 0

@@ -8,6 +8,7 @@ public class RunManager : MonoBehaviour, ISaveData
     public static RunManager Instance { get; private set; }
 
     public StatManager statManager = new StatManager();
+    private bool appliedDefaultEffects = false;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Init()
@@ -27,11 +28,24 @@ public class RunManager : MonoBehaviour, ISaveData
     private void Start()
     {
         InvokeRepeating(nameof(TickStatManager), 1f, 1f);
+        ApplyDefaultStats();
     }
 
     private void TickStatManager()
     {
         if (GameManager.Instance.gameActive && TransitionUI.doneLoading) statManager.TickEffects();
+    }
+
+    private void ApplyDefaultStats()
+    {
+        if (appliedDefaultEffects) return;
+        appliedDefaultEffects = true;
+
+        statManager.ClearAll();
+
+        statManager.ApplyEffect(new HungerEffect(false));
+        statManager.ApplyEffect(new ThirstEffect(false));
+        statManager.ApplyEffect(new HealthEffect(false));
     }
 
     public string GetSaveData()
@@ -48,11 +62,7 @@ public class RunManager : MonoBehaviour, ISaveData
 
     public void PutSaveData(string data)
     {
-        statManager.ClearAll();
-
-        statManager.ApplyEffect(new HungerEffect(false));
-        statManager.ApplyEffect(new ThirstEffect(false));
-        statManager.ApplyEffect(new HealthEffect(false));
+        ApplyDefaultStats();
 
         string[] dataPoints = JsonConvert.DeserializeObject<string[]>(data);
         statManager.PutSaveData(dataPoints[0]);
