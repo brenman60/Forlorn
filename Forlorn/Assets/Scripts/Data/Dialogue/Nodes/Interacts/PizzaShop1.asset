@@ -25,6 +25,7 @@ MonoBehaviour:
     - requirement: Money
       requiredAmount: 5
       amountIsPercentage: 0
+      removesAmount: 1
       type: 0
     onSelectClass: Inventory
     onSelectMethod: PutItem

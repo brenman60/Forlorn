@@ -114,7 +114,31 @@ public class DialogueUI : MonoBehaviour
         DialogueOptionUI optionUI = button.GetComponent<DialogueOptionUI>();
         optionUI.optionText.text = option.optionText;
 
+        bool hasRequirements = true;
+        foreach (DialogueOptionRequirement requirement in option.optionRequirements)
+        {
+            switch (requirement.type)
+            {
+                case DialogueOptionRequirementType.Stat:
+                    StatType statType = (StatType)Enum.Parse(typeof(StatType), requirement.requirement);
+                    Stat stat = RunManager.Instance.statManager.stats[statType];
+                    float currentPercentage = stat.maxValue * (requirement.requiredAmount / 100);
+                    if (requirement.amountIsPercentage && currentPercentage < requirement.requiredAmount)
+                        hasRequirements = false;
+                    else if (stat.currentValue < requirement.requiredAmount)
+                        hasRequirements = false;
+                    break;
+                case DialogueOptionRequirementType.Item:
+                    Item item = items.GetItemByName(requirement.requirement);
+                    int itemAmount = Inventory.Instance.HasItem(item);
+                    if (itemAmount < requirement.requiredAmount)
+                        hasRequirements = false;
+                    break;
+            }
+        }
 
+        optionUI.canvasGroup.interactable = hasRequirements;
+        optionUI.canvasGroup.alpha = hasRequirements ? 1f : 0.25f;
 
         button.SetActive(true);
         optionButtons.Add(button, option);
@@ -133,27 +157,53 @@ public class DialogueUI : MonoBehaviour
     {
         DialogueOption option = optionButtons[optionButton];
 
-        Type targetType = Type.GetType(option.onSelectClass);
-        if (targetType == null)
+        // Call specified class
+        if (!string.IsNullOrEmpty(option.onSelectClass))
         {
-            Debug.LogError("Type '" + option.onSelectClass + "' not found.");
-            return;
+            Type targetType = Type.GetType(option.onSelectClass);
+            if (targetType == null)
+            {
+                Debug.LogError("Type '" + option.onSelectClass + "' not found.");
+                return;
+            }
+
+            MethodInfo targetMethod = targetType.GetMethod(option.onSelectMethod, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
+            if (targetMethod == null)
+            {
+                Debug.LogError("Method '" + option.onSelectMethod + "' not found.");
+                return;
+            }
+
+            if (targetMethod.IsStatic)
+                targetMethod.Invoke(null, ConvertSelectArguments(option.onSelectArguments));
+            else
+            {
+                var targetObject = FindObjectOfType(targetType);
+                if (targetObject != null)
+                    targetMethod.Invoke(targetObject, ConvertSelectArguments(option.onSelectArguments));
+            }
         }
 
-        MethodInfo targetMethod = targetType.GetMethod(option.onSelectMethod, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
-        if (targetMethod == null)
+        // Remove required items
+        foreach (DialogueOptionRequirement requirement in option.optionRequirements)
         {
-            Debug.LogError("Method '" + option.onSelectMethod + "' not found.");
-            return;
-        }
+            if (!requirement.removesAmount) continue;
 
-        if (targetMethod.IsStatic)
-            targetMethod.Invoke(null, ConvertSelectArguments(option.onSelectArguments));
-        else
-        {
-            var targetObject = FindObjectOfType(targetType);
-            if (targetObject != null)
-                targetMethod.Invoke(targetObject, ConvertSelectArguments(option.onSelectArguments));
+            switch (requirement.type)
+            {
+                case DialogueOptionRequirementType.Stat:
+                    StatType statType = (StatType)Enum.Parse(typeof(StatType), requirement.requirement);
+                    Stat stat = RunManager.Instance.statManager.stats[statType];
+                    if (requirement.amountIsPercentage)
+                        stat.currentValue -= stat.maxValue * (requirement.requiredAmount / 100);
+                    else
+                        stat.currentValue -= requirement.requiredAmount;
+                    break;
+                case DialogueOptionRequirementType.Item:
+                    Item item = items.GetItemByName(requirement.requirement);
+                    Inventory.Instance.TakeItem(item, requirement.requiredAmount);
+                    break;
+            }
         }
 
         if (option.nextNode == null)

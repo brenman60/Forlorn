@@ -38,6 +38,7 @@ public struct DialogueOptionRequirement
     public string requirement;
     public int requiredAmount;
     public bool amountIsPercentage;
+    public bool removesAmount;
     public DialogueOptionRequirementType type;
 }
 

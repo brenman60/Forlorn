@@ -101,6 +101,8 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         if (!isOriginSection)
             playerSpawnIndex = sectionBorderSize;
 
+        ItemDropManager.Instance.PutSaveData(sectionDataPoints[2]);
+
         TransitionUI.openPrevention.Remove("Generating City");
     }
 
@@ -204,10 +206,11 @@ public class WorldGeneration : MonoBehaviour, ISaveData
             else
                 cityBlocksCompiled[block.name].Add(block.GetSaveData());
 
-        string[] dataPoints = new string[2]
+        string[] dataPoints = new string[3]
         {
             playerData,
-            JsonConvert.SerializeObject(cityBlocksCompiled)
+            JsonConvert.SerializeObject(cityBlocksCompiled),
+            ItemDropManager.Instance.GetSaveData()
         };
 
         SaveSystem.SaveRunMap(worldSection, section, JsonConvert.SerializeObject(dataPoints));
@@ -218,12 +221,11 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         if (GameManager.validGameScenes.Contains(SceneManager.GetActiveScene().name))
             SaveSection();
 
-        string[] dataPoints = new string[4]
+        string[] dataPoints = new string[3]
         {
             worldSection,
             section,
             JsonConvert.SerializeObject(cityWideSections),
-            ItemDropManager.Instance != null ? ItemDropManager.Instance.GetSaveData() : string.Empty,
         };
 
         return JsonConvert.SerializeObject(dataPoints);
@@ -235,7 +237,6 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         worldSection = dataPoints[0];
         section = dataPoints[1];
         cityWideSections = JsonConvert.DeserializeObject<Dictionary<string, int>>(dataPoints[2]);
-        if (!string.IsNullOrEmpty(dataPoints[3])) StartCoroutine(WaitForItemDrop(dataPoints[3]));
     }
 
     private IEnumerator WaitForItemDrop(string dropData)
