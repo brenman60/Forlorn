@@ -7,6 +7,6 @@ public class DayInfo : MonoBehaviour
 
     private void Update()
     {
-        dayText.text = "Day " + (GameManager.Instance.gameDays + 1);
+        dayText.text = "Day " + (GameManager.Instance.gameDays + 1) + "\n" + GameManager.Instance.dayOfWeek.ToString();
     }
 }

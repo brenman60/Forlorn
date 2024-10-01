@@ -24,11 +24,14 @@ public class TimeInfo : MonoBehaviour
         float currentMinute = Mathf.FloorToInt((totalHours - currentHour) * 60); // (12.5 - 12) * 60 = 30 minutes
 
         string period = "AM";
-        if (currentHour > 12)
+        if (currentHour >= 12)
         {
             period = "PM";
-            currentHour -= 12;
+            if (currentHour > 12)
+                currentHour -= 12;
         }
+        else if (currentHour == 0) 
+            currentHour = 12;
 
         timeText.text = currentHour + ":" + currentMinute.ToString("00") + " " + period;
     }

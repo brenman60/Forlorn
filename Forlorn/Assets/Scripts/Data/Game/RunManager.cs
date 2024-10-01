@@ -86,5 +86,7 @@ public class RunManager : MonoBehaviour, ISaveData
 [Serializable]
 public struct EmploymentInformation
 {
-
+    public Job job;
+    public float startTime;
+    public float endTime;
 }

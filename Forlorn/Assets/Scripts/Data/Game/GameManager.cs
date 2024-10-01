@@ -23,7 +23,9 @@ public class GameManager : MonoBehaviour, ISaveData
     public DayStatus dayStatus { get; private set; } = DayStatus.None;
     public event EventHandler<DayStatus> dayStatusChanged;
 
-    public float gameTime { get; private set; } = 60f;
+    public DayOfWeek dayOfWeek { get; private set; } = DayOfWeek.Monday;
+
+    public float gameTime { get; private set; } = 0f;
     public int gameDays { get; private set; }
 
     public const float dayLength = 8 + 1; // Should be input as the number of minutes, rather than seconds
@@ -78,8 +80,9 @@ public class GameManager : MonoBehaviour, ISaveData
 
         if (gameTime >= (dayLength) * 60f) // Multiplying day length by 60 since day length is the number of minutes
         {
-            gameTime = 60f;
+            gameTime = 0f;
             gameDays++;
+            dayOfWeek = (DayOfWeek)(((int)dayOfWeek + 1) % 7);
         }
         else
             gameTime += Time.deltaTime; // This is very intentionally deltaTime and NOT unscaledDeltaTime (since there is pausing functionality)
@@ -101,10 +104,11 @@ public class GameManager : MonoBehaviour, ISaveData
 
     public string GetSaveData()
     {
-        string[] dataPoints = new string[2]
+        string[] dataPoints = new string[3]
         {
             gameDays.ToString(),
             gameTime.ToString(),
+            ((int)dayOfWeek).ToString(),
         };
 
         return JsonConvert.SerializeObject(dataPoints);
@@ -115,6 +119,7 @@ public class GameManager : MonoBehaviour, ISaveData
         string[] dataPoints = JsonConvert.DeserializeObject<string[]>(data);
         gameDays = int.Parse(dataPoints[0]);
         gameTime = float.Parse(dataPoints[1]);
+        dayOfWeek = (DayOfWeek)int.Parse(dataPoints[2]);
     }
 
     private void OnApplicationQuit()
@@ -130,7 +135,7 @@ public class GameManager : MonoBehaviour, ISaveData
 public enum DayStatus // Values assigned to the enums represent the amount of day that needs to pass before it isn't that status anymore
 {
     None = 0,
-    Morning = 30,
+    Morning = 15,
     Midday = 70,
     Night = 100,
 }
