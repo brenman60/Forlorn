@@ -29,6 +29,14 @@ public class Inventory : MonoBehaviour, ISaveData
     }
     private static int currentSlotIndex_ = 0;
 
+    private int maxSlotSpace
+    {
+        get
+        {
+            return (int)RunManager.Instance.statManager.stats[StatType.InventoryMax].currentValue;
+        }
+    }
+
     private void Awake()
     {
         Instance = this;
@@ -76,6 +84,16 @@ public class Inventory : MonoBehaviour, ISaveData
         }
     }
 
+    // This function should only be used when considering a single item.
+    // When trying to add multiple items to an inventory, each amount should be looped over with this function determining if it can be added.
+    public bool HasSpaceForItem(Item item)
+    {
+        if (HasItem(item) == maxSlotSpace)
+            return false;
+        else
+            return true;
+    }
+
     public int HasItem(Item item)
     {
         foreach (KeyValuePair<Item, int> slot in slots)
@@ -91,10 +109,10 @@ public class Inventory : MonoBehaviour, ISaveData
         {
             for (int i = 0; i < slots.Count; i++)
                 if (slots[i].Key == item)
-                    slots[i] = new KeyValuePair<Item, int>(item, slots[i].Value + amount);
+                    slots[i] = new KeyValuePair<Item, int>(item, Mathf.Clamp(slots[i].Value + amount, 0, maxSlotSpace));
         }
         else
-            slots.Add(new KeyValuePair<Item, int>(item, amount));
+            slots.Add(new KeyValuePair<Item, int>(item, Mathf.Clamp(amount, 0, maxSlotSpace)));
 
         ResetSlotsUI();
     }

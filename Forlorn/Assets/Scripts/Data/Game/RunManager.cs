@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RunManager : MonoBehaviour, ISaveData
@@ -87,6 +88,7 @@ public class RunManager : MonoBehaviour, ISaveData
 public struct EmploymentInformation
 {
     public Job job;
+    public List<DayOfWeek> workDays;
     public float startTime;
     public float endTime;
 }

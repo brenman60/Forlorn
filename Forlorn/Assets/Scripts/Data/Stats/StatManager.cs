@@ -17,6 +17,8 @@ public class StatManager : ISaveData
         [StatType.MovementSpeed] = new Stat(1f, StatType.MovementSpeed),
 
         [StatType.Money] = new Stat(25f, StatType.Money),
+        [StatType.JobPointMultiplier] = new Stat(1f, StatType.JobPointMultiplier),
+        [StatType.InventoryMax] = new Stat(15f, StatType.InventoryMax),
     };
 
     public Dictionary<StatType, Stat> stats = new Dictionary<StatType, Stat>();
@@ -137,4 +139,6 @@ public enum StatType
     HungerSuppression,
     ThirstSuppression,
     Money,
+    JobPointMultiplier,
+    InventoryMax,
 }
