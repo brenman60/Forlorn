@@ -87,12 +87,14 @@ public class Inventory : MonoBehaviour, ISaveData
     public bool HasAnySpaceLeft(Item item)
     {
         bool spaceLeft = false;
-        foreach (KeyValuePair<Item, int> slot in slots)
-            if (slot.Key == item && slot.Value < maxSlotSpace)
-                spaceLeft = true;
-
         if (HasItem(item) == 0)
             spaceLeft = true;
+        else
+        {
+            foreach (KeyValuePair<Item, int> slot in slots)
+                if (slot.Key == item && slot.Value < maxSlotSpace)
+                    spaceLeft = true;
+        }
 
         return spaceLeft;
     }

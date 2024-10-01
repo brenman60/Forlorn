@@ -13,15 +13,14 @@ public class DialogueUI : MonoBehaviour
     public static DialogueUI Instance { get; private set; }
 
     [SerializeField] private Items items;
-    [Space(15), SerializeField] private CanvasGroup dialogueCanvasGroup;
-    [SerializeField, Space(15)] private float showSpeed;
+    [Space(20), SerializeField] private CanvasGroup dialogueCanvasGroup;
+    [SerializeField, Space(20)] private float showSpeed;
     [SerializeField] private RectTransform dialogueRect;
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private Image dialogueBackground;
-    [Space(15), SerializeField] private float textFadeInTime;
-    [Space(15), SerializeField] private float openHeightIncrease, closedHeightDecrease;
-    [Space(15), SerializeField] private Transform topText;
-    [SerializeField] private GameObject optionTemplate;
+    [Space(20), SerializeField] private float textFadeInTime;
+    [SerializeField] private float openHeightIncrease, closedHeightDecrease;
+    [Space(20), SerializeField] private GameObject optionTemplate;
     [SerializeField] private Transform optionsList;
 
     private List<DialogueNode> queuedDialogues = new List<DialogueNode>();
@@ -67,8 +66,6 @@ public class DialogueUI : MonoBehaviour
             currentDialogue = StartCoroutine(ShowDialogue(nextDialogue));
             queuedDialogues.Remove(nextDialogue);
         }
-
-        optionsList.transform.position = new Vector3(optionsList.transform.position.x, topText.transform.position.y + 30, optionsList.transform.position.z);
     }
 
     private IEnumerator ShowDialogue(DialogueNode node)
