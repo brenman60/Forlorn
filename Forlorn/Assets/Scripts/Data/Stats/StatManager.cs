@@ -18,7 +18,7 @@ public class StatManager : ISaveData
 
         [StatType.Money] = new Stat(25f, StatType.Money),
         [StatType.JobPointMultiplier] = new Stat(1f, StatType.JobPointMultiplier),
-        [StatType.InventoryMax] = new Stat(15f, StatType.InventoryMax),
+        [StatType.InventoryMax] = new Stat(16f, StatType.InventoryMax),
     };
 
     public Dictionary<StatType, Stat> stats = new Dictionary<StatType, Stat>();

@@ -84,14 +84,17 @@ public class Inventory : MonoBehaviour, ISaveData
         }
     }
 
-    // This function should only be used when considering a single item.
-    // When trying to add multiple items to an inventory, each amount should be looped over with this function determining if it can be added.
-    public bool HasSpaceForItem(Item item)
+    public bool HasAnySpaceLeft(Item item)
     {
-        if (HasItem(item) == maxSlotSpace)
-            return false;
-        else
-            return true;
+        bool spaceLeft = false;
+        foreach (KeyValuePair<Item, int> slot in slots)
+            if (slot.Key == item && slot.Value < maxSlotSpace)
+                spaceLeft = true;
+
+        if (HasItem(item) == 0)
+            spaceLeft = true;
+
+        return spaceLeft;
     }
 
     public int HasItem(Item item)
@@ -105,7 +108,14 @@ public class Inventory : MonoBehaviour, ISaveData
 
     public void PutItem(Item item, int amount)
     {
-        if (HasItem(item) > 0)
+        int currentAmount = HasItem(item);
+        if (currentAmount + amount > maxSlotSpace)
+        {
+            Vector2 dropVelocity = new Vector2(UnityEngine.Random.Range(-0.5f, 0.5f), 2f);
+            ItemDropManager.Instance.CreateDrop(item, (currentAmount + amount) - maxSlotSpace, Player.Instance.transform.position, dropVelocity);
+        }
+
+        if (currentAmount > 0)
         {
             for (int i = 0; i < slots.Count; i++)
                 if (slots[i].Key == item)

@@ -72,7 +72,7 @@ public class ItemDrop : MonoBehaviour, ISaveData
 
     private void TryCollect(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && collectDebounce <= 0)
+        if (collision.CompareTag("Player") && collectDebounce <= 0 && Inventory.Instance.HasAnySpaceLeft(item))
         {
             Inventory.Instance.PutItem(item, amount);
             ItemDropManager.Instance.DestroyDrop(this);

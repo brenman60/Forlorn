@@ -19,6 +19,12 @@ MonoBehaviour:
   useTypewriter: 1
   typewriterSpeed: 0.025
   options:
+  - optionText: Exit
+    nextNode: {fileID: 0}
+    optionRequirements: []
+    onSelectClass: 
+    onSelectMethod: 
+    onSelectArguments: []
   - optionText: Get Food
     nextNode: {fileID: 0}
     optionRequirements:

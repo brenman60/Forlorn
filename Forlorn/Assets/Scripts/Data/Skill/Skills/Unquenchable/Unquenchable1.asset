@@ -10,23 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e747b6609f2f3c14ea4edcc6de1bd810, type: 3}
-  m_Name: Unquenchable2
+  m_Name: Unquenchable1
   m_EditorClassIdentifier: 
-  saveName: Unquenchable2
-  visibleName: Unquenchable 2
+  saveName: Unquenchable1
+  visibleName: Unquenchable 1
   displayDescription: Increases maximum thirst by <color=#34abeb>+15%</color>.
   modifiers:
   - statType: 4
     statChange: 1.15
     isMultiplicative: 1
   skillStatCosts:
-  - statType: 0
-    requiredAmount: 15
+  - statType: 9
+    requiredAmount: 5
     isPercentage: 1
     removesAmount: 1
-    displayText: 15% Health
-  skillItemCosts:
-  - item: {fileID: 11400000, guid: b05bc9e0297ead24a995526fec98fec6, type: 2}
-    requiredAmount: 1
-    removesAmount: 1
-    displayText: 1 Polluted Water
+    displayText: <color=#34abeb>-5%</color> Thirst Suppression
+  skillItemCosts: []
