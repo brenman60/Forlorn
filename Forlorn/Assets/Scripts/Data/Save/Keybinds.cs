@@ -7,8 +7,14 @@ public class Keybinds : MonoBehaviour, ISaveData
 {
     public static Keybinds Instance { get; private set; }
 
-    public static PlayerInput playerControls { get; private set; }
-    public static InputAction controlMove { get; private set; }
+    public PlayerInput playerControls { get; private set; }
+    public InputAction controlMove { get; private set; }
+    public InputAction controlRun { get; private set; }
+    public InputAction controlInteract { get; private set; }
+    public InputAction controlUse { get; private set; }
+    public InputAction controlInventory { get; private set; }
+    public InputAction controlUIDrag { get; private set; }
+    public InputAction controlSkipCutscene { get; private set; }
 
     private static bool saveLoaded = false;
 
@@ -28,8 +34,6 @@ public class Keybinds : MonoBehaviour, ISaveData
             DontDestroyOnLoad(keybindObject);
 
             keybinds.ResetAllBinds();
-
-            playerControls = new PlayerInput();
         }
     }
 
@@ -111,17 +115,42 @@ public class Keybinds : MonoBehaviour, ISaveData
 
     private void OnEnable()
     {
-        if (playerControls != null)
-        {
-            controlMove = playerControls.Player.Movement;
-            controlMove.Enable();
-        }
+        foreach (InputDevice device in InputSystem.devices)
+            InputSystem.EnableDevice(device);
+
+        playerControls = new PlayerInput();
+
+        controlMove = playerControls.Player.Movement;
+        controlMove.Enable();
+
+        controlRun = playerControls.Player.Run;
+        controlRun.Enable();
+
+        controlInteract = playerControls.Player.Interact;
+        controlInteract.Enable();
+
+        controlUse = playerControls.Player.Use;
+        controlUse.Enable();
+
+        controlUIDrag = playerControls.UI.UIDrag;
+        controlUIDrag.Enable();
+
+        controlInventory = playerControls.UI.Inventory;
+        controlInventory.Enable();
+
+        controlSkipCutscene = playerControls.UI.SkipCutscene;
+        controlSkipCutscene.Enable();
     }
 
     private void OnDisable()
     {
-        if (controlMove != null)
-            controlMove.Disable();
+        controlMove?.Disable();
+        controlRun?.Disable();
+        controlInteract?.Disable();
+        controlUse?.Disable();
+        controlUIDrag?.Disable();
+        controlInventory?.Disable();
+        controlSkipCutscene?.Disable();
     }
 }
 

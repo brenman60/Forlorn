@@ -23,7 +23,14 @@ public class Inventory : MonoBehaviour, ISaveData
         get { return currentSlotIndex_; }
         set
         {
-            currentSlotIndex_ = Mathf.Clamp(value, 0, slots.Count == 0 ? 0 : slots.Count - 1);
+            if (value >= slots.Count)
+                currentSlotIndex_ = 0;
+            else if (value < 0)
+                currentSlotIndex_ = slots.Count - 1;
+            else
+                currentSlotIndex_ = value;
+
+            currentSlotIndex_ = Mathf.Clamp(currentSlotIndex_, 0, slots.Count == 0 ? 0 : slots.Count - 1);
             ResetSlotsUI();
         }
     }
@@ -37,6 +44,8 @@ public class Inventory : MonoBehaviour, ISaveData
         }
     }
 
+    private float slotIndexCooldown;
+
     private void Awake()
     {
         Instance = this;
@@ -45,15 +54,24 @@ public class Inventory : MonoBehaviour, ISaveData
     private void Start()
     {
         ResetSlotsUI();
+        Keybinds.Instance.controlUse.performed += ItemUse;
+    }
+
+    private void ItemUse(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (slots.Count > 0 && !GameManager.paused && UIManager.GetUIsOnMouse().Count == 0)
+            UseItem();
     }
 
     private void Update()
     {
-        if (Input.mouseScrollDelta.y != 0f)
-            currentSlotIndex -= Mathf.RoundToInt(Input.mouseScrollDelta.y);
-
-        if (slots.Count > 0 && Input.GetKeyDown(Keybinds.GetKeybind(KeyType.ItemUse)) && !GameManager.paused && UIManager.GetUIsOnMouse().Count == 0)
-            UseItem();
+        slotIndexCooldown -= Time.deltaTime;
+        float slotIndexChange = Keybinds.Instance.controlInventory.ReadValue<float>();
+        if (slotIndexCooldown <= 0 && slotIndexChange != 0)
+        {
+            slotIndexCooldown = 0.25f;
+            currentSlotIndex -= Mathf.RoundToInt(Mathf.Clamp(-slotIndexChange, -1, 1));
+        }
 
         UpdatePanels();
 

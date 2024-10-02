@@ -10,14 +10,9 @@ public class Player : MonoBehaviour, ISaveData
 
     private Animator animator;
 
-    private PlayerInput playerControls;
-    private InputAction controlMove;
-
     private void Awake()
     {
         Instance = this;
-
-        playerControls = new PlayerInput();
     }
 
     private void Start()
@@ -33,12 +28,12 @@ public class Player : MonoBehaviour, ISaveData
 
     private void Movement()
     {
-        Vector3 finalVelocity = controlMove.ReadValue<Vector2>();
+        Vector3 finalVelocity = Keybinds.Instance.controlMove.ReadValue<Vector2>();
         if (finalVelocity.x != 0) finalVelocity.x = Mathf.RoundToInt(finalVelocity.x);
         finalVelocity.y = 0;
 
         bool walking = finalVelocity.x != 0;
-        bool sprinting = Input.GetKey(Keybinds.GetKeybind(KeyType.Sprint));
+        bool sprinting = Keybinds.Instance.controlRun.ReadValue<float>() != 0;
         if (sprinting)
             finalVelocity.x *= 1.5f;
 
@@ -80,16 +75,5 @@ public class Player : MonoBehaviour, ISaveData
         transform.position = dataPoints[0].ToVector3();
         transform.localScale = dataPoints[1].ToVector3();
         transform.rotation = dataPoints[2].ToQuaternion();
-    }
-
-    private void OnEnable()
-    {
-        controlMove = playerControls.Player.Movement;
-        controlMove.Enable();
-    }
-
-    private void OnDisable()
-    {
-        controlMove.Disable();
     }
 }

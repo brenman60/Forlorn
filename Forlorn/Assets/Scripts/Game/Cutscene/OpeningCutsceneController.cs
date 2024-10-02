@@ -16,7 +16,7 @@ public class OpeningCutsceneController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(Keybinds.GetKeybind(KeyType.CutsceneSkip)))
+        if (Keybinds.Instance.controlSkipCutscene.ReadValue<float>() != 0)
             SendToGame();
     }
 

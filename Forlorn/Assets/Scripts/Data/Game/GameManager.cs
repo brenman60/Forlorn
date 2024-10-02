@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour, ISaveData
 {
     public static GameManager Instance { get; private set; }
 
+    public static bool isMobile;
+
     // Probably going to set this once when the run is selected then never again
     public static string runId = "editor";
 
@@ -63,6 +65,8 @@ public class GameManager : MonoBehaviour, ISaveData
 
     private void Update()
     {
+        isMobile = Application.isMobilePlatform;
+
         UpdateGameSpeed();
         UpdateGameTime();
         UpdateDayStatus();

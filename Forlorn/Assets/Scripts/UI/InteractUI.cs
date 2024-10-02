@@ -58,7 +58,7 @@ public class InteractUI : MonoBehaviour
         UpdateCanvasGroup();
         UpdateBackgroundColor();
 
-        if (Input.GetKeyDown(Keybinds.GetKeybind(KeyType.Interact)) && interactables.Count > 0 && open)
+        if (Keybinds.Instance.controlInteract.ReadValue<float>() != 0 && interactables.Count > 0 && open)
             DoInteraction();
     }
 

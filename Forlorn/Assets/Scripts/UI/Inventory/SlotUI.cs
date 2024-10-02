@@ -18,6 +18,8 @@ public class SlotUI : MonoBehaviour
 
     private void UpdateItemImage()
     {
+        if (itemImage == null) return;
+
         if (selectedItem != null)
         {
             itemImage.sprite = selectedItem.icon;
