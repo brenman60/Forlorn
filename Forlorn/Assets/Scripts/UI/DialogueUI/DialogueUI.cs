@@ -22,6 +22,7 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] private float openHeightIncrease, closedHeightDecrease;
     [Space(20), SerializeField] private GameObject optionTemplate;
     [SerializeField] private Transform optionsList;
+    [Space(20), SerializeField] private DialogueOptionInfoUI optionInfoUI;
 
     private List<DialogueNode> queuedDialogues = new List<DialogueNode>();
 
@@ -66,6 +67,8 @@ public class DialogueUI : MonoBehaviour
             currentDialogue = StartCoroutine(ShowDialogue(nextDialogue));
             queuedDialogues.Remove(nextDialogue);
         }
+
+        if (!dialogueInProgress) optionInfoUI.Toggle(false);
     }
 
     private IEnumerator ShowDialogue(DialogueNode node)
@@ -109,6 +112,7 @@ public class DialogueUI : MonoBehaviour
     {
         GameObject button = Instantiate(optionTemplate, optionsList);
         DialogueOptionUI optionUI = button.GetComponent<DialogueOptionUI>();
+        optionUI.option = option;
         optionUI.optionText.text = option.optionText;
 
         bool hasRequirements = true;
@@ -153,6 +157,8 @@ public class DialogueUI : MonoBehaviour
     public void ChooseOption(GameObject optionButton)
     {
         DialogueOption option = optionButtons[optionButton];
+        if (option.onSelectSound != null)
+            SoundManager.Instance.PlayAudio(option.onSelectSound, true);
 
         // Call specified class
         if (!string.IsNullOrEmpty(option.onSelectClass))
@@ -205,6 +211,9 @@ public class DialogueUI : MonoBehaviour
 
         if (option.nextNode == null)
         {
+            if (!Player.Instance.gameObject.activeSelf)
+                Player.Instance.gameObject.SetActive(true);
+
             dialogueInProgress = false;
             StartCoroutine(CloseDialogue(null));
         }

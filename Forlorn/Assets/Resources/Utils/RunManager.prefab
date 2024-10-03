@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b20d4013647682c48a3c0636e6821720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jobs: {fileID: 11400000, guid: 117fc131aa1a4f049a153b080357adf5, type: 2}
+  dialogues: {fileID: 11400000, guid: 3363c7fa3d50c574688abdef26f6b157, type: 2}

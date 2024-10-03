@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour, ISaveData
 
     private DayStatus[] dayStatus_;
 
+    [SerializeField] private bool forceMobile;
+
     private void Awake()
     {
         Instance = this;
@@ -65,7 +67,7 @@ public class GameManager : MonoBehaviour, ISaveData
 
     private void Update()
     {
-        isMobile = Application.isMobilePlatform;
+        isMobile = Application.isMobilePlatform || forceMobile;
 
         UpdateGameSpeed();
         UpdateGameTime();
@@ -92,6 +94,11 @@ public class GameManager : MonoBehaviour, ISaveData
             gameTime += Time.deltaTime; // This is very intentionally deltaTime and NOT unscaledDeltaTime (since there is pausing functionality)
     }
 
+    public void ProgressGameTime(int hour, int minute)
+    {
+        gameTime += TimeToSeconds(hour, minute, false);
+    }
+
     private void UpdateDayStatus()
     {
         float dayPercentage = (gameTime / (dayLength * 60f)) * 100f;
@@ -104,6 +111,22 @@ public class GameManager : MonoBehaviour, ISaveData
                 dayStatus = status;
                 break;
             }
+    }
+
+    private int TimeToSeconds(int hour, int minute, bool isPM)
+    {
+        if (isPM && hour != 12) hour += 12;
+        if (!isPM && hour == 12) hour = 0;
+
+        return (hour * 3600) + (minute * 60);
+    }
+
+    public float TimeToDayPercentage(int hour, int minute, bool isPM)
+    {
+        int timeInSeconds = TimeToSeconds(hour, minute, isPM);
+        float totalDaySeconds = dayLength * 60;
+
+        return timeInSeconds / totalDaySeconds * 100;
     }
 
     public string GetSaveData()

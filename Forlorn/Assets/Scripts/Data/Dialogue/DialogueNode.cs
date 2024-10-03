@@ -27,6 +27,7 @@ public struct DialogueOption
     public List<DialogueOptionRequirement> optionRequirements;
 
     [Header("Selection")]
+    public Sound onSelectSound;
     public string onSelectClass;
     public string onSelectMethod;
     public List<DialogueOnSelectArgument> onSelectArguments;

@@ -69,7 +69,7 @@ public class Inventory : MonoBehaviour, ISaveData
         float slotIndexChange = Keybinds.Instance.controlInventory.ReadValue<float>();
         if (slotIndexCooldown <= 0 && slotIndexChange != 0)
         {
-            slotIndexCooldown = 0.25f;
+            slotIndexCooldown = 0.15f;
             currentSlotIndex -= Mathf.RoundToInt(Mathf.Clamp(-slotIndexChange, -1, 1));
         }
 

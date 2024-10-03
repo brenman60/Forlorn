@@ -4,6 +4,8 @@ using UnityEngine;
 public abstract class Interactable : MonoBehaviour
 {
     public string interactText;
+    public Sound interactSound;
+    public bool disappearsPlayer;
     public bool interactable { get; protected set; } = true;
 
     public abstract void Interact();

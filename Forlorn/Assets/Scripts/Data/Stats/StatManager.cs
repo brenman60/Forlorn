@@ -19,12 +19,25 @@ public class StatManager : ISaveData
         [StatType.Money] = new Stat(25f, StatType.Money),
         [StatType.JobPointMultiplier] = new Stat(1f, StatType.JobPointMultiplier),
         [StatType.InventoryMax] = new Stat(16f, StatType.InventoryMax),
+
+        // Specific skills for job applications
+        [StatType.Communication] = new Stat(1f, StatType.Communication),
+        [StatType.Cooking] = new Stat(1f, StatType.Cooking),
     };
 
     public Dictionary<StatType, Stat> stats = new Dictionary<StatType, Stat>();
 
     private List<StatModifier> modifiers = new List<StatModifier>(); // Modifiers are objects that change a stat's max value
     private List<Effect> effects = new List<Effect>(); // Effects are objects that tick every x seconds and can change a stat's value
+
+    private List<StatModifier> defaultModifiers = new List<StatModifier>();
+
+    private List<Effect> defaultEffects = new List<Effect>()
+    {
+        new HealthEffect(false),
+        new HungerEffect(false),
+        new ThirstEffect(false),
+    };
 
     public void ApplyModifier(StatModifier modifier)
     {
@@ -91,6 +104,8 @@ public class StatManager : ISaveData
 
     public void PutSaveData(string data)
     {
+        ClearAll();
+
         List<string> compiledData = JsonConvert.DeserializeObject<List<string>>(data);
         Dictionary<StatType, string> compiledStats = JsonConvert.DeserializeObject<Dictionary<StatType, string>>(compiledData[0]);
         List<string> compiledModifiers = JsonConvert.DeserializeObject<List<string>>(compiledData[1]);
@@ -121,8 +136,8 @@ public class StatManager : ISaveData
     public void ClearAll()
     {
         stats = defaultStats;
-        modifiers.Clear();
-        effects.Clear();
+        modifiers = defaultModifiers;
+        effects = defaultEffects;
     }
 }
 
@@ -141,4 +156,6 @@ public enum StatType
     Money,
     JobPointMultiplier,
     InventoryMax,
+    Communication,
+    Cooking,
 }

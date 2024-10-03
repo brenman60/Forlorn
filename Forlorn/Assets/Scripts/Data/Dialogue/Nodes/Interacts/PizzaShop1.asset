@@ -22,6 +22,7 @@ MonoBehaviour:
   - optionText: Exit
     nextNode: {fileID: 0}
     optionRequirements: []
+    onSelectSound: {fileID: 11400000, guid: 4e346a7e0df6a2346b178e5616286b41, type: 2}
     onSelectClass: 
     onSelectMethod: 
     onSelectArguments: []
@@ -33,6 +34,7 @@ MonoBehaviour:
       amountIsPercentage: 0
       removesAmount: 1
       type: 0
+    onSelectSound: {fileID: 11400000, guid: 4e346a7e0df6a2346b178e5616286b41, type: 2}
     onSelectClass: Inventory
     onSelectMethod: PutItem
     onSelectArguments:
@@ -40,3 +42,16 @@ MonoBehaviour:
       type: 4
     - argument: 20
       type: 2
+  - optionText: Apply for Job
+    nextNode: {fileID: 0}
+    optionRequirements: []
+    onSelectSound: {fileID: 0}
+    onSelectClass: RunManager
+    onSelectMethod: ApplyForJob
+    onSelectArguments:
+    - argument: PizzaShop
+      type: 0
+    - argument: PizzaShop_ApplicationSuccess
+      type: 0
+    - argument: PizzaShop_ApplicationFailure
+      type: 0

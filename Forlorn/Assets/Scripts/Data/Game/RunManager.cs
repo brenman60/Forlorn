@@ -8,8 +8,11 @@ public class RunManager : MonoBehaviour, ISaveData
 {
     public static RunManager Instance { get; private set; }
 
-    public StatManager statManager = new StatManager();
-    private bool appliedDefaultEffects = false;
+    [SerializeField] private Jobs jobs;
+    [SerializeField] private DialogueNodes dialogues;
+
+    public StatManager statManager;
+    public JobManager jobManager;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Init()
@@ -22,6 +25,9 @@ public class RunManager : MonoBehaviour, ISaveData
             RunManager manager = managerObject.GetComponent<RunManager>();
             Instance = manager;
 
+            Instance.statManager = new StatManager();
+            Instance.jobManager = new JobManager(Instance.jobs);
+
             DontDestroyOnLoad(managerObject);
         }
     }
@@ -29,7 +35,6 @@ public class RunManager : MonoBehaviour, ISaveData
     private void Start()
     {
         InvokeRepeating(nameof(TickStatManager), 1f, 1f);
-        ApplyDefaultStats();
     }
 
     private void TickStatManager()
@@ -37,23 +42,81 @@ public class RunManager : MonoBehaviour, ISaveData
         if (GameManager.Instance.gameActive && TransitionUI.doneLoading) statManager.TickEffects();
     }
 
-    private void ApplyDefaultStats()
+    public void ApplyForJob(string jobName, string successDialogue, string failureDialogue)
     {
-        if (appliedDefaultEffects) return;
-        appliedDefaultEffects = true;
+        GameManager.Instance.ProgressGameTime(1, 30);
+        Job selectedJob = jobs.GetJobByName(jobName);
+        float successChance = UnityEngine.Random.Range(0f, 1f);
+        foreach (StatType weightedStat in selectedJob.ranks[0].valuedStats)
+            successChance *= statManager.stats[weightedStat].maxValue;
 
-        statManager.ClearAll();
+        bool successful = successChance >= selectedJob.applicationDifficulty;
+        if (successful)
+        {
+            DialogueNode successNode = dialogues.GetDialogueNodeByName(successDialogue);
+            DialogueUI.Instance.AddDialogue(successNode);
+            StartNewJob(selectedJob);
+        }
+        else
+        {
+            DialogueNode failureNode = dialogues.GetDialogueNodeByName(failureDialogue);
+            DialogueUI.Instance.AddDialogue(failureNode);
+        }
+    }
 
-        statManager.ApplyEffect(new HungerEffect(false));
-        statManager.ApplyEffect(new ThirstEffect(false));
-        statManager.ApplyEffect(new HealthEffect(false));
+    public void StartNewJob(Job job)
+    {
+        EmploymentInformation employmentInformation = new EmploymentInformation();
+        employmentInformation.job = job;
+        employmentInformation.rank = job.ranks[0];
+        employmentInformation.startTime = GameManager.Instance.TimeToDayPercentage(9, 0, false);
+        employmentInformation.endTime = GameManager.Instance.TimeToDayPercentage(5, 0, true);
+        employmentInformation.workDays = new List<DayOfWeek>()
+        {
+            DayOfWeek.Monday,
+            DayOfWeek.Tuesday,
+            DayOfWeek.Wednesday,
+            DayOfWeek.Thursday,
+            DayOfWeek.Friday,
+        };
+
+        jobManager.holdingJobs.Add(employmentInformation);
+    }
+
+    public void RankUpJob(Job job, EmploymentInformation employmentInformation)
+    {
+        int indexOfCurrentRank = 0;
+        for (int i = 0; i < job.ranks.Count; i++)
+            if (job.ranks[i].name == employmentInformation.rank.name)
+            {
+                indexOfCurrentRank = i;
+                break;
+            }
+
+        JobRank nextRank = job.ranks[indexOfCurrentRank];
+        for (int i = 0; i < jobManager.holdingJobs.Count; i++)
+        {
+            EmploymentInformation information = jobManager.holdingJobs[i];
+            if (information.job == job)
+            {
+                information.rank = nextRank;
+                jobManager.holdingJobs[i] = information;
+                break;
+            }
+        }
+    }
+
+    public void EndJob(EmploymentInformation employmentInformation)
+    {
+        jobManager.holdingJobs.Remove(employmentInformation);
     }
 
     public string GetSaveData()
     {
-        string[] dataPoints = new string[3]
+        string[] dataPoints = new string[4]
         {
             statManager.GetSaveData(),
+            jobManager.GetSaveData(),
             Inventory.Instance != null ? Inventory.Instance.GetSaveData() : string.Empty,
             SkillsUI.Instance != null ? SkillsUI.Instance.GetSaveData() : string.Empty,
         };
@@ -63,12 +126,11 @@ public class RunManager : MonoBehaviour, ISaveData
 
     public void PutSaveData(string data)
     {
-        ApplyDefaultStats();
-
         string[] dataPoints = JsonConvert.DeserializeObject<string[]>(data);
         statManager.PutSaveData(dataPoints[0]);
-        if (!string.IsNullOrEmpty(dataPoints[1])) StartCoroutine(WaitForInventory(dataPoints[1]));
-        if (!string.IsNullOrEmpty(dataPoints[2])) StartCoroutine(WaitForSkillsUI(dataPoints[2]));
+        jobManager.PutSaveData(dataPoints[1]);
+        if (!string.IsNullOrEmpty(dataPoints[2])) StartCoroutine(WaitForInventory(dataPoints[2]));
+        if (!string.IsNullOrEmpty(dataPoints[3])) StartCoroutine(WaitForSkillsUI(dataPoints[3]));
     }
 
     private IEnumerator WaitForInventory(string inventoryData)
@@ -88,7 +150,19 @@ public class RunManager : MonoBehaviour, ISaveData
 public struct EmploymentInformation
 {
     public Job job;
+    public JobRank rank;
     public List<DayOfWeek> workDays;
     public float startTime;
     public float endTime;
+    public int points;
+
+    public EmploymentInformation(Job job, JobRank rank, List<DayOfWeek> workDays, float startTime, float endTime, int points)
+    {
+        this.job = job;
+        this.rank = rank;
+        this.workDays = workDays;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.points = points;
+    }
 }

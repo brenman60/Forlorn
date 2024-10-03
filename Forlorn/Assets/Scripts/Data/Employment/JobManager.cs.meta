@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: b20d4013647682c48a3c0636e6821720
+guid: f29337abe429b224ea8c7c2e6843b2a1
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - jobs: {fileID: 11400000, guid: 117fc131aa1a4f049a153b080357adf5, type: 2}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

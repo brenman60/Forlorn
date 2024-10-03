@@ -60,6 +60,7 @@ public static class SaveSystem
         };
 
         await WriteToFile(globalDataPath, JsonConvert.SerializeObject(globalData, serializerSettings));
+        if (Application.isEditor) await WriteToFile(globalDataPath + "debug_.txt", JsonConvert.SerializeObject(globalData, serializerSettings), false);
     }
 
     public static async void SaveRunData()
@@ -267,15 +268,15 @@ public static class SaveSystem
     }
 
     // Encrypting save data can just happen in these individual methods so we don't have to deal with it at all in the main methods (will help keep everything consistent and organized)
-    public static async Task<bool> WriteToFile(string filePath, string data)
+    public static async Task<bool> WriteToFile(string filePath, string data, bool encrypt = true)
     {
         try
         {
-            using (FileStream stream = new FileStream(filePath, FileMode.OpenOrCreate))
+            using (FileStream stream = File.Exists(filePath) ? new FileStream(filePath, FileMode.Truncate) : File.Create(filePath))
             {
                 using (StreamWriter writer = new StreamWriter(stream))
                 {
-                    string encrypedData = AesOperation.EncryptString(data);
+                    string encrypedData = encrypt ? AesOperation.EncryptString(data) : data;
                     await writer.WriteAsync(encrypedData);
 
                     return true;

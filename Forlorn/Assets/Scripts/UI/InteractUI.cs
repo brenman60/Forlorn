@@ -68,7 +68,14 @@ public class InteractUI : MonoBehaviour
         backgroundImageOutline.effectColor = flashColor;
 
         interactables[0].Interact();
-        RemoveInteraction(interactables[0]);
+
+        if (interactables[0].interactSound != null)
+            SoundManager.Instance.PlayAudio(interactables[0].interactSound, true);
+
+        if (interactables[0].disappearsPlayer)
+            Player.Instance.gameObject.SetActive(false);
+        else
+            RemoveInteraction(interactables[0]);
 
         SoundManager.Instance.PlayAudio(interactButton.clickSound, false);
     }
