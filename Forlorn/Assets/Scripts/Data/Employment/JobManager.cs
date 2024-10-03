@@ -1,10 +1,25 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class JobManager : ISaveData
 {
-    public Dictionary<Job, EmploymentInformation> holdingJobs { get; private set; } = new Dictionary<Job, EmploymentInformation>();
+    public static event Action jobsChanged;
+
+    private Dictionary<Job, EmploymentInformation> holdingJobs_ = new Dictionary<Job, EmploymentInformation>();
+    public Dictionary<Job, EmploymentInformation> holdingJobs
+    {
+        get { return holdingJobs_; }
+        set
+        {
+            Debug.Log("Jobs changing: " + holdingJobs_.Count + " - " + value.Count);
+            if (holdingJobs_.Count != value.Count)
+                jobsChanged?.Invoke();
+
+            holdingJobs_ = value;
+        }
+    }
 
     private readonly Jobs jobs;
 
@@ -16,7 +31,7 @@ public class JobManager : ISaveData
     public string GetSaveData()
     {
         List<string> jobSaves = new List<string>();
-        foreach (KeyValuePair<Job, EmploymentInformation> jobInformation in holdingJobs)
+        foreach (KeyValuePair<Job, EmploymentInformation> jobInformation in holdingJobs_)
         {
             EmploymentInformation employment = jobInformation.Value;
             string[] employmentData = new string[6]
@@ -56,7 +71,7 @@ public class JobManager : ISaveData
             information.workDays = JsonConvert.DeserializeObject<List<DayOfWeek>>(employment[4]);
             information.points = int.Parse(employment[5]);
 
-            holdingJobs.Add(information.job, information);
+            holdingJobs_.Add(information.job, information);
         }
     }
 }

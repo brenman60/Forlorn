@@ -75,9 +75,6 @@ public class SkillsUI : MonoBehaviour, ISaveData
 
     private void UpdateCanvasGroup()
     {
-        if (Input.GetKeyDown(Keybinds.GetKeybind(KeyType.SkillsUIOpen)))
-            Toggle();
-
         canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, open ? 1f : 0f, Time.deltaTime * openSpeed);
         canvasGroup.interactable = open;
         canvasGroup.blocksRaycasts = open;

@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour, ISaveData
             }
     }
 
-    private int TimeToSeconds(int hour, int minute, bool isPM)
+    public int TimeToSeconds(int hour, int minute, bool isPM)
     {
         if (isPM && hour != 12) hour += 12;
         if (!isPM && hour == 12) hour = 0;
@@ -127,6 +127,25 @@ public class GameManager : MonoBehaviour, ISaveData
         float totalDaySeconds = dayLength * 60;
 
         return timeInSeconds / totalDaySeconds * 100;
+    }
+
+    public (int hour, int minute, bool isPM) PercentageToTime(float percentage)
+    {
+        percentage = Mathf.Clamp(percentage, 0, 100);
+
+        float totalDaySeconds = dayLength * 60;
+        float timeInSeconds = (percentage / 100) * totalDaySeconds;
+
+        int totalMinutes = Mathf.FloorToInt(timeInSeconds / 60);
+        int hour = totalMinutes / 60;
+        int minute = totalMinutes % 60;
+
+        bool isPM = hour >= 12;
+
+        hour = hour % 12;
+        if (hour == 0) hour = 12;
+
+        return (hour, minute, isPM);
     }
 
     public string GetSaveData()
