@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class JobManager : ISaveData
 {
-    public List<EmploymentInformation> holdingJobs { get; private set; } = new List<EmploymentInformation>();
+    public Dictionary<Job, EmploymentInformation> holdingJobs { get; private set; } = new Dictionary<Job, EmploymentInformation>();
 
     private readonly Jobs jobs;
 
@@ -16,11 +16,12 @@ public class JobManager : ISaveData
     public string GetSaveData()
     {
         List<string> jobSaves = new List<string>();
-        foreach (EmploymentInformation employment in holdingJobs)
+        foreach (KeyValuePair<Job, EmploymentInformation> jobInformation in holdingJobs)
         {
+            EmploymentInformation employment = jobInformation.Value;
             string[] employmentData = new string[6]
             {
-                employment.job.name,
+                jobInformation.Key.name,
                 employment.rank.name,
                 employment.startTime.ToString(),
                 employment.endTime.ToString(),
@@ -54,6 +55,8 @@ public class JobManager : ISaveData
             information.endTime = float.Parse(employment[3]);
             information.workDays = JsonConvert.DeserializeObject<List<DayOfWeek>>(employment[4]);
             information.points = int.Parse(employment[5]);
+
+            holdingJobs.Add(information.job, information);
         }
     }
 }

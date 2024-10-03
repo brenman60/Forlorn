@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.brogan89.minmaxslider": {
+      "version": "https://github.com/brogan89/MinMaxSlider.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.textmeshpro": "2.0.1"
+      },
+      "hash": "5f3d415db5c8b0e3a37c480b04da04e5438d18db"
+    },
     "com.solidalloy.type-references": {
       "version": "2.16.0",
       "depth": 0,

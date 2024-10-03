@@ -80,7 +80,7 @@ public class RunManager : MonoBehaviour, ISaveData
             DayOfWeek.Friday,
         };
 
-        jobManager.holdingJobs.Add(employmentInformation);
+        jobManager.holdingJobs.Add(job, employmentInformation);
     }
 
     public void RankUpJob(Job job, EmploymentInformation employmentInformation)
@@ -94,21 +94,14 @@ public class RunManager : MonoBehaviour, ISaveData
             }
 
         JobRank nextRank = job.ranks[indexOfCurrentRank];
-        for (int i = 0; i < jobManager.holdingJobs.Count; i++)
-        {
-            EmploymentInformation information = jobManager.holdingJobs[i];
-            if (information.job == job)
-            {
-                information.rank = nextRank;
-                jobManager.holdingJobs[i] = information;
-                break;
-            }
-        }
+        EmploymentInformation information = jobManager.holdingJobs[job];
+        information.rank = nextRank;
+        jobManager.holdingJobs[job] = information;
     }
 
     public void EndJob(EmploymentInformation employmentInformation)
     {
-        jobManager.holdingJobs.Remove(employmentInformation);
+        jobManager.holdingJobs.Remove(employmentInformation.job);
     }
 
     public string GetSaveData()

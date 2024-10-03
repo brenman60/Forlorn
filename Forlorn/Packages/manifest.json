@@ -11,6 +11,7 @@
     }
   ],
   "dependencies": {
+    "com.brogan89.minmaxslider": "https://github.com/brogan89/MinMaxSlider.git",
     "com.solidalloy.type-references": "2.16.0",
     "com.unity.connect.share": "4.2.3",
     "com.unity.feature.2d": "2.0.1",
