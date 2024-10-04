@@ -18,8 +18,12 @@ public class JobUI : MonoBehaviour
     [HideInInspector] public EmploymentInformation employmentInformation;
     private JobManager jobManager;
 
+    private bool loadingInfo;
+
     public void UpdateInformation()
     {
+        loadingInfo = true;
+
         Job job = employmentInformation.job;
         JobRank rank = employmentInformation.rank;
         jobNameText.text = $"Job: <color=#{ColorUtility.ToHtmlStringRGB(job.visibleColor)}>{job.visibleName}</color>";
@@ -29,10 +33,13 @@ public class JobUI : MonoBehaviour
         ReloadWorkingDays();
 
         jobManager = RunManager.Instance.jobManager;
+
+        loadingInfo = false;
     }
 
     public void UpdateWorkingDays(Toggle day)
     {
+        if (loadingInfo) return;
         DayOfWeek dayOfWeek = (DayOfWeek)int.Parse(day.name);
 
         if (day.isOn)
@@ -46,6 +53,8 @@ public class JobUI : MonoBehaviour
 
     public void UpdateStartTime(int minutes)
     {
+        if (loadingInfo) return;
+
         ShiftTime startShiftTime = employmentInformation.startTime;
         startShiftTime.minute += minutes;
         if (startShiftTime.minute > 59)
@@ -86,6 +95,8 @@ public class JobUI : MonoBehaviour
 
     public void UpdateEndTime(int minutes)
     {
+        if (loadingInfo) return;
+
         ShiftTime endShiftTime = employmentInformation.endTime;
         endShiftTime.minute += minutes;
         if (endShiftTime.minute > 59)
@@ -129,9 +140,7 @@ public class JobUI : MonoBehaviour
         for (int i = 0; i < workingDays.Count; i++)
         {
             DayOfWeek dayOfWeek = (DayOfWeek)i;
-            workingDays[i].enabled = false;
-            //workingDays[i].isOn = employmentInformation.workDays.Contains(dayOfWeek);
-            workingDays[i].enabled = true;
+            workingDays[i].isOn = employmentInformation.workDays.Contains(dayOfWeek);
         }
     }
 
