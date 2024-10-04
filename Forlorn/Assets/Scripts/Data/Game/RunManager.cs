@@ -69,8 +69,8 @@ public class RunManager : MonoBehaviour, ISaveData
         EmploymentInformation employmentInformation = new EmploymentInformation();
         employmentInformation.job = job;
         employmentInformation.rank = job.ranks[0];
-        employmentInformation.startTime = GameManager.Instance.TimeToDayPercentage(9, 0, false);
-        employmentInformation.endTime = GameManager.Instance.TimeToDayPercentage(5, 0, true);
+        employmentInformation.startTime = new ShiftTime(9, 0, false);
+        employmentInformation.endTime = new ShiftTime(5, 0, true);
         employmentInformation.workDays = new List<DayOfWeek>()
         {
             DayOfWeek.Monday,
@@ -81,6 +81,7 @@ public class RunManager : MonoBehaviour, ISaveData
         };
 
         jobManager.holdingJobs.Add(job, employmentInformation);
+        JobManager.InvokeJobsChanged();
     }
 
     public void RankUpJob(Job job, EmploymentInformation employmentInformation)
@@ -102,6 +103,7 @@ public class RunManager : MonoBehaviour, ISaveData
     public void EndJob(EmploymentInformation employmentInformation)
     {
         jobManager.holdingJobs.Remove(employmentInformation.job);
+        JobManager.InvokeJobsChanged();
     }
 
     public string GetSaveData()
@@ -145,11 +147,11 @@ public struct EmploymentInformation
     public Job job;
     public JobRank rank;
     public List<DayOfWeek> workDays;
-    public float startTime;
-    public float endTime;
+    public ShiftTime startTime;
+    public ShiftTime endTime;
     public int points;
 
-    public EmploymentInformation(Job job, JobRank rank, List<DayOfWeek> workDays, float startTime, float endTime, int points)
+    public EmploymentInformation(Job job, JobRank rank, List<DayOfWeek> workDays, ShiftTime startTime, ShiftTime endTime, int points)
     {
         this.job = job;
         this.rank = rank;
@@ -157,5 +159,20 @@ public struct EmploymentInformation
         this.startTime = startTime;
         this.endTime = endTime;
         this.points = points;
+    }
+}
+
+[Serializable]
+public struct ShiftTime
+{
+    public int hour;
+    public int minute;
+    public bool isPM;
+
+    public ShiftTime(int hour, int minute, bool isPM)
+    {
+        this.hour = hour;
+        this.minute = minute;
+        this.isPM = isPM;
     }
 }

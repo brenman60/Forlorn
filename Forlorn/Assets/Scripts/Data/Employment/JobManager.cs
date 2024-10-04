@@ -1,24 +1,11 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class JobManager : ISaveData
 {
     public static event Action jobsChanged;
-
-    private Dictionary<Job, EmploymentInformation> holdingJobs_ = new Dictionary<Job, EmploymentInformation>();
-    public Dictionary<Job, EmploymentInformation> holdingJobs
-    {
-        get { return holdingJobs_; }
-        set
-        {
-            if (holdingJobs_.Count != value.Count)
-                jobsChanged?.Invoke();
-
-            holdingJobs_ = value;
-        }
-    }
+    public Dictionary<Job, EmploymentInformation> holdingJobs { get; set; } = new Dictionary<Job, EmploymentInformation>();
 
     private readonly Jobs jobs;
 
@@ -27,18 +14,20 @@ public class JobManager : ISaveData
         this.jobs = jobs;
     }
 
+    public static void InvokeJobsChanged() => jobsChanged?.Invoke();
+
     public string GetSaveData()
     {
         List<string> jobSaves = new List<string>();
-        foreach (KeyValuePair<Job, EmploymentInformation> jobInformation in holdingJobs_)
+        foreach (KeyValuePair<Job, EmploymentInformation> jobInformation in holdingJobs)
         {
             EmploymentInformation employment = jobInformation.Value;
             string[] employmentData = new string[6]
             {
                 jobInformation.Key.name,
                 employment.rank.name,
-                employment.startTime.ToString(),
-                employment.endTime.ToString(),
+                JsonConvert.SerializeObject(employment.startTime),
+                JsonConvert.SerializeObject(employment.endTime),
                 JsonConvert.SerializeObject(employment.workDays),
                 employment.points.ToString(),
             };
@@ -65,12 +54,12 @@ public class JobManager : ISaveData
                     break;
                 }
 
-            information.startTime = float.Parse(employment[2]);
-            information.endTime = float.Parse(employment[3]);
+            information.startTime = JsonConvert.DeserializeObject<ShiftTime>(employment[2]);
+            information.endTime = JsonConvert.DeserializeObject<ShiftTime>(employment[3]);
             information.workDays = JsonConvert.DeserializeObject<List<DayOfWeek>>(employment[4]);
             information.points = int.Parse(employment[5]);
 
-            holdingJobs_.Add(information.job, information);
+            holdingJobs.Add(information.job, information);
         }
     }
 }

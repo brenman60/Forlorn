@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour, ISaveData
     public float gameTime { get; private set; } = 0f;
     public int gameDays { get; private set; }
 
-    public const float dayLength = 8 + 1; // Should be input as the number of minutes, rather than seconds
+    public const float dayLength = 6; // Should be input as the number of minutes, rather than seconds
 
     private DayStatus[] dayStatus_;
 
@@ -113,39 +113,66 @@ public class GameManager : MonoBehaviour, ISaveData
             }
     }
 
-    public int TimeToSeconds(int hour, int minute, bool isPM)
+    public float TimeToSeconds(int hour, int minute, bool isPM)
     {
         if (isPM && hour != 12) hour += 12;
         if (!isPM && hour == 12) hour = 0;
 
-        return (hour * 3600) + (minute * 60);
+        return (hour * (DayMinuteToRealSecond() * 60)) + (minute * DayMinuteToRealSecond());
     }
 
-    public float TimeToDayPercentage(int hour, int minute, bool isPM)
+    public float GameTimeToDayPercentage(int hour, int minute, bool isPM)
     {
-        int timeInSeconds = TimeToSeconds(hour, minute, isPM);
+        float timeInSeconds = TimeToSeconds(hour, minute, isPM);
         float totalDaySeconds = dayLength * 60;
 
         return timeInSeconds / totalDaySeconds * 100;
     }
 
-    public (int hour, int minute, bool isPM) PercentageToTime(float percentage)
+    public (int hour, int minute, bool isPM) DayPercentageToGameTime(float percentage)
     {
-        percentage = Mathf.Clamp(percentage, 0, 100);
-
         float totalDaySeconds = dayLength * 60;
         float timeInSeconds = (percentage / 100) * totalDaySeconds;
 
-        int totalMinutes = Mathf.FloorToInt(timeInSeconds / 60);
-        int hour = totalMinutes / 60;
-        int minute = totalMinutes % 60;
+        return RealTimeToDayTime(timeInSeconds);
+    }
 
-        bool isPM = hour >= 12;
+    public (int hour, int minute, bool isPM) RealTimeToDayTime(float realTime)
+    {
+        float totalGameMinutes = (dayLength * 60) / (DayMinuteToRealSecond() / 60);
 
-        hour = hour % 12;
-        if (hour == 0) hour = 12;
+        float gameTimeInMinutes = realTime / DayMinuteToRealSecond();
 
-        return (hour, minute, isPM);
+        int gameHours = Mathf.FloorToInt(gameTimeInMinutes / 60);
+        int gameMinutes = Mathf.FloorToInt(gameTimeInMinutes % 60);
+        bool isPM = gameHours >= 12;
+
+        gameHours = gameHours % 12;
+        if (gameHours == 0) gameHours = 12;
+
+        return (gameHours, gameMinutes, isPM);
+    }
+
+    public float DayTimeToRealTime(int hours, int minutes)
+    {
+        if (dayLength <= 0) throw new InvalidOperationException("Day length must be greater than zero.");
+
+        float realMinute = DayMinuteToRealSecond();
+        float realHour = realMinute * 60;
+
+        float realHours = hours * realHour;
+        float realMinutes = realMinute * minutes;
+
+        return realHours + realMinutes;
+    }
+
+    public float DayMinuteToRealSecond()
+    {
+        if (dayLength <= 0) throw new InvalidOperationException("Day length must be greater than zero.");
+
+        float dayLengthSeconds = dayLength * 60;
+        float hourLength = dayLengthSeconds / 24;
+        return hourLength / 60;
     }
 
     public string GetSaveData()
