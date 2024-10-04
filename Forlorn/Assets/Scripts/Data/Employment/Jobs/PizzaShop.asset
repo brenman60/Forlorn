@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887b71eb86c53e844baceb90fa9441a5, type: 3}
   m_Name: PizzaShop
   m_EditorClassIdentifier: 
+  visibleName: Pizza Shop
+  visibleColor: {r: 1, g: 0.3066038, b: 0.3066038, a: 1}
   applicationDifficulty: 0.5
   ranks:
   - name: Cashier
     rankLevel: 0
     visibleName: Cashier
+    visibleColor: {r: 1, g: 0.8521834, b: 0.5235849, a: 1}
     paycheckAmount: 25
     valuedStats: 
     modifiers: []

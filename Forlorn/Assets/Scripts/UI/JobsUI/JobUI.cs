@@ -16,13 +16,14 @@ public class JobUI : MonoBehaviour
     [SerializeField] private List<Toggle> workingDays;
 
     [HideInInspector] public EmploymentInformation employmentInformation;
+    private JobManager jobManager;
 
     public void UpdateInformation()
     {
         Job job = employmentInformation.job;
         JobRank rank = employmentInformation.rank;
-        jobNameText.text = $"Job: <color={ColorUtility.ToHtmlStringRGB(job.visibleColor)}>{job.visibleName}</color>";
-        rankNameText.text = $"Position: <color={ColorUtility.ToHtmlStringRGB(rank.visibleColor)}>{rank.visibleName}</color>";
+        jobNameText.text = $"Job: <color=#{ColorUtility.ToHtmlStringRGB(job.visibleColor)}>{job.visibleName}</color>";
+        rankNameText.text = $"Position: <color=#{ColorUtility.ToHtmlStringRGB(rank.visibleColor)}>{rank.visibleName}</color>";
 
         var (startHour, startMinute, startIsPM) = GameManager.Instance.PercentageToTime(employmentInformation.startTime);
         var (endHour, endMinute, endIsPM) = GameManager.Instance.PercentageToTime(employmentInformation.endTime);
@@ -36,6 +37,27 @@ public class JobUI : MonoBehaviour
         shiftTimeSliderValues.maxValue = GameManager.Instance.TimeToSeconds(endHour, endMinute, endIsPM);
         shiftTimeSlider.SetValues(shiftTimeSliderValues, true);
 
+        ReloadWorkingDays();
+
+        jobManager = RunManager.Instance.jobManager;
+    }
+
+    public void UpdateWorkingDays(Toggle day)
+    {
+        DayOfWeek dayOfWeek = (DayOfWeek)int.Parse(day.name);
+
+        if (day.isOn)
+            employmentInformation.workDays.Add(dayOfWeek);
+        else
+            employmentInformation.workDays.Remove(dayOfWeek);
+
+        jobManager.holdingJobs[employmentInformation.job] = employmentInformation;
+
+        ReloadWorkingDays();
+    }
+
+    private void ReloadWorkingDays()
+    {
         for (int i = 0; i < workingDays.Count; i++)
         {
             DayOfWeek dayOfWeek = (DayOfWeek)i;

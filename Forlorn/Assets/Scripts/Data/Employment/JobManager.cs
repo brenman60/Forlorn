@@ -13,7 +13,6 @@ public class JobManager : ISaveData
         get { return holdingJobs_; }
         set
         {
-            Debug.Log("Jobs changing: " + holdingJobs_.Count + " - " + value.Count);
             if (holdingJobs_.Count != value.Count)
                 jobsChanged?.Invoke();
 

@@ -1635,7 +1635,7 @@ GameObject:
   - component: {fileID: 157758561}
   - component: {fileID: 157758560}
   m_Layer: 5
-  m_Name: Thursday
+  m_Name: 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1716,7 +1716,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1998431360}
+        m_TargetAssemblyTypeName: JobUI, Assembly-CSharp
+        m_MethodName: UpdateWorkingDays
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 157758561}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Toggle, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &166573155
 GameObject:
@@ -2469,7 +2481,7 @@ GameObject:
   - component: {fileID: 225205156}
   - component: {fileID: 225205155}
   m_Layer: 5
-  m_Name: Wednesday
+  m_Name: 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2550,7 +2562,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1998431360}
+        m_TargetAssemblyTypeName: JobUI, Assembly-CSharp
+        m_MethodName: UpdateWorkingDays
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 225205156}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Toggle, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &236679539
 GameObject:
@@ -3745,7 +3769,7 @@ GameObject:
   - component: {fileID: 353704353}
   - component: {fileID: 353704352}
   m_Layer: 5
-  m_Name: Friday
+  m_Name: 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3826,7 +3850,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1998431360}
+        m_TargetAssemblyTypeName: JobUI, Assembly-CSharp
+        m_MethodName: UpdateWorkingDays
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 353704353}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Toggle, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &378451009
 GameObject:
@@ -7366,7 +7402,7 @@ GameObject:
   - component: {fileID: 738337528}
   - component: {fileID: 738337527}
   m_Layer: 5
-  m_Name: Sunday
+  m_Name: 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7447,7 +7483,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1998431360}
+        m_TargetAssemblyTypeName: JobUI, Assembly-CSharp
+        m_MethodName: UpdateWorkingDays
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 738337528}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Toggle, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &740020181
 GameObject:
@@ -11851,7 +11899,7 @@ GameObject:
   - component: {fileID: 1102621780}
   - component: {fileID: 1102621779}
   m_Layer: 5
-  m_Name: Tuesday
+  m_Name: 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11932,7 +11980,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1998431360}
+        m_TargetAssemblyTypeName: JobUI, Assembly-CSharp
+        m_MethodName: UpdateWorkingDays
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1102621780}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Toggle, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &1135035181
 GameObject:
@@ -14463,7 +14523,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2083730026}
   customCamera: {fileID: 519420031}
   sliderBounds: {fileID: 2083730024}
@@ -21169,7 +21229,7 @@ GameObject:
   - component: {fileID: 1620776990}
   - component: {fileID: 1620776989}
   m_Layer: 5
-  m_Name: Monday
+  m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21250,7 +21310,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1998431360}
+        m_TargetAssemblyTypeName: JobUI, Assembly-CSharp
+        m_MethodName: UpdateWorkingDays
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1620776990}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Toggle, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &1654443249
 GameObject:
@@ -24698,7 +24770,7 @@ GameObject:
   - component: {fileID: 2020263615}
   - component: {fileID: 2020263614}
   m_Layer: 5
-  m_Name: Saturday
+  m_Name: 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24779,7 +24851,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1998431360}
+        m_TargetAssemblyTypeName: JobUI, Assembly-CSharp
+        m_MethodName: UpdateWorkingDays
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2020263615}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Toggle, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &2030222150
 GameObject:

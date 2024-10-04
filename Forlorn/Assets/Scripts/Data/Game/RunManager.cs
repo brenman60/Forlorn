@@ -80,10 +80,6 @@ public class RunManager : MonoBehaviour, ISaveData
             DayOfWeek.Friday,
         };
 
-        print(jobManager.holdingJobs.Count);
-        foreach (KeyValuePair<Job, EmploymentInformation> job___ in jobManager.holdingJobs)
-            print(job___.Key + " : " + job___.Value);
-
         jobManager.holdingJobs.Add(job, employmentInformation);
     }
 
