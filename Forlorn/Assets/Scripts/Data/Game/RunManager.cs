@@ -69,8 +69,8 @@ public class RunManager : MonoBehaviour, ISaveData
         EmploymentInformation employmentInformation = new EmploymentInformation();
         employmentInformation.job = job;
         employmentInformation.rank = job.ranks[0];
-        employmentInformation.startTime = new ShiftTime(9, 0, false);
-        employmentInformation.endTime = new ShiftTime(5, 0, true);
+        employmentInformation.startTime = new ShiftTime(9, 0);
+        employmentInformation.endTime = new ShiftTime(5 + 12, 0);
         employmentInformation.workDays = new List<DayOfWeek>()
         {
             DayOfWeek.Monday,
@@ -167,12 +167,10 @@ public struct ShiftTime
 {
     public int hour;
     public int minute;
-    public bool isPM;
 
-    public ShiftTime(int hour, int minute, bool isPM)
+    public ShiftTime(int hour, int minute)
     {
         this.hour = hour;
         this.minute = minute;
-        this.isPM = isPM;
     }
 }

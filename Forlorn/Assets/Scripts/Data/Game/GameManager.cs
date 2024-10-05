@@ -115,8 +115,8 @@ public class GameManager : MonoBehaviour, ISaveData
 
     public float TimeToSeconds(int hour, int minute, bool isPM)
     {
-        if (isPM && hour != 12) hour += 12;
         if (!isPM && hour == 12) hour = 0;
+        if (isPM && hour != 12) hour += 12;
 
         return (hour * (DayMinuteToRealSecond() * 60)) + (minute * DayMinuteToRealSecond());
     }

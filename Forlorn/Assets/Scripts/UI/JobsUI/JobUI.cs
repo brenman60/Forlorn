@@ -56,8 +56,9 @@ public class JobUI : MonoBehaviour
         if (loadingInfo) return;
 
         ShiftTime startShiftTime = employmentInformation.startTime;
+        int originalHour = startShiftTime.hour;
         startShiftTime.minute += minutes;
-        if (startShiftTime.minute > 59)
+        if (startShiftTime.minute >= 60)
         {
             startShiftTime.minute -= 60;
             startShiftTime.hour++;
@@ -68,26 +69,14 @@ public class JobUI : MonoBehaviour
             startShiftTime.hour--;
         }
 
-        if (startShiftTime.hour > 12)
-        {
-            startShiftTime.isPM = !startShiftTime.isPM;
-            startShiftTime.hour -= 12;
-        }
-        else if (startShiftTime.hour < 1)
-        {
-            startShiftTime.isPM = !startShiftTime.isPM;
-            startShiftTime.hour += 12;
-        }
+        startShiftTime.hour = Mathf.Clamp(startShiftTime.hour, 6, employmentInformation.endTime.hour);
+        if (startShiftTime.hour == 6 && minutes < 0)
+            startShiftTime.minute = 0;
+        else if (startShiftTime.hour == employmentInformation.endTime.hour && minutes > 0)
+            startShiftTime.minute = 0;
 
-        if (!startShiftTime.isPM)
-        {
-            if (startShiftTime.hour < 6)
-                startShiftTime.minute = 0;
-
-            startShiftTime.hour = Mathf.Clamp(startShiftTime.hour, 6, 12);
-        }
-
-        employmentInformation.startTime = startShiftTime;
+        if (MinutesDifference(startShiftTime, employmentInformation.endTime) > 30)
+            employmentInformation.startTime = startShiftTime;
 
         UpdateJobInfo();
         ReloadShiftTime();
@@ -98,8 +87,9 @@ public class JobUI : MonoBehaviour
         if (loadingInfo) return;
 
         ShiftTime endShiftTime = employmentInformation.endTime;
+        int originalHour = endShiftTime.hour;
         endShiftTime.minute += minutes;
-        if (endShiftTime.minute > 59)
+        if (endShiftTime.minute >= 60)
         {
             endShiftTime.minute -= 60;
             endShiftTime.hour++;
@@ -110,29 +100,25 @@ public class JobUI : MonoBehaviour
             endShiftTime.hour--;
         }
 
-        if (endShiftTime.hour > 12)
-        {
-            endShiftTime.isPM = !endShiftTime.isPM;
-            endShiftTime.hour -= 12;
-        }
-        else if (endShiftTime.hour < 1)
-        {
-            endShiftTime.isPM = !endShiftTime.isPM;
-            endShiftTime.hour += 12;
-        }
+        endShiftTime.hour = Mathf.Clamp(endShiftTime.hour, employmentInformation.startTime.hour - 1, 24);
+        if (endShiftTime.hour == 24 && minutes > 0)
+            endShiftTime.minute = 0;
+        else if (endShiftTime.hour == employmentInformation.startTime.hour - 1 && minutes < 0)
+            endShiftTime.minute = 0;
 
-        if (endShiftTime.isPM)
-        {
-            if (endShiftTime.hour == 12)
-                endShiftTime.minute = 0;
-
-            endShiftTime.hour = Mathf.Clamp(endShiftTime.hour, 1, 12);
-        }
-
-        employmentInformation.endTime = endShiftTime;
+        if (MinutesDifference(employmentInformation.startTime, endShiftTime) > 30)
+            employmentInformation.endTime = endShiftTime;
 
         UpdateJobInfo();
         ReloadShiftTime();
+    }
+
+    private int MinutesDifference(ShiftTime startTime, ShiftTime endTime)
+    {
+        int hoursDifference = Mathf.Abs(startTime.hour - endTime.hour);
+        int minutesDifference = Mathf.Abs(startTime.minute - endTime.minute);
+
+        return (hoursDifference * 60) + minutesDifference;
     }
 
     private void ReloadWorkingDays()
@@ -148,14 +134,21 @@ public class JobUI : MonoBehaviour
     {
         ShiftTime startShiftTime = employmentInformation.startTime;
         ShiftTime endShiftTime = employmentInformation.endTime;
-        startTimeText.text = $"{startShiftTime.hour}:{startShiftTime.minute.ToString("00")} {(startShiftTime.isPM ? "PM" : "AM")}";
-        endTimeText.text = $"{endShiftTime.hour}:{endShiftTime.minute.ToString("00")} {(endShiftTime.isPM ? "PM" : "AM")}";
+
+        bool startIsPM = startShiftTime.hour > 12;
+        bool endIsPM = endShiftTime.hour > 12;
+
+        int startHour = startShiftTime.hour - (startIsPM ? 12 : 0);
+        int endHour = endShiftTime.hour - (endIsPM ? 12 : 0);
+
+        startTimeText.text = $"{startHour}:{startShiftTime.minute.ToString("00")} {(startIsPM ? "PM" : "AM")}";
+        endTimeText.text = $"{endHour}:{endShiftTime.minute.ToString("00")} {(endIsPM ? "PM" : "AM")}";
 
         MinMaxSlider.MinMaxValues shiftTimeSliderValues = shiftTimeSlider.Values;
         shiftTimeSliderValues.minLimit = 0f;
         shiftTimeSliderValues.maxLimit = GameManager.dayLength * 60f;
-        shiftTimeSliderValues.minValue = GameManager.Instance.TimeToSeconds(startShiftTime.hour, startShiftTime.minute, startShiftTime.isPM);
-        shiftTimeSliderValues.maxValue = GameManager.Instance.TimeToSeconds(endShiftTime.hour, endShiftTime.minute, endShiftTime.isPM);
+        shiftTimeSliderValues.minValue = GameManager.Instance.TimeToSeconds(startHour, startShiftTime.minute, startIsPM);
+        shiftTimeSliderValues.maxValue = GameManager.Instance.TimeToSeconds(endHour, endShiftTime.minute, endIsPM);
         shiftTimeSlider.SetValues(shiftTimeSliderValues, true);
     }
 
