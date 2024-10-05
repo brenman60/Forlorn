@@ -116,27 +116,9 @@ public class DialogueUI : MonoBehaviour
         optionUI.optionText.text = option.optionText;
 
         bool hasRequirements = true;
-        foreach (DialogueOptionRequirement requirement in option.optionRequirements)
-        {
-            switch (requirement.type)
-            {
-                case DialogueOptionRequirementType.Stat:
-                    StatType statType = (StatType)Enum.Parse(typeof(StatType), requirement.requirement);
-                    Stat stat = RunManager.Instance.statManager.stats[statType];
-                    float currentPercentage = stat.maxValue * (requirement.requiredAmount / 100);
-                    if (requirement.amountIsPercentage && currentPercentage < requirement.requiredAmount)
-                        hasRequirements = false;
-                    else if (stat.currentValue < requirement.requiredAmount)
-                        hasRequirements = false;
-                    break;
-                case DialogueOptionRequirementType.Item:
-                    Item item = items.GetItemByName(requirement.requirement);
-                    int itemAmount = Inventory.Instance.HasItem(item);
-                    if (itemAmount < requirement.requiredAmount)
-                        hasRequirements = false;
-                    break;
-            }
-        }
+        foreach (DialogueRequirement requirement in option.optionRequirements)
+            if (!requirement.MeetsRequirement())
+                hasRequirements = false;
 
         optionUI.canvasGroup.interactable = hasRequirements;
         optionUI.canvasGroup.alpha = hasRequirements ? 1f : 0.25f;
@@ -188,25 +170,12 @@ public class DialogueUI : MonoBehaviour
         }
 
         // Remove required items
-        foreach (DialogueOptionRequirement requirement in option.optionRequirements)
+        foreach (DialogueRequirement requirement in option.optionRequirements)
         {
-            if (!requirement.removesAmount) continue;
-
-            switch (requirement.type)
-            {
-                case DialogueOptionRequirementType.Stat:
-                    StatType statType = (StatType)Enum.Parse(typeof(StatType), requirement.requirement);
-                    Stat stat = RunManager.Instance.statManager.stats[statType];
-                    if (requirement.amountIsPercentage)
-                        stat.currentValue -= stat.maxValue * (requirement.requiredAmount / 100);
-                    else
-                        stat.currentValue -= requirement.requiredAmount;
-                    break;
-                case DialogueOptionRequirementType.Item:
-                    Item item = items.GetItemByName(requirement.requirement);
-                    Inventory.Instance.TakeItem(item, requirement.requiredAmount);
-                    break;
-            }
+            if (requirement is HasStatsRequirement statsRequirement)
+                statsRequirement.RemoveRequirements();
+            else if (requirement is HasItemRequirement itemRequirement)
+                itemRequirement.RemoveRequirements();
         }
 
         if (option.nextNode == null)

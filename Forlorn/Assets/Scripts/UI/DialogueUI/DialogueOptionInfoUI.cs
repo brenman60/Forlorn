@@ -31,7 +31,7 @@ public class DialogueOptionInfoUI : MonoBehaviour
         foreach (Transform previousRequirement in requirementsList) if (previousRequirement.gameObject != requirementTemplate) Destroy(previousRequirement.gameObject);
         foreach (Transform previousReward in rewardsList) if (previousReward.gameObject != rewardTemplate) Destroy(previousReward.gameObject);
 
-        foreach (DialogueOptionRequirement requirement in option.optionRequirements)
+        foreach (DialogueRequirement requirement in option.optionRequirements)
         {
             GameObject requirementObject = Instantiate(requirementTemplate, requirementsList);
             requirementObject.GetComponent<DialogueOptionRequirementUI>().Init(requirement);

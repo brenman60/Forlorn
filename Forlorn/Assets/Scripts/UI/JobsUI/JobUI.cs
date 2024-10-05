@@ -70,12 +70,8 @@ public class JobUI : MonoBehaviour
         }
 
         startShiftTime.hour = Mathf.Clamp(startShiftTime.hour, 6, employmentInformation.endTime.hour);
-        if (startShiftTime.hour == 6 && minutes < 0)
-            startShiftTime.minute = 0;
-        else if (startShiftTime.hour == employmentInformation.endTime.hour && minutes > 0)
-            startShiftTime.minute = 0;
 
-        if (MinutesDifference(startShiftTime, employmentInformation.endTime) > 30)
+        if (MinutesDifference(startShiftTime, employmentInformation.endTime) >= 60)
             employmentInformation.startTime = startShiftTime;
 
         UpdateJobInfo();
@@ -100,13 +96,9 @@ public class JobUI : MonoBehaviour
             endShiftTime.hour--;
         }
 
-        endShiftTime.hour = Mathf.Clamp(endShiftTime.hour, employmentInformation.startTime.hour - 1, 24);
-        if (endShiftTime.hour == 24 && minutes > 0)
-            endShiftTime.minute = 0;
-        else if (endShiftTime.hour == employmentInformation.startTime.hour - 1 && minutes < 0)
-            endShiftTime.minute = 0;
+        endShiftTime.hour = Mathf.Clamp(endShiftTime.hour, employmentInformation.startTime.hour, 24);
 
-        if (MinutesDifference(employmentInformation.startTime, endShiftTime) > 30)
+        if (MinutesDifference(employmentInformation.startTime, endShiftTime) >= 60)
             employmentInformation.endTime = endShiftTime;
 
         UpdateJobInfo();
@@ -146,9 +138,9 @@ public class JobUI : MonoBehaviour
 
         MinMaxSlider.MinMaxValues shiftTimeSliderValues = shiftTimeSlider.Values;
         shiftTimeSliderValues.minLimit = 0f;
-        shiftTimeSliderValues.maxLimit = GameManager.dayLength * 60f;
-        shiftTimeSliderValues.minValue = GameManager.Instance.TimeToSeconds(startHour, startShiftTime.minute, startIsPM);
-        shiftTimeSliderValues.maxValue = GameManager.Instance.TimeToSeconds(endHour, endShiftTime.minute, endIsPM);
+        shiftTimeSliderValues.maxLimit = 24f;
+        shiftTimeSliderValues.minValue = startShiftTime.hour + (startShiftTime.minute / 100);
+        shiftTimeSliderValues.maxValue = endShiftTime.hour + (endShiftTime.minute / 100);
         shiftTimeSlider.SetValues(shiftTimeSliderValues, true);
     }
 

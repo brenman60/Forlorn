@@ -29,11 +29,7 @@ MonoBehaviour:
   - optionText: Get Food
     nextNode: {fileID: 0}
     optionRequirements:
-    - requirement: Money
-      requiredAmount: 5
-      amountIsPercentage: 0
-      removesAmount: 1
-      type: 0
+    - {fileID: 11400000, guid: 9e06a069354ecb743bbb3f305ec9f677, type: 2}
     onSelectSound: {fileID: 11400000, guid: 4e346a7e0df6a2346b178e5616286b41, type: 2}
     onSelectClass: Inventory
     onSelectMethod: PutItem
@@ -44,7 +40,8 @@ MonoBehaviour:
       type: 2
   - optionText: Apply for Job
     nextNode: {fileID: 0}
-    optionRequirements: []
+    optionRequirements:
+    - {fileID: 11400000, guid: 496dc6d8052dcb944a2cadb0b2a4635b, type: 2}
     onSelectSound: {fileID: 0}
     onSelectClass: RunManager
     onSelectMethod: ApplyForJob

@@ -24,29 +24,13 @@ public struct DialogueOption
     public string optionText;
     public DialogueNode nextNode;
     [Header("Requirements")]
-    public List<DialogueOptionRequirement> optionRequirements;
+    public List<DialogueRequirement> optionRequirements;
 
     [Header("Selection")]
     public Sound onSelectSound;
     public string onSelectClass;
     public string onSelectMethod;
     public List<DialogueOnSelectArgument> onSelectArguments;
-}
-
-[Serializable]
-public struct DialogueOptionRequirement
-{
-    public string requirement;
-    public int requiredAmount;
-    public bool amountIsPercentage;
-    public bool removesAmount;
-    public DialogueOptionRequirementType type;
-}
-
-public enum DialogueOptionRequirementType
-{
-    Stat,
-    Item,
 }
 
 [Serializable]

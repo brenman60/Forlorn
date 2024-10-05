@@ -11,22 +11,21 @@ public class DialogueOptionRequirementUI : MonoBehaviour
     [SerializeField] private Image icon;
     [SerializeField] private TextMeshProUGUI infoText;
 
-    public void Init(DialogueOptionRequirement requirement)
+    public void Init(DialogueRequirement requirement)
     {
-        switch (requirement.type)
-        {
-            case DialogueOptionRequirementType.Item:
-                Item requiredItem = items.GetItemByName(requirement.requirement);
-                icon.sprite = requiredItem.icon;
-                infoText.text = $"<color={subtractionColor}>{(requirement.removesAmount ? "-" : string.Empty)}{requirement.requiredAmount}</color> {requiredItem.visibleName}";
-                break;
-            case DialogueOptionRequirementType.Stat:
-                icon.transform.parent.gameObject.SetActive(false);
-                infoText.text = $"<color={subtractionColor}>{(requirement.removesAmount ? "-" : string.Empty)}{requirement.requiredAmount}</color> {requirement.requirement}";
-                infoText.rectTransform.anchorMin = Vector3.zero;
-                infoText.rectTransform.anchorMax = Vector3.one;
-                infoText.rectTransform.sizeDelta = Vector2.zero;
-                break;
-        }
+        icon.transform.parent.gameObject.SetActive(false);
+        infoText.text = requirement.requirementText;
+        infoText.rectTransform.anchorMin = Vector3.zero;
+        infoText.rectTransform.anchorMax = Vector3.one;
+        infoText.rectTransform.sizeDelta = Vector2.one * -40;
+        infoText.rectTransform.anchoredPosition = Vector3.zero;
+
+        /*
+
+            Item requiredItem = items.GetItemByName(requirement.requirement);
+            icon.sprite = requiredItem.icon;
+            infoText.text = $"<color={subtractionColor}>{(requirement.removesAmount ? "-" : string.Empty)}{requirement.requiredAmount}</color> {requiredItem.visibleName}";
+
+         */
     }
 }
