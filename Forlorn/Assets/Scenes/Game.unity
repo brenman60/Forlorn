@@ -3316,7 +3316,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 233.185, y: -29.4885}
+  m_AnchoredPosition: {x: 233.185, y: -0}
   m_SizeDelta: {x: 466.37, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &325932306
@@ -5385,13 +5385,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 501772856}
+  - component: {fileID: 501772857}
   m_Layer: 5
   m_Name: ObjectiveTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &501772856
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5408,11 +5409,23 @@ RectTransform:
   - {fileID: 1913151683}
   m_Father: {fileID: 325932305}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 58.977}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 233.185, y: -29.4885}
+  m_SizeDelta: {x: 466.37, y: 58.977}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &501772857
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501772855}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &502306006
 GameObject:
   m_ObjectHideFlags: 0
@@ -6613,10 +6626,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c668564dde336af40b26fb3cacb5b332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectiveCompleteFlash: {r: 0.7372549, g: 1, b: 0.69411767, a: 1}
   mainVerticalLayoutGroup: {fileID: 575810001}
   contentVerticalLayoutGroup: {fileID: 325932307}
   objectivesSizeFitter: {fileID: 325932306}
   objectivesList: {fileID: 325932305}
+  objectiveTemplate: {fileID: 501772855}
 --- !u!1 &580467190
 GameObject:
   m_ObjectHideFlags: 0
@@ -20673,7 +20688,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Find Immigration Office
+  m_text: Template Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 54e419c64400f45469e9f64eb8ba9112, type: 2}
   m_sharedMaterial: {fileID: -3098425921551207, guid: 54e419c64400f45469e9f64eb8ba9112, type: 2}
@@ -20700,7 +20715,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.4
+  m_fontSize: 45.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -24409,6 +24424,7 @@ GameObject:
   - component: {fileID: 1913151683}
   - component: {fileID: 1913151685}
   - component: {fileID: 1913151684}
+  - component: {fileID: 1913151686}
   m_Layer: 5
   m_Name: Checkbox
   m_TagString: Untagged
@@ -24474,6 +24490,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1913151682}
   m_CullTransparentMesh: 1
+--- !u!114 &1913151686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1913151682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 0
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 0
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 0
+  m_TargetGraphic: {fileID: 1913151684}
+  toggleTransition: 1
+  graphic: {fileID: 1052120999}
+  m_Group: {fileID: 0}
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_IsOn: 0
 --- !u!1 &1914613208
 GameObject:
   m_ObjectHideFlags: 0

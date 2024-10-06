@@ -18,5 +18,5 @@ MonoBehaviour:
   maxPerSection: 1
   requiredInCity: 1
   maxPerCity: 1
-  rarity: 1
+  rarity: 0.1
   cannotNaturallySpawn: 0

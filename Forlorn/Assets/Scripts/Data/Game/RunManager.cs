@@ -3,10 +3,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RunManager : MonoBehaviour, ISaveData
 {
     public static RunManager Instance { get; private set; }
+    public static bool isNewGame { get; set; }
 
     [SerializeField] private Jobs jobs;
     [SerializeField] private DialogueNodes dialogues;
@@ -37,6 +39,24 @@ public class RunManager : MonoBehaviour, ISaveData
     private void Start()
     {
         InvokeRepeating(nameof(TickManagers), 1f, 1f);
+
+        SceneManager.activeSceneChanged += SceneChanged;
+    }
+
+    private void SceneChanged(Scene arg0, Scene arg1)
+    {
+        if (isNewGame)
+        {
+            isNewGame = false;
+            StartCoroutine(FirstTimeLoad());
+        }
+    }
+
+    private IEnumerator FirstTimeLoad()
+    {
+        yield return new WaitUntil(() => ObjectivesList.Instance != null);
+        ObjectivesList.Instance.CreateNewObjective(new Objective("immigrationOfficeDiscover", "Find Immigration Office"));
+        ObjectivesList.Instance.CreateNewObjective(new Objective("obtainJob", "Find Job"));
     }
 
     private void TickManagers()
@@ -119,13 +139,14 @@ public class RunManager : MonoBehaviour, ISaveData
 
     public string GetSaveData()
     {
-        string[] dataPoints = new string[5]
+        string[] dataPoints = new string[6]
         {
             statManager.GetSaveData(),
             jobManager.GetSaveData(),
             taskManager.GetSaveData(),
             Inventory.Instance != null ? Inventory.Instance.GetSaveData() : string.Empty,
             SkillsUI.Instance != null ? SkillsUI.Instance.GetSaveData() : string.Empty,
+            ObjectivesList.Instance != null ? ObjectivesList.Instance.GetSaveData() : string.Empty,
         };
 
         return JsonConvert.SerializeObject(dataPoints);
@@ -139,6 +160,7 @@ public class RunManager : MonoBehaviour, ISaveData
         taskManager.PutSaveData(dataPoints[2]);
         if (!string.IsNullOrEmpty(dataPoints[3])) StartCoroutine(WaitForInventory(dataPoints[3]));
         if (!string.IsNullOrEmpty(dataPoints[4])) StartCoroutine(WaitForSkillsUI(dataPoints[4]));
+        if (!string.IsNullOrEmpty(dataPoints[5])) StartCoroutine(WaitForObjectivesList(dataPoints[5]));
     }
 
     private IEnumerator WaitForInventory(string inventoryData)
@@ -151,6 +173,12 @@ public class RunManager : MonoBehaviour, ISaveData
     {
         yield return new WaitUntil(() => SkillsUI.Instance != null);
         SkillsUI.Instance.PutSaveData(skillsData);
+    }
+
+    private IEnumerator WaitForObjectivesList(string objectivesData)
+    {
+        yield return new WaitUntil(() => ObjectivesList.Instance != null);
+        ObjectivesList.Instance.PutSaveData(objectivesData);
     }
 }
 

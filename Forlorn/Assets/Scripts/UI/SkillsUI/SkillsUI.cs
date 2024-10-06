@@ -57,7 +57,7 @@ public class SkillsUI : MonoBehaviour, ISaveData
 
     private void NewSceneLoaded(Scene newScene, LoadSceneMode sceneLoadMode)
     {
-        if (newScene.name != "Game")
+        if (!GameManager.validGameScenes.Contains(newScene.name))
         {
             Instance = null;
             if (gameObject != null) Destroy(gameObject);

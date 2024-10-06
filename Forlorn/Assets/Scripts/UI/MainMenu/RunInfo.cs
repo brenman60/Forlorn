@@ -66,6 +66,7 @@ public class RunInfo : MonoBehaviour
 
     public async void ContinueRun()
     {
+        RunManager.isNewGame = false;
         GameManager.runId = runId;
         await SaveSystem.LoadRunData();
         TransitionUI.Instance.TransitionTo("Game");

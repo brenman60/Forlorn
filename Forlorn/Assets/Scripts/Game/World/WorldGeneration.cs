@@ -151,8 +151,24 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 
         List<CitySection> selectedSections = new List<CitySection>();
         foreach (CitySection section in citySections.sections)
-            if (section.requiredInSections.Contains(WorldGeneration.section) || section.requiredInAnySection)
+        {
+            var count = selectedSections.Count(item => item == section);
+            bool belowMaxSectionAmount = section.maxPerSection <= 0 || count < section.maxPerSection;
+            bool belowMaxCityAmount = section.maxPerCity <= 0 || GetCityWideAmount(section) < section.maxPerCity;
+            if ((section.requiredInSections.Contains(WorldGeneration.section) || section.requiredInAnySection) &&
+                belowMaxSectionAmount && belowMaxCityAmount)
+            {
+                if (section.maxPerCity > 0)
+                {
+                    if (cityWideSections.ContainsKey(section.name))
+                        cityWideSections[section.name]++;
+                    else
+                        cityWideSections.Add(section.name, 1);
+                }
+
                 selectedSections.Add(section);
+            }
+        }
 
         while (selectedSections.Count < sectionLength)
         {
@@ -161,7 +177,7 @@ public class WorldGeneration : MonoBehaviour, ISaveData
             float random = Random.Range(0f, 1f);
             bool withinRandom = random <= currentSection.rarity;
             bool belowMaxAmount = currentSection.maxPerSection <= 0 || count < currentSection.maxPerSection;
-            bool belowMaxCityAmount = currentSection.maxPerCity <= 0 || cityWideSections.TryGetValue(currentSection.name, out int cityCount) && cityCount < currentSection.maxPerCity;
+            bool belowMaxCityAmount = currentSection.maxPerCity <= 0 || GetCityWideAmount(currentSection) < currentSection.maxPerCity;
             if (withinRandom && belowMaxAmount && belowMaxCityAmount && !currentSection.cannotNaturallySpawn)
             {
                 selectedSections.Add(currentSection);
@@ -176,6 +192,13 @@ public class WorldGeneration : MonoBehaviour, ISaveData
             }
 
             await Task.Yield();
+        }
+
+        int GetCityWideAmount(CitySection currentSection)
+        {
+            bool hasAmount = cityWideSections.TryGetValue(currentSection.name, out int amount);
+            if (hasAmount) return amount;
+            else return -1;
         }
 
         selectedSections.Shuffle();

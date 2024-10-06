@@ -39,7 +39,7 @@ public class GameMusic : MonoBehaviour
         DayStatus status = GameManager.Instance.dayStatus;
         while (audioSource.volume > 0f)
         {
-            audioSource.volume -= Time.deltaTime * 0.75f;
+            audioSource.volume -= Time.deltaTime * 0.1f;
             if (audioSource.volume < 0f) audioSource.volume = 0f;
 
             yield return new WaitForEndOfFrame();
@@ -67,7 +67,7 @@ public class GameMusic : MonoBehaviour
 
         while (audioSource.volume < defaultVolume)
         {
-            audioSource.volume += Time.deltaTime * 0.5f;
+            audioSource.volume += Time.deltaTime * 0.25f;
             if (audioSource.volume > defaultVolume) audioSource.volume = defaultVolume;
 
             yield return new WaitForEndOfFrame();

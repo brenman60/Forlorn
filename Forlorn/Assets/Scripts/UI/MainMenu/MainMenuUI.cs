@@ -16,6 +16,7 @@ public class MainMenuUI : MonoBehaviour
         }
 
         GameManager.runId = randomId;
+        RunManager.isNewGame = true;
         RunManager.Instance.statManager.ClearAll();
         SaveSystem.SaveRunData();
         TransitionUI.Instance.TransitionTo("StartingCutscene");
