@@ -53,7 +53,7 @@ public class RunManager : MonoBehaviour, ISaveData
         Job selectedJob = jobs.GetJobByName(jobName);
         taskManager.StartTask(
             new TimeTask(
-                selectedJob.visibleName, 
+                selectedJob.visibleName + " Application", 
                 60f * 2f,
                 TaskType.JobApplication,
                 new Dictionary<string, object>() 

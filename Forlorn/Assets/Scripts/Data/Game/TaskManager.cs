@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class TaskManager : ISaveData
 {
-    public static event Action<TimeTask> tasksChanged;
+    public static event Action<TimeTask, bool> tasksChanged;
 
     public List<TimeTask> tasks = new List<TimeTask>();
 
     public void StartTask(TimeTask task)
     {
         tasks.Add(task);
-        tasksChanged?.Invoke(task);
+        tasksChanged?.Invoke(task, true);
     }
 
     public void Tick()
@@ -39,7 +39,10 @@ public class TaskManager : ISaveData
         }
 
         foreach (TimeTask task in finishedTasks)
+        {
             tasks.Remove(task);
+            tasksChanged?.Invoke(task, false);
+        }
     }
 
     private void JobApplicationCompleted(Dictionary<string, object> parameters)

@@ -49,7 +49,3 @@ MonoBehaviour:
     onSelectArguments:
     - argument: PizzaShop
       type: 0
-    - argument: PizzaShop_ApplicationSuccess
-      type: 0
-    - argument: PizzaShop_ApplicationFailure
-      type: 0
