@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DialogueOptionUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class DialogueOptionUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [HideInInspector] public DialogueOption option;
 
@@ -30,5 +30,11 @@ public class DialogueOptionUI : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void OnPointerExit(PointerEventData eventData)
     {
         optionInfoUI.Toggle(false);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (canvasGroup.interactable)
+            optionInfoUI.Toggle(false);
     }
 }

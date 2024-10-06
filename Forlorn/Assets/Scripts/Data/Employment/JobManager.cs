@@ -5,16 +5,52 @@ using System.Collections.Generic;
 public class JobManager : ISaveData
 {
     public static event Action jobsChanged;
+    public static event Action applicationsChanged;
+
     public Dictionary<Job, EmploymentInformation> holdingJobs { get; set; } = new Dictionary<Job, EmploymentInformation>();
 
-    private readonly Jobs jobs;
+    public readonly Jobs jobs;
 
     public JobManager(Jobs jobs)
     {
         this.jobs = jobs;
     }
 
+    public void DetermineJobApp(Job job)
+    {
+        StatManager statManager = RunManager.Instance.statManager;
+        float successChance = UnityEngine.Random.Range(0f, 1f);
+        foreach (StatType weightedStat in job.ranks[0].valuedStats)
+            successChance *= statManager.stats[weightedStat].maxValue;
+
+        bool successful = successChance >= job.applicationDifficulty;
+        if (successful)
+            StartNewJob(job);
+    }
+
+    private void StartNewJob(Job job)
+    {
+        EmploymentInformation employmentInformation = new EmploymentInformation();
+        employmentInformation.job = job;
+        employmentInformation.rank = job.ranks[0];
+        employmentInformation.startTime = new ShiftTime(9, 0);
+        employmentInformation.endTime = new ShiftTime(5 + 12, 0);
+        employmentInformation.workDays = new List<DayOfWeek>()
+        {
+            DayOfWeek.Monday,
+            DayOfWeek.Tuesday,
+            DayOfWeek.Wednesday,
+            DayOfWeek.Thursday,
+            DayOfWeek.Friday,
+        };
+
+        holdingJobs.Add(job, employmentInformation);
+        InvokeJobsChanged();
+    }
+
     public static void InvokeJobsChanged() => jobsChanged?.Invoke();
+
+    public static void InvokeApplicationsChanged() => applicationsChanged?.Invoke();
 
     public string GetSaveData()
     {

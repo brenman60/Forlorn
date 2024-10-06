@@ -11,8 +11,9 @@ public class RunManager : MonoBehaviour, ISaveData
     [SerializeField] private Jobs jobs;
     [SerializeField] private DialogueNodes dialogues;
 
-    public StatManager statManager;
-    public JobManager jobManager;
+    public StatManager statManager { get; private set; }
+    public JobManager jobManager { get; private set; }
+    public TaskManager taskManager { get; private set; }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Init()
@@ -27,6 +28,7 @@ public class RunManager : MonoBehaviour, ISaveData
 
             Instance.statManager = new StatManager();
             Instance.jobManager = new JobManager(Instance.jobs);
+            Instance.taskManager = new TaskManager();
 
             DontDestroyOnLoad(managerObject);
         }
@@ -34,54 +36,33 @@ public class RunManager : MonoBehaviour, ISaveData
 
     private void Start()
     {
-        InvokeRepeating(nameof(TickStatManager), 1f, 1f);
+        InvokeRepeating(nameof(TickManagers), 1f, 1f);
     }
 
-    private void TickStatManager()
+    private void TickManagers()
     {
-        if (GameManager.Instance.gameActive && TransitionUI.doneLoading) statManager.TickEffects();
+        if (GameManager.Instance.gameActive && TransitionUI.doneLoading)
+        {
+            statManager.Tick();
+            taskManager.Tick();
+        }
     }
 
-    public void ApplyForJob(string jobName, string successDialogue, string failureDialogue)
+    public void ApplyForJob(string jobName)
     {
-        GameManager.Instance.ProgressGameTime(1, 30);
         Job selectedJob = jobs.GetJobByName(jobName);
-        float successChance = UnityEngine.Random.Range(0f, 1f);
-        foreach (StatType weightedStat in selectedJob.ranks[0].valuedStats)
-            successChance *= statManager.stats[weightedStat].maxValue;
+        taskManager.StartTask(
+            new TimeTask(
+                selectedJob.visibleName, 
+                60f * 2f,
+                TaskType.JobApplication,
+                new Dictionary<string, object>() 
+                {
+                    ["Job"] = jobName,
+                }
+            ));
 
-        bool successful = successChance >= selectedJob.applicationDifficulty;
-        if (successful)
-        {
-            DialogueNode successNode = dialogues.GetDialogueNodeByName(successDialogue);
-            DialogueUI.Instance.AddDialogue(successNode);
-            StartNewJob(selectedJob);
-        }
-        else
-        {
-            DialogueNode failureNode = dialogues.GetDialogueNodeByName(failureDialogue);
-            DialogueUI.Instance.AddDialogue(failureNode);
-        }
-    }
-
-    public void StartNewJob(Job job)
-    {
-        EmploymentInformation employmentInformation = new EmploymentInformation();
-        employmentInformation.job = job;
-        employmentInformation.rank = job.ranks[0];
-        employmentInformation.startTime = new ShiftTime(9, 0);
-        employmentInformation.endTime = new ShiftTime(5 + 12, 0);
-        employmentInformation.workDays = new List<DayOfWeek>()
-        {
-            DayOfWeek.Monday,
-            DayOfWeek.Tuesday,
-            DayOfWeek.Wednesday,
-            DayOfWeek.Thursday,
-            DayOfWeek.Friday,
-        };
-
-        jobManager.holdingJobs.Add(job, employmentInformation);
-        JobManager.InvokeJobsChanged();
+        JobManager.InvokeApplicationsChanged();
     }
 
     public void RankUpJob(Job job, EmploymentInformation employmentInformation)
@@ -100,6 +81,36 @@ public class RunManager : MonoBehaviour, ISaveData
         jobManager.holdingJobs[job] = information;
     }
 
+    public void ClockIntoJob(Job job)
+    {
+        float totalHours = (GameManager.Instance.gameTime / (GameManager.dayLength * 60)) * 24f;
+        int currentHour = Mathf.FloorToInt(totalHours);
+        int currentMinute = Mathf.FloorToInt((totalHours - currentHour) * 60);
+
+        ShiftTime shiftClockIn = new ShiftTime(currentHour, currentMinute);
+        ShiftTime startTime = jobManager.holdingJobs[job].startTime;
+        int hoursLate = Mathf.Abs(shiftClockIn.hour - startTime.hour);
+        int minutesLate = Mathf.Abs(shiftClockIn.minute - startTime.minute);
+        int totalMinutesLate = (hoursLate * 60) + minutesLate;
+        int lateThreshold = 30; // the amount of time to pass from the start time for the player to be considered late
+
+        // because of this math its probably a good range to have players be fired at around -1000 points
+        // since being late for 60 minutes (with 1x point mult) can put you down -1350 points (which shouldn't instantly kill players since they should've built up points before then)
+        float pointMultiplier = statManager.stats[StatType.JobPointMultiplier].maxValue;
+        EmploymentInformation employmentInformation = jobManager.holdingJobs[job];
+        if (totalMinutesLate > lateThreshold) // player is late for job (ruin points :))))
+        {
+            int minutesBeyondTheshold = totalMinutesLate - lateThreshold;
+            // math note: pointMultiplier is like insanely beneficial up to 2x but falls off almost instantly
+            // so cool meta i guess
+            employmentInformation.points += Mathf.RoundToInt((0.25f * -(minutesBeyondTheshold * minutesBeyondTheshold)) / (pointMultiplier / 1.5f));
+        }
+        else // player was on time (reward with points :((()
+            employmentInformation.points += Mathf.RoundToInt(150 * pointMultiplier);
+
+        jobManager.holdingJobs[job] = employmentInformation;
+    }
+
     public void EndJob(EmploymentInformation employmentInformation)
     {
         jobManager.holdingJobs.Remove(employmentInformation.job);
@@ -108,10 +119,11 @@ public class RunManager : MonoBehaviour, ISaveData
 
     public string GetSaveData()
     {
-        string[] dataPoints = new string[4]
+        string[] dataPoints = new string[5]
         {
             statManager.GetSaveData(),
             jobManager.GetSaveData(),
+            taskManager.GetSaveData(),
             Inventory.Instance != null ? Inventory.Instance.GetSaveData() : string.Empty,
             SkillsUI.Instance != null ? SkillsUI.Instance.GetSaveData() : string.Empty,
         };
@@ -124,8 +136,9 @@ public class RunManager : MonoBehaviour, ISaveData
         string[] dataPoints = JsonConvert.DeserializeObject<string[]>(data);
         statManager.PutSaveData(dataPoints[0]);
         jobManager.PutSaveData(dataPoints[1]);
-        if (!string.IsNullOrEmpty(dataPoints[2])) StartCoroutine(WaitForInventory(dataPoints[2]));
-        if (!string.IsNullOrEmpty(dataPoints[3])) StartCoroutine(WaitForSkillsUI(dataPoints[3]));
+        taskManager.PutSaveData(dataPoints[2]);
+        if (!string.IsNullOrEmpty(dataPoints[3])) StartCoroutine(WaitForInventory(dataPoints[3]));
+        if (!string.IsNullOrEmpty(dataPoints[4])) StartCoroutine(WaitForSkillsUI(dataPoints[4]));
     }
 
     private IEnumerator WaitForInventory(string inventoryData)

@@ -13,7 +13,7 @@ public class StatManager : ISaveData
         [StatType.Thirst] = new Stat(100f, StatType.Thirst),
         [StatType.ThirstDegradation] = new Stat(1f, StatType.ThirstDegradation),
         [StatType.ThirstSuppression] = new Stat(1f, StatType.ThirstSuppression),
-        [StatType.Luck] = new Stat(1f, StatType.Luck),
+        [StatType.Luck] = new Stat(1f, StatType.Luck), // until i can make a "luck manager" type thing this will probably go unused
         [StatType.MovementSpeed] = new Stat(1f, StatType.MovementSpeed),
 
         [StatType.Money] = new Stat(25f, StatType.Money),
@@ -63,7 +63,7 @@ public class StatManager : ISaveData
         effects.Remove(effect);
     }
 
-    public void TickEffects()
+    public void Tick()
     {
         foreach (Effect effect in effects)
             effect.Tick();
