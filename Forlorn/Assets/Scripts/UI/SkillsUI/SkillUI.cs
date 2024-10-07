@@ -141,10 +141,15 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
             Stat stat = RunManager.Instance.statManager.stats[statCost.statType];
             float percentageSubtraction = (statCost.requiredAmount / 100f) * stat.maxValue;
 
-            if (statCost.isPercentage)
-                stat.currentValue -= percentageSubtraction;
+            if (!statCost.removesFromMaxAmount)
+            {
+                if (statCost.isPercentage)
+                    stat.currentValue -= percentageSubtraction;
+                else
+                    stat.currentValue -= statCost.requiredAmount;
+            }
             else
-                stat.currentValue -= statCost.requiredAmount;
+                RunManager.Instance.statManager.ApplyModifier(new StatModifier(stat, statCost.requiredAmount, statCost.isPercentage));
         }
 
         foreach (SkillItemCost itemCost in skill.skillItemCosts)

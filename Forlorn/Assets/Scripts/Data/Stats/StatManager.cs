@@ -5,6 +5,8 @@ public class StatManager : ISaveData
 {
     public Dictionary<StatType, Stat> defaultStats = new Dictionary<StatType, Stat>()
     {
+        [StatType.DayLength] = new Stat(1f, StatType.DayLength),
+
         [StatType.Health] = new Stat(100f, StatType.Health),
         [StatType.HealthRegeneration] = new Stat(1f, StatType.HealthRegeneration),
         [StatType.Hunger] = new Stat(100f, StatType.Hunger),
@@ -158,4 +160,5 @@ public enum StatType
     InventoryMax,
     Communication,
     Cooking,
+    DayLength,
 }

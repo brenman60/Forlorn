@@ -37,4 +37,9 @@ public class TasksUI : MonoBehaviour
         yield return new WaitForEndOfFrame();
         verticalLayoutGroup.SetLayoutVertical();
     }
+
+    private void OnDestroy()
+    {
+        TaskManager.tasksChanged -= TasksChanged;
+    }
 }

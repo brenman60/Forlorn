@@ -40,4 +40,9 @@ public class TaskUI : MonoBehaviour
         if (!active && task == this.task)
             Destroy(gameObject);
     }
+
+    private void OnDestroy()
+    {
+        TaskManager.tasksChanged -= TasksChanged;
+    }
 }

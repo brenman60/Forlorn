@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: SkillList
   m_EditorClassIdentifier: 
   skills:
+  - {fileID: 11400000, guid: 788d3343915c9b04fb73101e1d0fe8c9, type: 2}
+  - {fileID: 11400000, guid: 2f2c6980df798cb418480b9c325eda5b, type: 2}
+  - {fileID: 11400000, guid: 57e43249917b9df4390190af5a8115bb, type: 2}
   - {fileID: 11400000, guid: 30ad0b4b9f16ae44e9d2290c9500921e, type: 2}
   - {fileID: 11400000, guid: a691faca5f706894386752ce0cc02747, type: 2}
   - {fileID: 11400000, guid: 20ed2c98022be8a48a6c682b1fb1dc8c, type: 2}

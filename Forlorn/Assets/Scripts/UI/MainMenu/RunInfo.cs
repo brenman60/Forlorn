@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using System.IO;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,6 +24,7 @@ public class RunInfo : MonoBehaviour
             string runDataRaw = await SaveSystem.ReadFromFile(Path.Combine(SaveSystem.GetRunPath(runId), SaveSystem.runDataFile));
 #elif UNITY_WEBGL
         string runDataRaw = PlayerPrefs.GetString(runId);
+        await Task.Yield(); 
         if (string.IsNullOrEmpty(runDataRaw)) return;
 #endif
             string[] runData = JsonConvert.DeserializeObject<string[]>(runDataRaw); // [2] = GameManager (day and time)

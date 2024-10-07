@@ -223,6 +223,7 @@ public static class SaveSystem
             if (dataPoints.Length >= 1) RunManager.Instance.PutSaveData(dataPoints[0]);
             if (dataPoints.Length >= 2) WorldGeneration.Instance.PutSaveData(dataPoints[1]);
             if (dataPoints.Length >= 3) GameManager.Instance.PutSaveData(dataPoints[2]);
+            await Task.Yield();
         }
         catch (Exception e)
         {
@@ -233,6 +234,7 @@ public static class SaveSystem
     public static async Task<string> LoadRunMap(string worldSection, string section) // This method shouldn't be async, but to save myself the trouble of making other functions that use this one platform dependant, it stays this way.
     {
         string mapPath = Path.Combine(runWorldPath, worldSection, section + ".ggp");
+        await Task.Delay(0);
         try
         {
             if (PlayerPrefs.HasKey(mapPath))

@@ -30,7 +30,14 @@ public class GameManager : MonoBehaviour, ISaveData
     public float gameTime { get; private set; } = 0f;
     public int gameDays { get; private set; }
 
-    public const float dayLength = 6; // Should be input as the number of minutes, rather than seconds
+    private const float baseDayLength = 6f; // Should be input as the number of minutes, rather than seconds
+    public static float dayLength
+    {
+        get
+        {
+            return baseDayLength * RunManager.Instance.statManager.stats[StatType.DayLength].maxValue;
+        }
+    }
 
     private DayStatus[] dayStatus_;
 
@@ -70,8 +77,12 @@ public class GameManager : MonoBehaviour, ISaveData
         isMobile = Application.isMobilePlatform || forceMobile;
 
         UpdateGameSpeed();
-        UpdateGameTime();
-        UpdateDayStatus();
+
+        if (gameActive)
+        {
+            UpdateGameTime();
+            UpdateDayStatus();
+        }
     }
 
     private void UpdateGameSpeed()

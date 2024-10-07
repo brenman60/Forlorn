@@ -37,17 +37,17 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        /*CheckForController();
+        CheckForController();
 
         if (usingController)
         {
-            GameObject currentSelection = EventSystem.current.currentSelectedGameObject;
+            /*GameObject currentSelection = EventSystem.current.currentSelectedGameObject;
             if (currentSelection != null)
                 lastUISelection = currentSelection;
 
             if (currentSelection == null)
-                EventSystem.current.SetSelectedGameObject(lastUISelection);
-        }*/
+                EventSystem.current.SetSelectedGameObject(lastUISelection);*/
+        }
     }
 
     private void CheckForController()

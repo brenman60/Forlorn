@@ -46,6 +46,8 @@ public class JobManager : ISaveData
 
         holdingJobs.Add(job, employmentInformation);
         InvokeJobsChanged();
+
+        ObjectivesList.Instance.TryCompleteObjective("obtainJob");
     }
 
     public static void InvokeJobsChanged() => jobsChanged?.Invoke();

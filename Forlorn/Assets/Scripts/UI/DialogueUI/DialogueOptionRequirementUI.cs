@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class DialogueOptionRequirementUI : MonoBehaviour
 {
-    [Header("Customization")]
-    [SerializeField] private string subtractionColor = "#d62d2d";
+    //[Header("Customization")]
+    //[SerializeField] private string subtractionColor = "#d62d2d";
     [Header("References")]
     [SerializeField] private Items items;
     [SerializeField] private Image icon;
