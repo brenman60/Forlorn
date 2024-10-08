@@ -67,8 +67,12 @@ public class SkillsUI : MonoBehaviour, ISaveData
     private void Update()
     {
         UpdateCanvasGroup();
-        CheckDragging();
-        UpdateScaling();
+
+        if (open)
+        {
+            CheckDragging();
+            UpdateScaling();
+        }
 
         skillsCollection.position = Vector2.Lerp(skillsCollection.position, targetSkillsCollectionPosition, Time.deltaTime * dragSpeed);
     }
