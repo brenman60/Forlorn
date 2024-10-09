@@ -65,6 +65,7 @@ public class RunManager : MonoBehaviour, ISaveData
         {
             statManager.Tick();
             taskManager.Tick();
+            jobManager.Tick();
         }
     }
 
@@ -112,15 +113,14 @@ public class RunManager : MonoBehaviour, ISaveData
         int hoursLate = Mathf.Abs(shiftClockIn.hour - startTime.hour);
         int minutesLate = Mathf.Abs(shiftClockIn.minute - startTime.minute);
         int totalMinutesLate = (hoursLate * 60) + minutesLate;
-        int lateThreshold = 30; // the amount of time to pass from the start time for the player to be considered late
 
         // because of this math its probably a good range to have players be fired at around -1000 points
         // since being late for 60 minutes (with 1x point mult) can put you down -1350 points (which shouldn't instantly kill players since they should've built up points before then)
         float pointMultiplier = statManager.stats[StatType.JobPointMultiplier].maxValue;
         EmploymentInformation employmentInformation = jobManager.holdingJobs[job];
-        if (totalMinutesLate > lateThreshold) // player is late for job (ruin points :))))
+        if (totalMinutesLate >  JobManager.lateThreshold) // player is late for job (ruin points :))))
         {
-            int minutesBeyondTheshold = totalMinutesLate - lateThreshold;
+            int minutesBeyondTheshold = totalMinutesLate - JobManager.lateThreshold;
             // math note: pointMultiplier is like insanely beneficial up to 2x but falls off almost instantly
             // so cool meta i guess
             employmentInformation.points += Mathf.RoundToInt((0.25f * -(minutesBeyondTheshold * minutesBeyondTheshold)) / (pointMultiplier / 1.5f));

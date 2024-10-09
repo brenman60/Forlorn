@@ -1,19 +1,53 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class JobManager : ISaveData
 {
+    public static int lateThreshold = 80; // the amount of time to pass from the start time for the player to be considered late
+
     public static event Action jobsChanged;
     public static event Action applicationsChanged;
 
     public Dictionary<Job, EmploymentInformation> holdingJobs { get; set; } = new Dictionary<Job, EmploymentInformation>();
+    public List<Job> daysShifts { get; set; } = new List<Job>();
 
     public readonly Jobs jobs;
 
     public JobManager(Jobs jobs)
     {
         this.jobs = jobs;
+    }
+
+    public void Tick()
+    {
+
+
+        ////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////
+        /// working on this
+        ///////////////////////////////////
+
+        // Check for late jobs
+        var (currentHour, currentMinute, isPM) = GameManager.Instance.RealTimeToDayTime(GameManager.Instance.gameTime);
+        foreach (KeyValuePair<Job, EmploymentInformation> holdingJob in holdingJobs)
+        {
+            int currentHour_ = currentHour;
+            if (isPM) currentHour_ += 12;
+
+            int hoursLate = Mathf.Abs(currentHour_ - holdingJob.Value.startTime.hour);
+            int minutesLate = Mathf.Abs(currentMinute - holdingJob.Value.startTime.minute);
+            int totalMinutesLate = (hoursLate * 60) + minutesLate;
+
+            if (totalMinutesLate > lateThreshold)
+            {
+                RunManager.Instance.ClockIntoJob(holdingJob.Key);
+
+                if (daysShifts.Contains(holdingJob.Key))
+                    daysShifts.Remove(holdingJob.Key);
+            }
+        }
     }
 
     public void DetermineJobApp(Job job)
@@ -48,6 +82,19 @@ public class JobManager : ISaveData
         InvokeJobsChanged();
 
         ObjectivesList.Instance.TryCompleteObjective("obtainJob");
+    }
+
+    public void AddDayShifts()
+    {
+        daysShifts.Clear();
+        foreach (Job job in holdingJobs.Keys)
+            daysShifts.Add(job);
+    }
+
+    public void CallOut(Job job)
+    {
+        if (daysShifts.Contains(job))
+            daysShifts.Remove(job);
     }
 
     public static void InvokeJobsChanged() => jobsChanged?.Invoke();

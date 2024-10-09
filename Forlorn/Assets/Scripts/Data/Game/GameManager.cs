@@ -100,6 +100,8 @@ public class GameManager : MonoBehaviour, ISaveData
             gameTime = 0f;
             gameDays++;
             dayOfWeek = (DayOfWeek)(((int)dayOfWeek + 1) % 7);
+
+            RunManager.Instance.jobManager.AddDayShifts();
         }
         else
             gameTime += Time.deltaTime; // This is very intentionally deltaTime and NOT unscaledDeltaTime (since there is pausing functionality)
