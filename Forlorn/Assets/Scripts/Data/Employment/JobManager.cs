@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class JobManager : ISaveData
@@ -22,24 +23,20 @@ public class JobManager : ISaveData
 
     public void Tick()
     {
-
-
-        ////////////////////////////////////////////////////////////
-        /////////////////////////////////////////////
-        /// working on this
-        ///////////////////////////////////
-
         // Check for late jobs
         var (currentHour, currentMinute, isPM) = GameManager.Instance.RealTimeToDayTime(GameManager.Instance.gameTime);
-        foreach (KeyValuePair<Job, EmploymentInformation> holdingJob in holdingJobs)
+        foreach (KeyValuePair<Job, EmploymentInformation> holdingJob in holdingJobs.ToArray())
         {
+            if (!daysShifts.Contains(holdingJob.Key)) continue;
+
             int currentHour_ = currentHour;
             if (isPM) currentHour_ += 12;
 
-            int hoursLate = Mathf.Abs(currentHour_ - holdingJob.Value.startTime.hour);
-            int minutesLate = Mathf.Abs(currentMinute - holdingJob.Value.startTime.minute);
+            int hoursLate = Mathf.Clamp(currentHour_ - holdingJob.Value.startTime.hour, 0, int.MaxValue);
+            int minutesLate = Mathf.Clamp(currentMinute - holdingJob.Value.startTime.minute, 0, int.MaxValue);
             int totalMinutesLate = (hoursLate * 60) + minutesLate;
 
+            Debug.Log(totalMinutesLate);
             if (totalMinutesLate > lateThreshold)
             {
                 RunManager.Instance.ClockIntoJob(holdingJob.Key);
@@ -88,11 +85,17 @@ public class JobManager : ISaveData
     {
         daysShifts.Clear();
         foreach (Job job in holdingJobs.Keys)
+        {
+            EmploymentInformation employmentInformation = holdingJobs[job];
+            bool jobIsInPM = employmentInformation.startTime.hour > 12;
+            ObjectivesList.Instance.CreateNewObjective(new Objective(job.name + "shift", $"Start {job.visibleName} Shift: {(jobIsInPM ? employmentInformation.startTime.hour - 12 : employmentInformation.startTime.hour)}:{employmentInformation.startTime.minute.ToString("00")} {(jobIsInPM ? "PM" : "AM")}"));
             daysShifts.Add(job);
+        }
     }
 
     public void CallOut(Job job)
     {
+        ObjectivesList.Instance.TryCompleteObjective(job.name + "shift");
         if (daysShifts.Contains(job))
             daysShifts.Remove(job);
     }
@@ -120,12 +123,24 @@ public class JobManager : ISaveData
             jobSaves.Add(JsonConvert.SerializeObject(employmentData));
         }
 
+        List<string> dayShiftsSaves = new List<string>();
+        foreach (Job shift in daysShifts)
+            dayShiftsSaves.Add(shift.name);
+
+        string[] dataPoints = new string[2]
+        {
+            JsonConvert.SerializeObject(jobSaves),
+            JsonConvert.SerializeObject(dayShiftsSaves),
+        };
+
         return JsonConvert.SerializeObject(jobSaves);
     }
 
     public void PutSaveData(string data)
     {
-        List<string> jobSaves = JsonConvert.DeserializeObject<List<string>>(data);
+        string[] dataPoints = JsonConvert.DeserializeObject<string[]>(data);
+
+        List<string> jobSaves = JsonConvert.DeserializeObject<List<string>>(dataPoints[0]);
         foreach (string employmentData in jobSaves)
         {
             string[] employment = JsonConvert.DeserializeObject<string[]>(employmentData);
@@ -146,5 +161,9 @@ public class JobManager : ISaveData
 
             holdingJobs.Add(information.job, information);
         }
+
+        List<string> dayShiftsSaves = JsonConvert.DeserializeObject<List<string>>(dataPoints[1]);
+        foreach (string dayShiftSave in dayShiftsSaves)
+            daysShifts.Add(jobs.GetJobByName(dayShiftSave));
     }
 }

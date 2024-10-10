@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour, ISaveData
             RunManager.Instance.jobManager.AddDayShifts();
         }
         else
-            gameTime += Time.deltaTime; // This is very intentionally deltaTime and NOT unscaledDeltaTime (since there is pausing functionality)
+            gameTime += Time.deltaTime * 15; // This is very intentionally deltaTime and NOT unscaledDeltaTime (since there is pausing functionality)
     }
 
     public void ProgressGameTime(int hour, int minute)

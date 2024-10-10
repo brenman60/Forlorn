@@ -118,7 +118,7 @@ public class RunManager : MonoBehaviour, ISaveData
         // since being late for 60 minutes (with 1x point mult) can put you down -1350 points (which shouldn't instantly kill players since they should've built up points before then)
         float pointMultiplier = statManager.stats[StatType.JobPointMultiplier].maxValue;
         EmploymentInformation employmentInformation = jobManager.holdingJobs[job];
-        if (totalMinutesLate >  JobManager.lateThreshold) // player is late for job (ruin points :))))
+        if (totalMinutesLate > JobManager.lateThreshold) // player is late for job (ruin points :))))
         {
             int minutesBeyondTheshold = totalMinutesLate - JobManager.lateThreshold;
             // math note: pointMultiplier is like insanely beneficial up to 2x but falls off almost instantly
@@ -129,6 +129,7 @@ public class RunManager : MonoBehaviour, ISaveData
             employmentInformation.points += Mathf.RoundToInt(150 * pointMultiplier);
 
         jobManager.holdingJobs[job] = employmentInformation;
+        ObjectivesList.Instance.TryCompleteObjective(job.name + "shift");
     }
 
     public void EndJob(EmploymentInformation employmentInformation)
