@@ -86,21 +86,24 @@ public class ObjectivesList : MonoBehaviour, ISaveData
         return hasObjective;
     }
 
-    public void TryCompleteObjective(string identifier)
+    public void TryCompleteObjective(string identifier, bool failed = false)
     {
         foreach (Objective objective in objectives.ToArray())
             if (objective.identifier == identifier && HasOnGoingObjective(objective.identifier))
             {
                 objectives.Remove(objective);
-                StartCoroutine(CompleteObjectiveUI(identifier));
+                objectivesUI.Remove(objective.identifier);
+                StartCoroutine(CompleteObjectiveUI(identifier, failed));
             }
     }
 
-    private IEnumerator CompleteObjectiveUI(string identifier)
+    private IEnumerator CompleteObjectiveUI(string identifier, bool failed)
     {
         GameObject objectiveUI = objectivesUI[identifier];
         CanvasGroup canvasGroup = objectiveUI.GetComponent<CanvasGroup>();
         Toggle toggle = objectiveUI.transform.GetChild(1).GetComponent<Toggle>();
+        GameObject crossout = objectiveUI.transform.GetChild(2).gameObject;
+        crossout.SetActive(failed);
         Color originalToggleColor = toggle.graphic.color;
 
         toggle.isOn = true;

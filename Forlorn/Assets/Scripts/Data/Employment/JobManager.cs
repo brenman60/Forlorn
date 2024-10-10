@@ -30,13 +30,13 @@ public class JobManager : ISaveData
             if (!daysShifts.Contains(holdingJob.Key)) continue;
 
             int currentHour_ = currentHour;
-            if (isPM) currentHour_ += 12;
+            if (isPM && currentHour_ != 12) currentHour_ += 12;
+            else if (!isPM && currentHour_ == 12) currentHour_ = 0;
 
             int hoursLate = Mathf.Clamp(currentHour_ - holdingJob.Value.startTime.hour, 0, int.MaxValue);
             int minutesLate = Mathf.Clamp(currentMinute - holdingJob.Value.startTime.minute, 0, int.MaxValue);
             int totalMinutesLate = (hoursLate * 60) + minutesLate;
 
-            Debug.Log(totalMinutesLate);
             if (totalMinutesLate > lateThreshold)
             {
                 RunManager.Instance.ClockIntoJob(holdingJob.Key);

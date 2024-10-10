@@ -35,7 +35,10 @@ public class GameManager : MonoBehaviour, ISaveData
     {
         get
         {
-            return baseDayLength * RunManager.Instance.statManager.stats[StatType.DayLength].maxValue;
+            if (RunManager.Instance.statManager.stats.ContainsKey(StatType.DayLength))
+                return baseDayLength * RunManager.Instance.statManager.stats[StatType.DayLength].maxValue;
+            else
+                return baseDayLength * RunManager.Instance.statManager.defaultStats[StatType.DayLength].maxValue;
         }
     }
 

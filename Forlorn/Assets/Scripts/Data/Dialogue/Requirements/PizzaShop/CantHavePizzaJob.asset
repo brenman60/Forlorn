@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: add30973e22fa274d9dd6c69f935caea, type: 3}
-  m_Name: HasPizzaJob
+  m_Name: CantHavePizzaJob
   m_EditorClassIdentifier: 
-  requirementText: Current Pizza Shop Job
+  requirementText: No current Pizza Shop job
   requirements:
   - job: {fileID: 11400000, guid: caa8f226ead7bd045a4a236347575f26, type: 2}
-    type: 1
+    type: 0

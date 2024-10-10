@@ -357,6 +357,7 @@ MonoBehaviour:
     optionText: 
     nextNode: {fileID: 0}
     optionRequirements: []
+    onSelectSound: {fileID: 0}
     onSelectClass: 
     onSelectMethod: 
     onSelectArguments: []
@@ -1141,7 +1142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c85d88fdacda00408dbac32579d47a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subtractionColor: '#d62d2d'
   items: {fileID: 11400000, guid: 50cd87991d331a743916fb3d7111b354, type: 2}
   icon: {fileID: 7884721925940907924}
   infoText: {fileID: 3785672705001435205}
@@ -2236,6 +2236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items: {fileID: 11400000, guid: 50cd87991d331a743916fb3d7111b354, type: 2}
+  jobs: {fileID: 11400000, guid: 117fc131aa1a4f049a153b080357adf5, type: 2}
   dialogueCanvasGroup: {fileID: 234458319235660337}
   showSpeed: 4
   dialogueRect: {fileID: 6223648515213059941}

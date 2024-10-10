@@ -47,4 +47,5 @@ public enum ArgumentType
     Int,
     Float,
     Item,
+    Job,
 }

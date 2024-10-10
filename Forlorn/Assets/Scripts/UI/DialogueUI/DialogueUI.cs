@@ -13,6 +13,7 @@ public class DialogueUI : MonoBehaviour
     public static DialogueUI Instance { get; private set; }
 
     [SerializeField] private Items items;
+    [SerializeField] private Jobs jobs;
     [Space(20), SerializeField] private CanvasGroup dialogueCanvasGroup;
     [SerializeField, Space(20)] private float showSpeed;
     [SerializeField] private RectTransform dialogueRect;
@@ -208,6 +209,9 @@ public class DialogueUI : MonoBehaviour
                     break;
                 case ArgumentType.Item:
                     newArguments[i] = items.GetItemByName(arguments[i].argument);
+                    break;
+                case ArgumentType.Job:
+                    newArguments[i] = jobs.GetJobByName(arguments[i].argument);
                     break;
                 default:
                     newArguments[i] = arguments[i].argument;

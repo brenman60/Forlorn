@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using TMPro;
@@ -33,8 +34,9 @@ public class RunInfo : MonoBehaviour
             SetTimeText(float.Parse(gameManagerData[1]));
             GetFileData();
         }
-        catch
+        catch (Exception e)
         {
+            Debug.LogError(e.GetBaseException());
             Destroy(gameObject);
         }
     }
