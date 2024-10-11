@@ -133,7 +133,7 @@ public class JobManager : ISaveData
             JsonConvert.SerializeObject(dayShiftsSaves),
         };
 
-        return JsonConvert.SerializeObject(jobSaves);
+        return JsonConvert.SerializeObject(dataPoints);
     }
 
     public void PutSaveData(string data)

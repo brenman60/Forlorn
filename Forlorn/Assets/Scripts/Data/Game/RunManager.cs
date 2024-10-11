@@ -75,7 +75,7 @@ public class RunManager : MonoBehaviour, ISaveData
         taskManager.StartTask(
             new TimeTask(
                 selectedJob.visibleName + " Application", 
-                60f * .15f,
+                60f * 1.5f,
                 TaskType.JobApplication,
                 new Dictionary<string, object>() 
                 {
@@ -127,7 +127,10 @@ public class RunManager : MonoBehaviour, ISaveData
             employmentInformation.points += Mathf.RoundToInt((0.25f * -(minutesBeyondTheshold * minutesBeyondTheshold)) / (pointMultiplier / 1.5f));
         }
         else // player was on time (reward with points :((()
+        {
+            GameManager.Instance.ProgressGameTime(hoursLate, minutesLate);
             employmentInformation.points += Mathf.RoundToInt(150 * pointMultiplier);
+        }
 
         jobManager.holdingJobs[job] = employmentInformation;
         ObjectivesList.Instance.TryCompleteObjective(job.name + "shift", playerIsLate);

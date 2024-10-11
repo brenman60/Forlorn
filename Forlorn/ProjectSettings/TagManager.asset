@@ -42,6 +42,9 @@ TagManager:
   - name: Background
     uniqueID: 3171204419
     locked: 0
+  - name: Stars
+    uniqueID: 3083602511
+    locked: 0
   - name: Road
     uniqueID: 1408002983
     locked: 0

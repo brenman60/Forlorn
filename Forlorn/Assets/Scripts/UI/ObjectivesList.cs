@@ -92,7 +92,6 @@ public class ObjectivesList : MonoBehaviour, ISaveData
             if (objective.identifier == identifier && HasOnGoingObjective(objective.identifier))
             {
                 objectives.Remove(objective);
-                objectivesUI.Remove(objective.identifier);
                 StartCoroutine(CompleteObjectiveUI(identifier, failed));
             }
     }
@@ -127,6 +126,7 @@ public class ObjectivesList : MonoBehaviour, ISaveData
         }
 
         Destroy(objectiveUI);
+        objectivesUI.Remove(identifier);
     }
 
     public string GetSaveData()

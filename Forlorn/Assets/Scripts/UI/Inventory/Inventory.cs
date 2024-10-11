@@ -57,6 +57,11 @@ public class Inventory : MonoBehaviour, ISaveData
         Keybinds.Instance.controlUse.performed += ItemUse;
     }
 
+    private void OnDestroy()
+    {
+        Keybinds.Instance.controlUse.performed -= ItemUse;
+    }
+
     private void ItemUse(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         if (slots.Count > 0 && !GameManager.paused && UIManager.GetUIsOnMouse().Count == 0)
