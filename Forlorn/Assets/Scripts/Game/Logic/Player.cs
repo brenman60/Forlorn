@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour, ISaveData
 {
@@ -17,7 +16,7 @@ public class Player : MonoBehaviour, ISaveData
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -50,11 +49,6 @@ public class Player : MonoBehaviour, ISaveData
 
         animator.SetBool("walking", walking);
         animator.SetBool("running", sprinting && walking);
-    }
-
-    public void PlayFootStepAudio()
-    {
-        SoundManager.Instance.PlayAudio("Footstep", true, 0.25f);
     }
 
     public string GetSaveData()

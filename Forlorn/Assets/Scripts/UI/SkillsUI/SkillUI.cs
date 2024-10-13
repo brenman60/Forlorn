@@ -125,7 +125,7 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
 
         unlocked = true;
         backgroundOutline.sizeDelta += Vector2.one * 35f;
-        SoundManager.Instance.PlayAudio("SkillUnlock", true);
+        SoundManager.Instance.PlayAudio("SkillUnlock", true, 1f);
 
         foreach (SkillModifier modifier in skill.modifiers)
         {

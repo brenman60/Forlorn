@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff225016070db31498317e3ad0242375, type: 3}
+  m_Name: Head_Walking
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 790772563, guid: e0bc66850b3f1ee48ae8283c8551771f, type: 3}
+  - {fileID: -1752143938, guid: e0bc66850b3f1ee48ae8283c8551771f, type: 3}
+  - {fileID: 598728754, guid: e0bc66850b3f1ee48ae8283c8551771f, type: 3}
+  - {fileID: -293796344, guid: e0bc66850b3f1ee48ae8283c8551771f, type: 3}
+  - {fileID: -631604940, guid: e0bc66850b3f1ee48ae8283c8551771f, type: 3}
+  - {fileID: 1934505166, guid: e0bc66850b3f1ee48ae8283c8551771f, type: 3}
+  - {fileID: -1914295167, guid: e0bc66850b3f1ee48ae8283c8551771f, type: 3}
+  - {fileID: 1576985284, guid: e0bc66850b3f1ee48ae8283c8551771f, type: 3}
+  - {fileID: 480980345, guid: e0bc66850b3f1ee48ae8283c8551771f, type: 3}
+  mainColor: {r: 0.7529412, g: 0.6039216, b: 0.40392157, a: 1}

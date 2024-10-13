@@ -87,7 +87,7 @@ public class UIManager : MonoBehaviour
 
     private void PlayClickSound(ForlornButton button)
     {
-        SoundManager.Instance.PlayAudio(button.clickSound, false);
+        SoundManager.Instance.PlayAudio(button.clickSound, false, 1f);
     }
 
     public void AddButton(ForlornButton button)

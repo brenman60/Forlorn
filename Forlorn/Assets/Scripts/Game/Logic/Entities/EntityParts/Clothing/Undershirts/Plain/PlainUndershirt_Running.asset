@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff225016070db31498317e3ad0242375, type: 3}
+  m_Name: PlainUndershirt_Running
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: -146665548, guid: e311f2d5695596b4fa083a89b5f73559, type: 3}
+  - {fileID: -1849598810, guid: e311f2d5695596b4fa083a89b5f73559, type: 3}
+  - {fileID: 560845046, guid: e311f2d5695596b4fa083a89b5f73559, type: 3}
+  - {fileID: 2037867305, guid: e311f2d5695596b4fa083a89b5f73559, type: 3}
+  - {fileID: 399161173, guid: e311f2d5695596b4fa083a89b5f73559, type: 3}
+  - {fileID: 325959346, guid: e311f2d5695596b4fa083a89b5f73559, type: 3}
+  - {fileID: -2139991122, guid: e311f2d5695596b4fa083a89b5f73559, type: 3}
+  mainColor: {r: 0.7058824, g: 0.7058824, b: 0.7058824, a: 1}

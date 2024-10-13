@@ -47,7 +47,7 @@ public class TrainStation : CityBlock
             if (!playedAudio && carriageTimer >= 0.98f)
             {
                 playedAudio = true;
-                SoundManager.Instance.PlayAudio("TrainStop", false);
+                SoundManager.Instance.PlayAudio("TrainStop", false, 1f);
             }
 
             yield return new WaitForEndOfFrame();
@@ -57,6 +57,6 @@ public class TrainStation : CityBlock
 
         if (useStopSmoke) stopSmoke.Play();
 
-        SoundManager.Instance.PlayAudio("TrainDoorOpen", true);
+        SoundManager.Instance.PlayAudio("TrainDoorOpen", true, 1f);
     }
 }

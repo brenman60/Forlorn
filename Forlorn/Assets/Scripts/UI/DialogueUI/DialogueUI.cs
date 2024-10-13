@@ -90,7 +90,7 @@ public class DialogueUI : MonoBehaviour
             for (int i = 0; i < node.dialogue.Length; i++)
             {
                 dialogueText.text += node.dialogue[i];
-                SoundManager.Instance.PlayAudio("DialogueType", false);
+                SoundManager.Instance.PlayAudio("DialogueType", false, 1f);
                 yield return new WaitForSeconds(node.typewriterSpeed);
             }
         }

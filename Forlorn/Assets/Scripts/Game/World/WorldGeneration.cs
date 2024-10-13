@@ -16,6 +16,9 @@ public class WorldGeneration : MonoBehaviour, ISaveData
     public static string section = originSection;
     private string currentWorldSection;
 
+    public static bool worldLoaded { get; private set; }
+    public static (float, float) worldBounds;
+
     private readonly static string originSection = "1";
     private static bool isOriginSection { get { return section == originSection; } }
 
@@ -94,6 +97,8 @@ public class WorldGeneration : MonoBehaviour, ISaveData
                 if (cityBlock is TrainStation) playerSpawnIndex = currentSections.Count;
                 cityBlock.PutSaveData(block);
 
+                ChangeBounds(sectionObject);
+
                 currentSections.Add(cityBlock);
             }
         }
@@ -103,6 +108,7 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 
         ItemDropManager.Instance.PutSaveData(sectionDataPoints[2]);
 
+        worldLoaded = true;
         TransitionUI.openPrevention.Remove("Generating City");
     }
 
@@ -125,6 +131,8 @@ public class WorldGeneration : MonoBehaviour, ISaveData
             sectionObject.transform.position = new Vector3(((lastPlaced != null ? lastPlaced.length / 2 : 0) + (cityBlock.length / 2)) + xOffsets, 0, 0);
             xOffsets += cityBlock.transform.position.x - (lastPlaced != null ? lastPlaced.transform.position.x : 0);
 
+            ChangeBounds(sectionObject);
+
             cityBlock.PutSaveData(string.Empty);
             lastPlaced = cityBlock;
             currentSections.Add(cityBlock);
@@ -142,7 +150,16 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         }
 
         SaveSection();
+        worldLoaded = true;
         TransitionUI.openPrevention.Remove("Generating City");
+    }
+
+    private void ChangeBounds(GameObject cityBlockObject)
+    {
+        if (cityBlockObject.transform.position.x < worldBounds.Item1)
+            worldBounds.Item1 = cityBlockObject.transform.position.x;
+        else if (cityBlockObject.transform.position.x > worldBounds.Item2)
+            worldBounds.Item2 = cityBlockObject.transform.position.x;
     }
 
     private async Task<List<CitySection>> SelectSections()

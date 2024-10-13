@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerCamera : MonoBehaviour
 {
     public static PlayerCamera Instance { get; private set; }
+    public static Camera mainCam { get; private set; }
 
     [SerializeField] private float relocateSpeed;
     [SerializeField] private Transform player;
@@ -22,6 +23,7 @@ public class PlayerCamera : MonoBehaviour
 
     private void Start()
     {
+        mainCam = Camera.main;
         ResetFollowing();
     }
 
@@ -49,5 +51,19 @@ public class PlayerCamera : MonoBehaviour
         moveSpeed = relocateSpeed;
         minPos = minPosition;
         maxPos = maxPosition;
+    }
+
+    public static bool IsPositionOnScreen(Vector3 worldPosition)
+    {
+        Vector3 screenPoint = mainCam.WorldToScreenPoint(worldPosition);
+
+        if (screenPoint.z > 0 &&
+            screenPoint.x >= 0 && screenPoint.x <= Screen.width &&
+            screenPoint.y >= 0 && screenPoint.y <= Screen.height)
+        {
+            return true;
+        }
+        else
+            return false;
     }
 }

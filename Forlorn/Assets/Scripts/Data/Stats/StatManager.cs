@@ -1,8 +1,12 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 public class StatManager : ISaveData
 {
+    public static event Action<StatModifier, bool> modifiersChanged;
+    public static event Action<Effect, bool> effectsChanged;
+
     public Dictionary<StatType, Stat> defaultStats = new Dictionary<StatType, Stat>()
     {
         [StatType.DayLength] = new Stat(1f, StatType.DayLength),
@@ -29,16 +33,16 @@ public class StatManager : ISaveData
 
     public Dictionary<StatType, Stat> stats = new Dictionary<StatType, Stat>();
 
-    private List<StatModifier> modifiers = new List<StatModifier>(); // Modifiers are objects that change a stat's max value
-    private List<Effect> effects = new List<Effect>(); // Effects are objects that tick every x seconds and can change a stat's value
+    public List<StatModifier> modifiers { get; private set; } = new List<StatModifier>(); // Modifiers are objects that change a stat's max value
+    public List<Effect> effects { get; private set; } = new List<Effect>(); // Effects are objects that tick every x seconds and can change a stat's value
 
     private List<StatModifier> defaultModifiers = new List<StatModifier>();
 
     private List<Effect> defaultEffects = new List<Effect>()
     {
-        new HealthEffect(false),
-        new HungerEffect(false),
-        new ThirstEffect(false),
+        new HealthEffect(false, false, 0, false),
+        new HungerEffect(false, false, 0, false),
+        new ThirstEffect(false, false, 0, false),
     };
 
     public void ApplyModifier(StatModifier modifier)
@@ -46,6 +50,8 @@ public class StatManager : ISaveData
         modifiers.Add(modifier);
         modifier.Apply();
         RecalculateAllMax();
+
+        modifiersChanged?.Invoke(modifier, true);
     }
 
     public void RemoveModifier(StatModifier modifier)
@@ -53,22 +59,31 @@ public class StatManager : ISaveData
         modifiers.Remove(modifier);
         modifier.Remove();
         RecalculateAllMax();
+
+        modifiersChanged?.Invoke(modifier, false);
     }
 
     public void ApplyEffect(Effect effect)
     {
         effects.Add(effect);
+        effectsChanged?.Invoke(effect, true);
     }
 
     public void RemoveEffect(Effect effect)
     {
         effects.Remove(effect);
+        effectsChanged?.Invoke(effect, false);
     }
 
     public void Tick()
     {
-        foreach (Effect effect in effects)
+        foreach (Effect effect in effects.ToArray())
+        {
             effect.Tick();
+
+            if (effect.timeLeft <= 0 && effect.timeRemoval)
+                RemoveEffect(effect);
+        }
     }
 
     private void RecalculateAllMax()
@@ -129,7 +144,7 @@ public class StatManager : ISaveData
         foreach (EffectData effectData in compiledEffects)
         {
             Effect effect = effectData.CreateEffect();
-            effects.Add(effect);
+            ApplyEffect(effect);
         }
 
         RecalculateAllMax();

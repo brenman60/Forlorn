@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff225016070db31498317e3ad0242375, type: 3}
+  m_Name: PocketedSleeves_Idle
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: -500317329, guid: 2911a1bfc375e3d4794aadb31e944170, type: 3}
+  mainColor: {r: 0.36862746, g: 0.36862746, b: 0.36862746, a: 1}

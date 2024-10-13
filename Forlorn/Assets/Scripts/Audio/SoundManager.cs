@@ -36,6 +36,18 @@ public class SoundManager : MonoBehaviour
         soundObject.volume = initialVolume;
     }
 
+    public void PlayAudio(string soundName, bool randomPitch, float initialVolume = 1, Transform parent = null)
+    {
+        Sound sound = sounds.GetSoundByName(soundName);
+        AudioSource soundObject = CreateSoundObject(sound);
+        soundObject.pitch = !randomPitch ? 1f : Random.Range(0.8f, 1.2f);
+        soundObject.volume = initialVolume;
+        soundObject.spatialBlend = 1f;
+
+        soundObject.transform.SetParent(parent);
+        soundObject.transform.position = parent.position;
+    }
+
     private AudioSource CreateSoundObject(Sound sound)
     {
         GameObject soundObject = new GameObject(sound.name);

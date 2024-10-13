@@ -1,11 +1,13 @@
 ﻿public class HealthEffect : Effect
 {
-    public HealthEffect(bool saveable) : base(saveable)
+    public HealthEffect(bool saveable, bool timeRemoval, int timeLeft, bool showsIcon) : base(saveable, timeRemoval, timeLeft, showsIcon)
     {
     }
 
     public override void Tick()
     {
+        base.Tick();
+
         HealthRegeneration();
         HealthRequirements();
         HealthCheck();

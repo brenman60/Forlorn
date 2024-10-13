@@ -77,7 +77,7 @@ public class InteractUI : MonoBehaviour
         else
             RemoveInteraction(interactables[0]);
 
-        SoundManager.Instance.PlayAudio(interactButton.clickSound, false);
+        SoundManager.Instance.PlayAudio(interactButton.clickSound, false, 1f);
     }
 
     private void UpdateCanvasGroup()
