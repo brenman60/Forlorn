@@ -9,26 +9,26 @@ public class StatManager : ISaveData
 
     public Dictionary<StatType, Stat> defaultStats = new Dictionary<StatType, Stat>()
     {
-        [StatType.DayLength] = new Stat(1f, StatType.DayLength),
+        [StatType.DayLength] = new Stat(1f, StatType.DayLength, true),
 
-        [StatType.Health] = new Stat(100f, StatType.Health),
-        [StatType.HealthRegeneration] = new Stat(1f, StatType.HealthRegeneration),
-        [StatType.Hunger] = new Stat(100f, StatType.Hunger),
-        [StatType.HungerDegradation] = new Stat(1f, StatType.HungerDegradation),
-        [StatType.HungerSuppression] = new Stat(1f, StatType.HungerSuppression),
-        [StatType.Thirst] = new Stat(100f, StatType.Thirst),
-        [StatType.ThirstDegradation] = new Stat(1f, StatType.ThirstDegradation),
-        [StatType.ThirstSuppression] = new Stat(1f, StatType.ThirstSuppression),
-        [StatType.Luck] = new Stat(1f, StatType.Luck), // until i can make a "luck manager" type thing this will probably go unused
-        [StatType.MovementSpeed] = new Stat(1f, StatType.MovementSpeed),
+        [StatType.Health] = new Stat(100f, StatType.Health, false),
+        [StatType.HealthRegeneration] = new Stat(1f, StatType.HealthRegeneration, false),
+        [StatType.Hunger] = new Stat(100f, StatType.Hunger, false),
+        [StatType.HungerDegradation] = new Stat(1f, StatType.HungerDegradation, false),
+        [StatType.HungerSuppression] = new Stat(1f, StatType.HungerSuppression, false),
+        [StatType.Thirst] = new Stat(100f, StatType.Thirst, false),
+        [StatType.ThirstDegradation] = new Stat(1f, StatType.ThirstDegradation, false),
+        [StatType.ThirstSuppression] = new Stat(1f, StatType.ThirstSuppression, false),
+        [StatType.Luck] = new Stat(1f, StatType.Luck, true), // until i can make a "luck manager" type thing this will probably go unused
+        [StatType.MovementSpeed] = new Stat(1f, StatType.MovementSpeed, true),
 
-        [StatType.Money] = new Stat(25f, StatType.Money),
-        [StatType.JobPointMultiplier] = new Stat(1f, StatType.JobPointMultiplier),
-        [StatType.InventoryMax] = new Stat(16f, StatType.InventoryMax),
+        [StatType.Money] = new Stat(25f, StatType.Money, true),
+        [StatType.JobPointMultiplier] = new Stat(1f, StatType.JobPointMultiplier, true),
+        [StatType.InventoryMax] = new Stat(16f, StatType.InventoryMax, true),
 
         // Specific skills for job applications
-        [StatType.Communication] = new Stat(1f, StatType.Communication),
-        [StatType.Cooking] = new Stat(1f, StatType.Cooking),
+        [StatType.Communication] = new Stat(1f, StatType.Communication, true),
+        [StatType.Cooking] = new Stat(1f, StatType.Cooking, true),
     };
 
     public Dictionary<StatType, Stat> stats = new Dictionary<StatType, Stat>();

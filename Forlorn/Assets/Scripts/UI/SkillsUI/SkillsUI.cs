@@ -74,12 +74,12 @@ public class SkillsUI : MonoBehaviour, ISaveData
             UpdateScaling();
         }
 
-        skillsCollection.position = Vector2.Lerp(skillsCollection.position, targetSkillsCollectionPosition, Time.deltaTime * dragSpeed);
+        skillsCollection.position = Vector2.Lerp(skillsCollection.position, targetSkillsCollectionPosition, Time.unscaledDeltaTime * dragSpeed);
     }
 
     private void UpdateCanvasGroup()
     {
-        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, open ? 1f : 0f, Time.deltaTime * openSpeed);
+        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, open ? 1f : 0f, Time.unscaledDeltaTime * openSpeed);
         canvasGroup.interactable = open;
         canvasGroup.blocksRaycasts = open;
     }
@@ -97,7 +97,7 @@ public class SkillsUI : MonoBehaviour, ISaveData
     {
         if (Input.mouseScrollDelta.y != 0)
         {
-            scaleFactor += Time.deltaTime * Input.mouseScrollDelta.y * scrollIntensity;
+            scaleFactor += Time.unscaledDeltaTime * Input.mouseScrollDelta.y * scrollIntensity;
             scaleFactor = Mathf.Clamp(scaleFactor, minScrollSize, maxScrollSize);
 
             ResizeUI();
@@ -134,7 +134,14 @@ public class SkillsUI : MonoBehaviour, ISaveData
     public void Toggle()
     {
         open = !open;
-        if (open) SoundManager.Instance.PlayAudio("SkillsOpen", false, 0.5f);
+
+        if (open)
+        {
+            TimeScaleManager.AddPause(name);
+            SoundManager.Instance.PlayAudio("SkillsOpen", false, 0.5f);
+        }
+        else
+            TimeScaleManager.RemovePause(name);
     }
 
     public string GetSaveData()

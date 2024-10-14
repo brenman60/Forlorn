@@ -13,8 +13,6 @@ public class GameManager : MonoBehaviour, ISaveData
     // Probably going to set this once when the run is selected then never again
     public static string runId = "editor";
 
-    public static bool paused;
-
     public bool gameActive;
 
     public static readonly List<string> validGameScenes = new List<string>()
@@ -36,9 +34,9 @@ public class GameManager : MonoBehaviour, ISaveData
         get
         {
             if (RunManager.Instance.statManager.stats.ContainsKey(StatType.DayLength))
-                return baseDayLength * RunManager.Instance.statManager.stats[StatType.DayLength].maxValue;
+                return baseDayLength * RunManager.Instance.statManager.stats[StatType.DayLength].currentValue;
             else
-                return baseDayLength * RunManager.Instance.statManager.defaultStats[StatType.DayLength].maxValue;
+                return baseDayLength * RunManager.Instance.statManager.defaultStats[StatType.DayLength].currentValue;
         }
     }
 
@@ -79,19 +77,11 @@ public class GameManager : MonoBehaviour, ISaveData
     {
         isMobile = Application.isMobilePlatform || forceMobile;
 
-        UpdateGameSpeed();
-
         if (gameActive)
         {
             UpdateGameTime();
             UpdateDayStatus();
         }
-    }
-
-    private void UpdateGameSpeed()
-    {
-        bool instantPause = GameSettings.GetSetting<bool>(SettingType.InstantPause);
-        Time.timeScale = instantPause ? (paused ? 0f : 1f) : Mathf.MoveTowards(Time.timeScale, paused ? 0f : 1f, Time.unscaledDeltaTime * 10f);
     }
 
     private void UpdateGameTime()
@@ -107,7 +97,9 @@ public class GameManager : MonoBehaviour, ISaveData
             RunManager.Instance.jobManager.AddDayShifts();
         }
         else
+        {
             gameTime += Time.deltaTime; // This is very intentionally deltaTime and NOT unscaledDeltaTime (since there is pausing functionality)
+        }
     }
 
     public void ProgressGameTime(int hour, int minute)

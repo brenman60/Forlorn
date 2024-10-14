@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11be5f20f5c49ee4b9aa9cd8f14d75b2, type: 3}
+  m_Name: ImmigrationOffice1
+  m_EditorClassIdentifier: 
+  dialogue: A quiet hum fills the building's eerie atmosphere.
+  textColor: {r: 1, g: 1, b: 1, a: 1}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0.5019608}
+  displayTime: 0.25
+  useTypewriter: 1
+  typewriterSpeed: 0.04
+  options:
+  - optionText: Exit
+    nextNode: {fileID: 0}
+    optionRequirements: []
+    onSelectSound: {fileID: 11400000, guid: 4e346a7e0df6a2346b178e5616286b41, type: 2}
+    onSelectClass: 
+    onSelectMethod: 
+    onSelectArguments: []
+  - optionText: Apply for Documentation
+    nextNode: {fileID: 0}
+    optionRequirements:
+    - {fileID: 11400000, guid: b37e0b8244ca5e842ba944e54d031673, type: 2}
+    - {fileID: 11400000, guid: 76e856d44a098cb4d882bc68f86cd366, type: 2}
+    onSelectSound: {fileID: 11400000, guid: 4e346a7e0df6a2346b178e5616286b41, type: 2}
+    onSelectClass: RunManager
+    onSelectMethod: ApplyForDocuments
+    onSelectArguments:
+    - argument: OfficialDocuments
+      type: 0

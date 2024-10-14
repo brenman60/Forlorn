@@ -19,10 +19,12 @@ MonoBehaviour:
   - statType: 4
     statChange: 1.15
     isMultiplicative: 1
+    changesMaxValue: 1
   skillStatCosts:
   - statType: 9
     requiredAmount: 10
     isPercentage: 1
     removesAmount: 1
+    removesFromMaxAmount: 0
     displayText: <color=#34abeb>-10%</color> Thirst Suppression
   skillItemCosts: []

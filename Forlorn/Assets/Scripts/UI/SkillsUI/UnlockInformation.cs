@@ -40,7 +40,7 @@ public class UnlockInformation : MonoBehaviour
 
     private void UpdateCanvasGroup()
     {
-        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, selectedSkill != null ? 1f : 0f, Time.deltaTime * openSpeed);
+        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, selectedSkill != null ? 1f : 0f, Time.unscaledDeltaTime * openSpeed);
         canvasGroup.interactable = selectedSkill != null && !selectedSkill.unlocked;
         canvasGroup.blocksRaycasts = selectedSkill != null;
     }
@@ -55,7 +55,7 @@ public class UnlockInformation : MonoBehaviour
         newBaseOffset = (baseOffset * rectTransform.sizeDelta * new Vector2(widthRatio, heightRatio) * collectionRatio / selfHeightRatio) - listSizeAdjust;
 
         if (selectedSkill != null)
-            transform.position = Vector3.Lerp(transform.position, selectedSkill.transform.position + newBaseOffset, Time.deltaTime * moveSpeed);
+            transform.position = Vector3.Lerp(transform.position, selectedSkill.transform.position + newBaseOffset, Time.unscaledDeltaTime * moveSpeed);
     }
 
     public void Open(SkillUI skillUI, Skill skill)

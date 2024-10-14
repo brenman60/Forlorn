@@ -39,7 +39,7 @@ public class JobsUI : MonoBehaviour
 
     private void UpdateCanvasGroup()
     {
-        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, open ? 1f : 0f, Time.deltaTime * openSpeed);
+        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, open ? 1f : 0f, Time.unscaledDeltaTime * openSpeed);
         canvasGroup.interactable = open;
         canvasGroup.blocksRaycasts = open;
     }
@@ -61,6 +61,12 @@ public class JobsUI : MonoBehaviour
     public void Toggle()
     {
         open = !open;
+
+        if (open)
+            TimeScaleManager.AddPause(name);
+        else
+            TimeScaleManager.RemovePause(name);
+
         //if (open) SoundManager.Instance.PlayAudio("SkillsOpen", false, 0.5f);
     }
 

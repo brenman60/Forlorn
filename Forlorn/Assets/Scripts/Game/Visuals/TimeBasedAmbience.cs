@@ -12,6 +12,11 @@ public class TimeBasedAmbience : MonoBehaviour
         DayStatusChanged(null, GameManager.Instance.dayStatus);
     }
 
+    private void OnDestroy()
+    {
+        GameManager.Instance.dayStatusChanged -= DayStatusChanged;
+    }
+
     private void DayStatusChanged(object sender, DayStatus newStatus)
     {
         foreach (TimeAmbience timeAmbience in timeAmbiences)

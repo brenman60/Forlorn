@@ -21,6 +21,7 @@ public struct SkillModifier
     public StatType statType;
     public float statChange;
     public bool isMultiplicative;
+    public bool changesMaxValue;
 }
 
 [Serializable]

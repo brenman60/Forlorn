@@ -8,7 +8,7 @@ public class Inventory : MonoBehaviour, ISaveData
 {
     public static Inventory Instance { get; private set; }
 
-    [SerializeField] private Items items;
+    public Items items;
     [Space(15), SerializeField] private SlotUI previousSlot;
     [SerializeField] private SlotUI currentSlot;
     [SerializeField] private SlotUI nextSlot;
@@ -64,7 +64,7 @@ public class Inventory : MonoBehaviour, ISaveData
 
     private void ItemUse(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (slots.Count > 0 && !GameManager.paused && UIManager.GetUIsOnMouse().Count == 0)
+        if (slots.Count > 0 && !TimeScaleManager.paused && UIManager.GetUIsOnMouse().Count == 0)
             UseItem();
     }
 
@@ -81,6 +81,13 @@ public class Inventory : MonoBehaviour, ISaveData
         UpdatePanels();
 
         if (DeathUI.PlayerDead) enabled = false;
+
+
+
+
+
+        if (Input.GetKeyDown(KeyCode.Z))
+            RunManager.Instance.statManager.stats[StatType.Money].currentValue += 10;
     }
 
     private void UpdatePanels()
@@ -155,6 +162,8 @@ public class Inventory : MonoBehaviour, ISaveData
     public void UseItem()
     {
         Item selectedItem = slots[currentSlotIndex].Key;
+        if (!selectedItem.usable) return;
+
         if (selectedItem.useStats != null)
             foreach (UseStat useStats in selectedItem.useStats)
                 RunManager.Instance.statManager.stats[useStats.targetStat].currentValue += useStats.change;

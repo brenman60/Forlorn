@@ -14,6 +14,7 @@ public class Item : ScriptableObject
     public float useSoundVolume = 1;
 
     [Header("Usage")]
+    public bool usable = true;
     public UseStat[] useStats;
     public UseEffect[] useEffects;
     public UseModifier[] useModifiers;

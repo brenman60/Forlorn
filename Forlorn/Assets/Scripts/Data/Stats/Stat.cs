@@ -25,12 +25,15 @@ public class Stat : ISaveData
     private float valueAddition;
     private float valueMultiplier;
 
-    public Stat(float baseValue, StatType type)
+    public Stat(float baseValue, StatType type, bool hasNoMax)
     {
         this.baseValue = baseValue;
         this.type = type;
         this.currentValue_ = baseValue;
         Recalculate();
+
+        if (hasNoMax)
+            this.baseValue = float.MaxValue;
     }
 
     public float maxValue

@@ -32,7 +32,7 @@ public class SkillInformation : MonoBehaviour
 
     private void UpdateCanvasGroup()
     {
-        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, open ? 1f : 0f, Time.deltaTime * canvasGroupSpeed);
+        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, open ? 1f : 0f, Time.unscaledDeltaTime * canvasGroupSpeed);
     }
 
     private void UpdateMousePosition()
@@ -44,7 +44,7 @@ public class SkillInformation : MonoBehaviour
         if (open)
             mousePosition = Input.mousePosition;
 
-        transform.position = Vector2.Lerp(transform.position, mousePosition + mouseOffset, Time.deltaTime * mouseMoveSpeed);
+        transform.position = Vector2.Lerp(transform.position, mousePosition + mouseOffset, Time.unscaledDeltaTime * mouseMoveSpeed);
     }
 
     public void Open(string skillName, string skillDescription)

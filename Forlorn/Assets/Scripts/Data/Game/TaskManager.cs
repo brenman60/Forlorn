@@ -31,6 +31,9 @@ public class TaskManager : ISaveData
                     case TaskType.JobApplication:
                         JobApplicationCompleted(task.taskParameters);
                         break;
+                    case TaskType.DocumentsApplication:
+                        DocumentsApplicationCompleted(task.taskParameters);
+                        break;
                     default:
                         Debug.LogError("TaskType '" + task.taskType.ToString() + "' not recognized.");
                         break;
@@ -43,6 +46,12 @@ public class TaskManager : ISaveData
             tasks.Remove(task);
             tasksChanged?.Invoke(task, false);
         }
+    }
+
+    private void DocumentsApplicationCompleted(Dictionary<string, object> parameters)
+    {
+        Item item = Inventory.Instance.items.GetItemByName(parameters["Item"].ToString());
+        Inventory.Instance.PutItem(item, 1);
     }
 
     private void JobApplicationCompleted(Dictionary<string, object> parameters)
@@ -66,6 +75,7 @@ public class TaskManager : ISaveData
 [Serializable]
 public class TimeTask
 {
+    public string name;
     public string taskName;
     public float taskTime;
     public float currentTime;
@@ -73,8 +83,9 @@ public class TimeTask
     public TaskType taskType;
     public Dictionary<string, object> taskParameters;
 
-    public TimeTask(string taskName, float taskTime, TaskType taskType, Dictionary<string, object> taskParameters)
+    public TimeTask(string name, string taskName, float taskTime, TaskType taskType, Dictionary<string, object> taskParameters)
     {
+        this.name = name;
         this.taskName = taskName;
         this.taskTime = taskTime;
         this.currentTime = taskTime;
@@ -86,4 +97,5 @@ public class TimeTask
 public enum TaskType
 {
     JobApplication,
+    DocumentsApplication,
 }

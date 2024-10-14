@@ -69,11 +69,27 @@ public class RunManager : MonoBehaviour, ISaveData
         }
     }
 
+    public void ApplyForDocuments(string itemName)
+    {
+        taskManager.StartTask(
+            new TimeTask(
+                "documentsApplication",
+                "Offical Documents Application",
+                60f * 5f,
+                TaskType.DocumentsApplication,
+                new Dictionary<string, object>()
+                {
+                    ["Item"] = itemName,
+                }
+            ));
+    }
+
     public void ApplyForJob(string jobName)
     {
         Job selectedJob = jobs.GetJobByName(jobName);
         taskManager.StartTask(
             new TimeTask(
+                selectedJob.name,
                 selectedJob.visibleName + " Application", 
                 60f * 1.5f,
                 TaskType.JobApplication,

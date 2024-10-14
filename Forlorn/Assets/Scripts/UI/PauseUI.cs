@@ -29,21 +29,27 @@ public class PauseUI : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(Keybinds.GetKeybind(KeyType.Pause)) && !SettingsUI.Instance.ToggleStatus())
-            GameManager.paused = !GameManager.paused;
+        {
+            if (TimeScaleManager.HasPause(name))
+                TimeScaleManager.RemovePause(name);
+            else
+                TimeScaleManager.AddPause(name);
+        }
 
         UpdateCanvasGroup();
     }
 
     private void UpdateCanvasGroup()
     {
-        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, GameManager.paused ? 1f : 0f, Time.unscaledDeltaTime * 25f);
-        canvasGroup.interactable = GameManager.paused;
-        canvasGroup.blocksRaycasts = GameManager.paused;
+        bool hasPause = TimeScaleManager.HasPause(name);
+        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, hasPause ? 1f : 0f, Time.unscaledDeltaTime * 25f);
+        canvasGroup.interactable = hasPause;
+        canvasGroup.blocksRaycasts = hasPause;
     }
 
     public void Resume()
     {
-        GameManager.paused = false;
+        TimeScaleManager.RemovePause(name);
     }
 
     public void OpenSettings()
@@ -57,7 +63,7 @@ public class PauseUI : MonoBehaviour
         SaveSystem.SaveRunData();
 
         TransitionUI.Instance.TransitionTo("MainMenu");
-        GameManager.paused = false;
+        TimeScaleManager.RemovePause(name);
     }
 
     public void QuitGame()

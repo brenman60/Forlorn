@@ -50,19 +50,19 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
 
     private void UpdateTransform()
     {
-        rectTransform.sizeDelta = Vector2.Lerp(rectTransform.sizeDelta, !hovered ? initialSize : (initialSize * hoverSizeIncrease), Time.deltaTime * hoverSpeed);
+        rectTransform.sizeDelta = Vector2.Lerp(rectTransform.sizeDelta, !hovered ? initialSize : (initialSize * hoverSizeIncrease), Time.unscaledDeltaTime * hoverSpeed);
     }
 
     private void UpdateOutline()
     {
         if (hovered)
         {
-            targetOutlineRotation += hoverOutlineSpeed * Time.deltaTime;
+            targetOutlineRotation += hoverOutlineSpeed * Time.unscaledDeltaTime;
             targetOutlineRotation = targetOutlineRotation % 360;
         }
 
         Quaternion newRotation = Quaternion.Euler(backgroundOutline.eulerAngles.x, backgroundOutline.eulerAngles.y, targetOutlineRotation);
-        backgroundOutline.rotation = Quaternion.Slerp(backgroundOutline.rotation, newRotation, Time.deltaTime * hoverOutlineCatchupSpeed);
+        backgroundOutline.rotation = Quaternion.Slerp(backgroundOutline.rotation, newRotation, Time.unscaledDeltaTime * hoverOutlineCatchupSpeed);
     }
 
     private void SnapOutlineRotation()
@@ -81,9 +81,9 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
 
     private void UpdateUnlockedColor()
     {
-        backgroundOutlineImage.color = Color.Lerp(backgroundOutlineImage.color, unlocked ? unlockedColor : lockedColor, Time.deltaTime * hoverOutlineSpeed);
+        backgroundOutlineImage.color = Color.Lerp(backgroundOutlineImage.color, unlocked ? unlockedColor : lockedColor, Time.unscaledDeltaTime * hoverOutlineSpeed);
         backgroundOutlineImage.sprite = unlocked ? unlockedBackgroundSprite : lockedBackgroundSprite;
-        backgroundOutline.sizeDelta = Vector2.Lerp(backgroundOutline.sizeDelta, initialBackgroundOutlineSize, Time.deltaTime * hoverSpeed / 3f);
+        backgroundOutline.sizeDelta = Vector2.Lerp(backgroundOutline.sizeDelta, initialBackgroundOutlineSize, Time.unscaledDeltaTime * hoverSpeed / 3f);
     }
 
     private void UpdateUnlockableState()
@@ -130,8 +130,15 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
         foreach (SkillModifier modifier in skill.modifiers)
         {
             Stat selectedStat = RunManager.Instance.statManager.stats[modifier.statType];
-            StatModifier statModifier = new StatModifier(selectedStat, modifier.statChange, modifier.isMultiplicative);
-            RunManager.Instance.statManager.ApplyModifier(statModifier);
+            if (modifier.changesMaxValue)
+            {
+                StatModifier statModifier = new StatModifier(selectedStat, modifier.statChange, modifier.isMultiplicative);
+                RunManager.Instance.statManager.ApplyModifier(statModifier);
+            }
+            else
+            {
+                selectedStat.currentValue += modifier.statChange;
+            }
         }
 
         foreach (SkillStatCost statCost in skill.skillStatCosts)
