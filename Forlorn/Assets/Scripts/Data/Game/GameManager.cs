@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour, ISaveData
 
     private void UpdateGameTime()
     {
-        if (!gameActive || DeathUI.PlayerDead) return;
+        if (!gameActive || GameEndingUI.gameFinished) return;
 
         if (gameTime >= (dayLength) * 60f) // Multiplying day length by 60 since day length is the number of minutes
         {

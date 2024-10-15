@@ -8684,7 +8684,7 @@ GameObject:
   - component: {fileID: 743803267}
   - component: {fileID: 743803266}
   m_Layer: 5
-  m_Name: DeathUI
+  m_Name: GameEndingUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8801,6 +8801,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoPanel: {fileID: 182697256}
+  finishingText: {fileID: 1755800633}
   totalTimeText: {fileID: 2006617838}
 --- !u!1 &747416061
 GameObject:

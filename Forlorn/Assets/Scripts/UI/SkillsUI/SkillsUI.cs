@@ -60,7 +60,7 @@ public class SkillsUI : MonoBehaviour, ISaveData
         if (!GameManager.validGameScenes.Contains(newScene.name))
         {
             Instance = null;
-            if (gameObject != null) Destroy(gameObject);
+            //if (gameObject != null) Destroy(gameObject);
         }
     }
 

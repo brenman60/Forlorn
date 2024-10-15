@@ -80,7 +80,7 @@ public class Inventory : MonoBehaviour, ISaveData
 
         UpdatePanels();
 
-        if (DeathUI.PlayerDead) enabled = false;
+        if (GameEndingUI.gameFinished) enabled = false;
 
 
 

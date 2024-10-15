@@ -23,10 +23,10 @@ public class TrainStation : CityBlock
         StartCoroutine(EndGame_());
         IEnumerator EndGame_()
         {
-            PlayerCamera.Instance.SetNewFollowing(carriageHolder.GetChild(0), transform.position - new Vector3(length / 4, 0), transform.position, 1f);
+            PlayerCamera.Instance.SetNewFollowing(carriageHolder.GetChild(0), transform.position - new Vector3(length / 4, 0), transform.position + new Vector3(length / 6f, 0), 1f);
             yield return StartCoroutine(MoveCarriage(1.5f, carriageCenterPosition, carriageEndPosition, 0.01f, 0.35f, false));
-            yield return new WaitForSeconds(10f);
-            TransitionUI.Instance.TransitionTo("MainMenu");
+            yield return new WaitForSeconds(1f);
+            GameEndingUI.Instance.FinishGame("Escaped the City...");
         }
     }
 

@@ -22,7 +22,7 @@ public class Player : MonoBehaviour, ISaveData
 
     private void Update()
     {
-        if (!DeathUI.PlayerDead && !movementLocked)
+        if (!GameEndingUI.gameFinished && !movementLocked)
             Movement();
     }
 

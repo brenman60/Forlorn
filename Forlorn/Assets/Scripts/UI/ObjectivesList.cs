@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ObjectivesList : MonoBehaviour, ISaveData
@@ -136,6 +135,12 @@ public class ObjectivesList : MonoBehaviour, ISaveData
 
     public void PutSaveData(string data)
     {
+        foreach (Transform previousObjectiveUI in objectivesList)
+            if (previousObjectiveUI.gameObject != objectiveTemplate)
+                Destroy(previousObjectiveUI.gameObject);
+
+        objectivesUI.Clear();
+
         objectives = JsonConvert.DeserializeObject<List<Objective>>(data);
         foreach (Objective objective in objectives)
             CreateObjectiveUI(objective);

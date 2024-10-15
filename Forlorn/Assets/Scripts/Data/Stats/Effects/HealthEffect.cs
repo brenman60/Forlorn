@@ -29,8 +29,8 @@
 
     private void HealthCheck()
     {
-        if (RunManager.Instance.statManager.stats[StatType.Health].currentValue <= 0 && !DeathUI.PlayerDead)
-            DeathUI.Instance.PlayerDeath();
+        if (RunManager.Instance.statManager.stats[StatType.Health].currentValue <= 0 && !GameEndingUI.gameFinished)
+            GameEndingUI.Instance.FinishGame("Died");
     }
 
     public override string GetSaveData()

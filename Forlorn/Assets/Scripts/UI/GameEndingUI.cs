@@ -2,12 +2,13 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public class DeathUI : MonoBehaviour
+public class GameEndingUI : MonoBehaviour
 {
-    public static DeathUI Instance { get; private set; }
-    public static bool PlayerDead;
+    public static GameEndingUI Instance { get; private set; }
+    public static bool gameFinished;
 
     [SerializeField] private CanvasGroup infoPanel;
+    [SerializeField] private TextMeshProUGUI finishingText;
     [SerializeField] private TextMeshProUGUI totalTimeText;
 
     private CanvasGroup canvasGroup;
@@ -16,7 +17,7 @@ public class DeathUI : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        PlayerDead = false;
+        gameFinished = false;
     }
 
     private void Start()
@@ -26,18 +27,21 @@ public class DeathUI : MonoBehaviour
 
     private void Update()
     {
-        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, PlayerDead ? 1f : 0f, Time.deltaTime * 10f);
-        canvasGroup.interactable = PlayerDead;
-        canvasGroup.blocksRaycasts = PlayerDead;
+        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, gameFinished ? 1f : 0f, Time.deltaTime * 10f);
+        canvasGroup.interactable = gameFinished;
+        canvasGroup.blocksRaycasts = gameFinished;
 
-        if (PlayerDead) infoPanelLerp += Time.deltaTime / 15;
+        if (gameFinished) infoPanelLerp += Time.deltaTime / 15;
         else infoPanelLerp = 0;
         infoPanel.alpha = Mathf.Lerp(0, 1, infoPanelLerp);
     }
 
-    public void PlayerDeath()
+    public void FinishGame(string finishingMessage)
     {
-        PlayerDead = true;
+        if (gameFinished) return;
+        gameFinished = true;
+
+        finishingText.text = finishingMessage;
         UpdateInfoPanel();
     }
 

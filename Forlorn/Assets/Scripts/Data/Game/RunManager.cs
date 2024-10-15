@@ -44,6 +44,11 @@ public class RunManager : MonoBehaviour, ISaveData
         SceneManager.activeSceneChanged += SceneChanged;
     }
 
+    private void OnDestroy()
+    {
+        SceneManager.activeSceneChanged -= SceneChanged;
+    }
+
     private void SceneChanged(Scene arg0, Scene arg1)
     {
         if (isNewGame)
