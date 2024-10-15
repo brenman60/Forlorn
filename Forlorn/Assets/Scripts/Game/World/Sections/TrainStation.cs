@@ -15,9 +15,19 @@ public class TrainStation : CityBlock
     {
         base.InitSpawnables();
 
-        carriageTimer = 0f;
-
         StartCoroutine(StartingCutscene());
+    }
+
+    public void EndGame()
+    {
+        StartCoroutine(EndGame_());
+        IEnumerator EndGame_()
+        {
+            PlayerCamera.Instance.SetNewFollowing(carriageHolder.GetChild(0), transform.position - new Vector3(length / 4, 0), transform.position, 1f);
+            yield return StartCoroutine(MoveCarriage(1.5f, carriageCenterPosition, carriageEndPosition, 0.01f, 0.35f, false));
+            yield return new WaitForSeconds(10f);
+            TransitionUI.Instance.TransitionTo("MainMenu");
+        }
     }
 
     private IEnumerator StartingCutscene()
@@ -32,6 +42,7 @@ public class TrainStation : CityBlock
 
     private IEnumerator MoveCarriage(float delay, float startPos, float endPos, float startSpeed, float endSpeed, bool useStopSmoke)
     {
+        carriageTimer = 0f;
         yield return new WaitUntil(() => TransitionUI.doneLoading);
 
         carriageHolder.transform.localPosition = new Vector3(startPos, carriageHolder.transform.localPosition.y, carriageHolder.transform.localPosition.z);

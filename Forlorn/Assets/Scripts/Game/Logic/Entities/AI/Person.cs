@@ -1,59 +1,91 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Person : MonoBehaviour
 {
+    protected PersonType aiType = PersonType.Wander;
+    protected List<float> movementNodes = new List<float>();
+
+    [SerializeField] private GameObject body;
     [SerializeField] private Animator animator;
 
-    private float movementTime;
-    private float movingDirection;
+    protected bool running;
     private bool walking;
-    private bool running;
 
+    private float defaultMovementSpeed;
     private float movementDebounce;
+    private float movementSpeed;
+    private int movementNodeIndex;
+
+    private Coroutine movementCoroutine;
+
+    private void Start()
+    {
+        defaultMovementSpeed = Random.Range(0.4f, 0.8f);
+    }
 
     private void Update()
     {
         movementDebounce -= Time.deltaTime;
         if (movementDebounce <= 0)
         {
-            running = Random.Range(0, 2) == 0;
+            if (movementCoroutine != null) StopCoroutine(movementCoroutine);
 
-            movementTime = Random.Range(10f, 25f);
-            movingDirection = (Random.Range(0, 2) == 0 ? -0.5f : 0.5f) * Random.Range(0.9f, 1.2f);
-            if (running) movingDirection *= 1.75f;
+            switch (aiType)
+            {
+                case PersonType.Wander:
+                    movementCoroutine = StartCoroutine(MoveToPosition(Random.Range(WorldGeneration.worldBounds.Item1, WorldGeneration.worldBounds.Item2), Random.Range(15f, 25f), Random.Range(0, 5) == 0));
+                    break;
+                case PersonType.Patrol:
+                    movementCoroutine = StartCoroutine(MoveToPosition(movementNodes[movementNodeIndex], Random.Range(10f, 12f), false));
+                    break;
+            }
 
-            movementDebounce = movementTime + Random.Range(1f, 5f);
+            movementNodeIndex++;
+            if (movementNodeIndex >= movementNodes.Count)
+                movementNodeIndex = 0;
+            else if (movementNodeIndex < 0)
+                movementNodeIndex = movementNodes.Count - 1;
         }
-
-        if (movementTime > 0)
-        {
-            movementTime -= Time.deltaTime;
-
-            transform.position += new Vector3(movingDirection, 0f) * Time.deltaTime;
-
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, movingDirection == 0 ?
-                transform.rotation.eulerAngles.y :
-                (movingDirection >= 0 ?
-                0 : 180), transform.rotation.eulerAngles.z);
-        }
-
-        if (transform.position.x < WorldGeneration.worldBounds.Item1 || transform.position.x > WorldGeneration.worldBounds.Item2)
-            movingDirection = -movingDirection;
 
         UpdateMovementStatus();
     }
 
     private void UpdateMovementStatus()
     {
-        walking = movementTime > 0;
+        walking = movementSpeed != 0;
 
-        animator.speed = Mathf.Abs(movingDirection);
+        animator.speed = Mathf.Abs(movementSpeed);
         animator.SetBool("walking", walking);
         animator.SetBool("running", walking && running);
     }
+
+    public IEnumerator MoveToPosition(float xPos, float nextPosTime, bool run)
+    {
+        movementDebounce = nextPosTime;
+        running = run;
+
+        while (Mathf.Abs(transform.position.x - xPos) > 0.05f)
+        {
+            movementSpeed = transform.position.x < xPos ? defaultMovementSpeed : -defaultMovementSpeed;
+            if (run) movementSpeed *= 1.75f;
+
+            if (transform.position.x < WorldGeneration.worldBounds.Item1 || transform.position.x > WorldGeneration.worldBounds.Item2)
+                break;
+
+            transform.position += new Vector3(movementSpeed, 0) * Time.deltaTime;
+            transform.eulerAngles = movementSpeed > 0 ? new Vector3(0, 0, 0) : new Vector3(0, 180, 0);
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        movementSpeed = 0f;
+    }
 }
 
-public class PersonNode
+public enum PersonType
 {
-
+    Wander,
+    Patrol,
 }
