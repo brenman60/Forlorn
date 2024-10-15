@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff225016070db31498317e3ad0242375, type: 3}
   m_Name: PlainButtonUpOvershirt_Walking
   m_EditorClassIdentifier: 
+  type: 4
   sprites:
   - {fileID: -967122488, guid: 4d9dcc2d01b374c45902ffa892184c95, type: 3}
   - {fileID: 1529747501, guid: 4d9dcc2d01b374c45902ffa892184c95, type: 3}

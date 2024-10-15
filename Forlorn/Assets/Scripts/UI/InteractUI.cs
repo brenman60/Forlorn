@@ -23,6 +23,7 @@ public class InteractUI : MonoBehaviour
 
     private List<Interactable> interactables = new List<Interactable>();
 
+    private float interactCooldown;
     private bool open;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -52,14 +53,18 @@ public class InteractUI : MonoBehaviour
 
     private void Update()
     {
+        interactCooldown -= Time.unscaledDeltaTime;
         open = interactables.Count > 0;
 
         UpdateInteractText();
         UpdateCanvasGroup();
         UpdateBackgroundColor();
 
-        if (Keybinds.Instance.controlInteract.ReadValue<float>() != 0 && interactables.Count > 0 && open)
+        if (Keybinds.Instance.controlInteract.ReadValue<float>() != 0 && interactables.Count > 0 && open && interactCooldown <= 0f)
+        {
+            interactCooldown = 2f;
             DoInteraction();
+        }
     }
 
     public void DoInteraction()

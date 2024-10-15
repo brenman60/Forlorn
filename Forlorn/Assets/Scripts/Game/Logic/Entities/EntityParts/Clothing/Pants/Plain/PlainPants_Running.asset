@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff225016070db31498317e3ad0242375, type: 3}
   m_Name: PlainPants_Running
   m_EditorClassIdentifier: 
+  type: 8
   sprites:
   - {fileID: -1498068959, guid: 5648c2e71278be743b391c27e797ba99, type: 3}
   - {fileID: -294114134, guid: 5648c2e71278be743b391c27e797ba99, type: 3}

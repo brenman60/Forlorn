@@ -42,6 +42,7 @@ MonoBehaviour:
     nextNode: {fileID: 0}
     optionRequirements:
     - {fileID: 11400000, guid: 34bcc0984821b514da62de64ab195ead, type: 2}
+    - {fileID: 11400000, guid: 2122c18e603c5e34489bb17895d3905e, type: 2}
     onSelectSound: {fileID: 0}
     onSelectClass: RunManager
     onSelectMethod: ClockIntoJob

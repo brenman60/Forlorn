@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using static EntityOutfit;
 
 public class Entity : MonoBehaviour
 {
     [Header("Customization")]
+    public EntityOutfit outfit;
     public EntityState state;
     public int frame;
 
@@ -20,8 +22,16 @@ public class Entity : MonoBehaviour
     {
         sortingGroup = GetComponent<SortingGroup>();
 
+        ReloadOutfit();
+    }
+
+    public void ReloadOutfit()
+    {
         foreach (EntityPartAnimator part in parts)
+        {
+            part.entityParts = outfit.GetAllParts(part.type);
             part.UpdatePartSprite(state, frame);
+        }
     }
 
     private void Update()

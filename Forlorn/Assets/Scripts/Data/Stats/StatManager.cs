@@ -40,9 +40,9 @@ public class StatManager : ISaveData
 
     private List<Effect> defaultEffects = new List<Effect>()
     {
-        new HealthEffect(false, false, 0, false),
-        new HungerEffect(false, false, 0, false),
-        new ThirstEffect(false, false, 0, false),
+        //new HealthEffect(false, false, 0, false),
+        //new HungerEffect(false, false, 0, false),
+        //new ThirstEffect(false, false, 0, false),
     };
 
     public void ApplyModifier(StatModifier modifier)

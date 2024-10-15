@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff225016070db31498317e3ad0242375, type: 3}
   m_Name: PlainUndershirt_Running
   m_EditorClassIdentifier: 
+  type: 3
   sprites:
   - {fileID: -146665548, guid: e311f2d5695596b4fa083a89b5f73559, type: 3}
   - {fileID: -1849598810, guid: e311f2d5695596b4fa083a89b5f73559, type: 3}

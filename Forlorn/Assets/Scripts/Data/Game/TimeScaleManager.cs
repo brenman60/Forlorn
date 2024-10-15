@@ -17,6 +17,20 @@ public class TimeScaleManager : MonoBehaviour
         }
     }
 
+    public static float currentTime
+    {
+        get
+        {
+            if (timePauses.Count > 0) return 0f;
+
+            float startTime = 1f;
+            foreach (float influence in timeInfluences.Values)
+                startTime += influence;
+
+            return startTime;
+        }
+    }
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Init()
     {
@@ -48,11 +62,7 @@ public class TimeScaleManager : MonoBehaviour
             return;
         }
 
-        float defaultTime = 1f;
-        foreach (float timeInfluence in timeInfluences.Values)
-            defaultTime += timeInfluence;
-
-        Time.timeScale = defaultTime;
+        Time.timeScale = currentTime;
     }
 
     public static void AddPause(string name)

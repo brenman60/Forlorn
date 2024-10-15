@@ -97,13 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bef55af691c6f645af8c85fbffd3455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityParts:
-  - state: 0
-    entityPart: {fileID: 11400000, guid: f3eab885317b4ce429cc3fc23389d5b1, type: 2}
-  - state: 1
-    entityPart: {fileID: 11400000, guid: 1ec26b5042e7c064485ada27b74ae277, type: 2}
-  - state: 2
-    entityPart: {fileID: 11400000, guid: 505ea35157067cf458074360776e2097, type: 2}
+  type: 4
 --- !u!1 &199217326246344810
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,13 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bef55af691c6f645af8c85fbffd3455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityParts:
-  - state: 0
-    entityPart: {fileID: 11400000, guid: 5267916ee478b434db45a0b0d8606c3e, type: 2}
-  - state: 1
-    entityPart: {fileID: 11400000, guid: 2a54e7b626d9d634bbf5060379eb20c0, type: 2}
-  - state: 2
-    entityPart: {fileID: 11400000, guid: c39f6e999fc6c9a49955122fc5739560, type: 2}
+  type: 1
 --- !u!1 &581780392293627044
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,13 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bef55af691c6f645af8c85fbffd3455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityParts:
-  - state: 0
-    entityPart: {fileID: 11400000, guid: 7f30bdf1245efd8429e98884e9075ff0, type: 2}
-  - state: 1
-    entityPart: {fileID: 11400000, guid: eae70bdf34455c746a3509f3ebe60c1c, type: 2}
-  - state: 2
-    entityPart: {fileID: 11400000, guid: 52f44da59bfe5344f879546f9232a240, type: 2}
+  type: 2
 --- !u!1 &3616476360386611632
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,13 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bef55af691c6f645af8c85fbffd3455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityParts:
-  - state: 0
-    entityPart: {fileID: 11400000, guid: 305e8a5c77bf7d142a25ad40c5278d0d, type: 2}
-  - state: 1
-    entityPart: {fileID: 11400000, guid: 9f4e394539b901f4bbd22c4c031f37b4, type: 2}
-  - state: 2
-    entityPart: {fileID: 11400000, guid: f0c6a246e74f22b489eb3dbc1277b425, type: 2}
+  type: 8
 --- !u!1 &4454207307312471788
 GameObject:
   m_ObjectHideFlags: 0
@@ -513,13 +489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bef55af691c6f645af8c85fbffd3455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityParts:
-  - state: 0
-    entityPart: {fileID: 11400000, guid: 362a502cd240c474ca10a645e7e7ba5c, type: 2}
-  - state: 1
-    entityPart: {fileID: 11400000, guid: 5243148d1df258943a39ac1ee13e1072, type: 2}
-  - state: 2
-    entityPart: {fileID: 11400000, guid: 457ccf06febf240489c98dd3890ac749, type: 2}
+  type: 0
 --- !u!1 &5836339161036202332
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,6 +529,7 @@ Transform:
   - {fileID: 7533075111460200874}
   - {fileID: 8500560011835248175}
   - {fileID: 369618544207749617}
+  - {fileID: 7598081023604781430}
   - {fileID: 3211926822521023413}
   - {fileID: 4896832628669319172}
   m_Father: {fileID: 0}
@@ -596,6 +567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3ade4913888c054dac4b843da578552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outfit: {fileID: 11400000, guid: 0421d565fc957dc4fa3bed5149a98582, type: 2}
   state: 0
   frame: 0
   parts:
@@ -606,6 +578,7 @@ MonoBehaviour:
   - {fileID: 6746880327907342150}
   - {fileID: 9139673406772568560}
   - {fileID: 6083361230666037851}
+  - {fileID: 2785360142063649065}
   - {fileID: 5135702348371825357}
   - {fileID: 1449501230022079391}
 --- !u!210 &18794298972147363
@@ -620,6 +593,104 @@ SortingGroup:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_SortAtRoot: 0
+--- !u!1 &5870605206196825393
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7598081023604781430}
+  - component: {fileID: 6293383855147727547}
+  - component: {fileID: 2785360142063649065}
+  m_Layer: 0
+  m_Name: Legs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7598081023604781430
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5870605206196825393}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2461302182420087836}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &6293383855147727547
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5870605206196825393}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -2094400587
+  m_SortingLayer: 2
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.32, y: 0.32}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &2785360142063649065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5870605206196825393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bef55af691c6f645af8c85fbffd3455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 7
 --- !u!1 &5957302596470517380
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,13 +788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bef55af691c6f645af8c85fbffd3455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityParts:
-  - state: 0
-    entityPart: {fileID: 11400000, guid: fb62702c8d83e1e48a9da800518b514c, type: 2}
-  - state: 1
-    entityPart: {fileID: 11400000, guid: 0d1ac450e72badf45ba6a1a868d4dfe8, type: 2}
-  - state: 2
-    entityPart: {fileID: 11400000, guid: fa8c77f54f752f64399dc57b63794611, type: 2}
+  type: 6
 --- !u!1 &6896528503264352510
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,13 +886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bef55af691c6f645af8c85fbffd3455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityParts:
-  - state: 0
-    entityPart: {fileID: 11400000, guid: 910c840e394a8b44f88305260cf9da01, type: 2}
-  - state: 1
-    entityPart: {fileID: 11400000, guid: 6290cbeb957da414c8c17caa2ba34154, type: 2}
-  - state: 2
-    entityPart: {fileID: 11400000, guid: 621438b21c0fd174d88fa8b1db0dc516, type: 2}
+  type: 5
 --- !u!1 &8398243875459093584
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,13 +984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bef55af691c6f645af8c85fbffd3455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityParts:
-  - state: 0
-    entityPart: {fileID: 11400000, guid: d62e07c17f6631648b31e84fdce1de53, type: 2}
-  - state: 1
-    entityPart: {fileID: 11400000, guid: 18c74dcdd50be8441a6c25dbec2100bd, type: 2}
-  - state: 2
-    entityPart: {fileID: 11400000, guid: c5b5a6e94dc554a43aaec1d7ccbe0702, type: 2}
+  type: 9
 --- !u!1 &9078291165505045097
 GameObject:
   m_ObjectHideFlags: 0
@@ -1029,10 +1082,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bef55af691c6f645af8c85fbffd3455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityParts:
-  - state: 0
-    entityPart: {fileID: 11400000, guid: 44f61cdd9bc33774986847b3c4a8136c, type: 2}
-  - state: 1
-    entityPart: {fileID: 11400000, guid: 7c11dadb872321841a18fadb5453654f, type: 2}
-  - state: 2
-    entityPart: {fileID: 11400000, guid: 51b70de11feaa4c4baba1f5f493d733f, type: 2}
+  type: 3

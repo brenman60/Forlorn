@@ -5,6 +5,7 @@ using UnityEngine;
 public class EntitySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject entityPrefab;
+    [SerializeField] private List<EntityOutfit> randomOutfits = new List<EntityOutfit>();
 
     private List<GameObject> entities = new List<GameObject>();
 
@@ -19,7 +20,10 @@ public class EntitySpawner : MonoBehaviour
 
         for (int i = 0; i < 50; i++)
         {
-            GameObject entity = GetEntity();
+            GameObject entityObj = GetEntity();
+            Entity entity = entityObj.transform.GetChild(0).GetComponent<Entity>();
+            entity.outfit = randomOutfits[Random.Range(0, randomOutfits.Count)];
+            entity.ReloadOutfit();
 
             Vector2 position = new Vector3(Random.Range(WorldGeneration.worldBounds.Item1, WorldGeneration.worldBounds.Item2), -0.12f);
             while (PlayerCamera.IsPositionOnScreen(position))
@@ -28,7 +32,7 @@ public class EntitySpawner : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
 
-            entity.transform.position = position;
+            entityObj.transform.position = position;
         }
     }
 

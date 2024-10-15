@@ -4,6 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour, ISaveData
 {
     public static Player Instance { get; private set; }
+    [HideInInspector] public bool movementLocked;
 
     [SerializeField] private float baseMovementSpeed = 1f;
 
@@ -21,7 +22,7 @@ public class Player : MonoBehaviour, ISaveData
 
     private void Update()
     {
-        if (!DeathUI.PlayerDead)
+        if (!DeathUI.PlayerDead && !movementLocked)
             Movement();
     }
 

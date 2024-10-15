@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -118,7 +119,7 @@ public class RunManager : MonoBehaviour, ISaveData
         jobManager.holdingJobs[job] = information;
     }
 
-    public void ClockIntoJob(Job job)
+    public async void ClockIntoJob(Job job)
     {
         float totalHours = (GameManager.Instance.gameTime / (GameManager.dayLength * 60)) * 24f;
         int currentHour = Mathf.FloorToInt(totalHours);
@@ -137,6 +138,8 @@ public class RunManager : MonoBehaviour, ISaveData
         bool playerIsLate = totalMinutesLate > JobManager.lateThreshold;
         if (playerIsLate) // player is late for job (ruin points :))))
         {
+            ObjectivesList.Instance.TryCompleteObjective(job.name + "shift", true);
+
             int minutesBeyondTheshold = totalMinutesLate - JobManager.lateThreshold;
             // math note: pointMultiplier is like insanely beneficial up to 2x but falls off almost instantly
             // so cool meta i guess
@@ -144,12 +147,34 @@ public class RunManager : MonoBehaviour, ISaveData
         }
         else // player was on time (reward with points :((()
         {
-            GameManager.Instance.ProgressGameTime(hoursLate, minutesLate);
+            ObjectivesList.Instance.TryCompleteObjective(job.name + "shift", false);
+            Player.Instance.gameObject.SetActive(false);
+            Player.Instance.movementLocked = true;
+            TimeScaleManager.AddInfluence("job" + job.name, 5f);
+
+            int endTimeHour = employmentInformation.endTime.hour;
+            int endTimeMinute = employmentInformation.endTime.minute;
+            var (hour, minute, isPM) = GameManager.Instance.RealTimeToDayTime(GameManager.Instance.gameTime);
+            if (isPM && hour != 12) hour += 12;
+
+            while (hour < endTimeHour || minute < endTimeMinute)
+            {
+                (hour, minute, isPM) = GameManager.Instance.RealTimeToDayTime(GameManager.Instance.gameTime);
+                if (isPM && hour != 12)
+                    hour += 12;
+
+                Player.Instance.gameObject.SetActive(false);
+                await Task.Yield();
+            }
+
+            Player.Instance.gameObject.SetActive(true);
+            Player.Instance.movementLocked = false;
+            TimeScaleManager.RemoveInfluence("job" + job.name);
             employmentInformation.points += Mathf.RoundToInt(150 * pointMultiplier);
         }
 
+        statManager.stats[StatType.Money].currentValue += employmentInformation.rank.payPerHour * Mathf.Abs(employmentInformation.startTime.hour - employmentInformation.endTime.hour);
         jobManager.holdingJobs[job] = employmentInformation;
-        ObjectivesList.Instance.TryCompleteObjective(job.name + "shift", playerIsLate);
     }
 
     public void EndJob(EmploymentInformation employmentInformation)

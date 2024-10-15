@@ -27,7 +27,7 @@ public class JobManager : ISaveData
         var (currentHour, currentMinute, isPM) = GameManager.Instance.RealTimeToDayTime(GameManager.Instance.gameTime);
         foreach (KeyValuePair<Job, EmploymentInformation> holdingJob in holdingJobs.ToArray())
         {
-            if (!daysShifts.Contains(holdingJob.Key)) continue;
+            if (!daysShifts.Contains(holdingJob.Key) || TimeScaleManager.HasInfluence("job" + holdingJob.Key.name)) continue;
 
             int currentHour_ = currentHour;
             if (isPM && currentHour_ != 12) currentHour_ += 12;

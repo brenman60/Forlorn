@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff225016070db31498317e3ad0242375, type: 3}
   m_Name: Head_Idle
   m_EditorClassIdentifier: 
+  type: 1
   sprites:
   - {fileID: 506938106, guid: e0bc66850b3f1ee48ae8283c8551771f, type: 3}
   mainColor: {r: 0.7529412, g: 0.6039216, b: 0.40392157, a: 1}

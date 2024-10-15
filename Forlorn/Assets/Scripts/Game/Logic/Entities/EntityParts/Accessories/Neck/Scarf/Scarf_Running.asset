@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff225016070db31498317e3ad0242375, type: 3}
   m_Name: Scarf_Running
   m_EditorClassIdentifier: 
+  type: 2
   sprites:
   - {fileID: 152249818, guid: 7b9865178c82dee458ab7c1f75387982, type: 3}
   - {fileID: -1841561601, guid: 7b9865178c82dee458ab7c1f75387982, type: 3}

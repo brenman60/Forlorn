@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff225016070db31498317e3ad0242375, type: 3}
   m_Name: PlainUndershirt_Idle
   m_EditorClassIdentifier: 
+  type: 3
   sprites:
   - {fileID: -1168696125, guid: e311f2d5695596b4fa083a89b5f73559, type: 3}
   mainColor: {r: 0.7058824, g: 0.7058824, b: 0.7058824, a: 1}

@@ -32,7 +32,7 @@ public struct JobRank
     public Color visibleColor;
 
     [Header("Statistics")]
-    public float paycheckAmount;
+    public float payPerHour;
     public List<StatType> valuedStats;
 
     [Header("Effects")]
@@ -44,7 +44,7 @@ public struct JobRank
         this.rankLevel = rankLevel;
         this.visibleName = visibleName;
         this.visibleColor = visibleColor;
-        this.paycheckAmount = paycheckAmount;
+        this.payPerHour = paycheckAmount;
         this.valuedStats = valuedStats;
         this.modifiers = modifiers;
     }

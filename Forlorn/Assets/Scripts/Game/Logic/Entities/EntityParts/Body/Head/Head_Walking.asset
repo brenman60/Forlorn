@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff225016070db31498317e3ad0242375, type: 3}
   m_Name: Head_Walking
   m_EditorClassIdentifier: 
+  type: 1
   sprites:
   - {fileID: 790772563, guid: e0bc66850b3f1ee48ae8283c8551771f, type: 3}
   - {fileID: -1752143938, guid: e0bc66850b3f1ee48ae8283c8551771f, type: 3}

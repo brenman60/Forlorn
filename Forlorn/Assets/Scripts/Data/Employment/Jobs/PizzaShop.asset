@@ -20,6 +20,6 @@ MonoBehaviour:
     rankLevel: 0
     visibleName: Cashier
     visibleColor: {r: 1, g: 0.8521834, b: 0.5235849, a: 1}
-    paycheckAmount: 25
+    payPerHour: 10
     valuedStats: 
     modifiers: []

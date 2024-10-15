@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff225016070db31498317e3ad0242375, type: 3}
   m_Name: Boots_Idle
   m_EditorClassIdentifier: 
+  type: 9
   sprites:
   - {fileID: -150875633, guid: a028b6e95a5fef441bfc204be9a95947, type: 3}
   mainColor: {r: 0.47058824, g: 0.3529412, b: 0.23921569, a: 1}

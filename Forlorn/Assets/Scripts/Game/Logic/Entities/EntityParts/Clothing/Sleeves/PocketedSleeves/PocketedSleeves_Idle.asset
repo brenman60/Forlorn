@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff225016070db31498317e3ad0242375, type: 3}
   m_Name: PocketedSleeves_Idle
   m_EditorClassIdentifier: 
+  type: 6
   sprites:
   - {fileID: -500317329, guid: 2911a1bfc375e3d4794aadb31e944170, type: 3}
   mainColor: {r: 0.36862746, g: 0.36862746, b: 0.36862746, a: 1}

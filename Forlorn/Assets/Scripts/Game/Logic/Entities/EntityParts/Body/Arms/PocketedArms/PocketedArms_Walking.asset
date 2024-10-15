@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff225016070db31498317e3ad0242375, type: 3}
   m_Name: PocketedArms_Walking
   m_EditorClassIdentifier: 
+  type: 5
   sprites:
   - {fileID: 905723476, guid: c465ea6ddd01bfc418c8652f0a654478, type: 3}
   - {fileID: 210481653, guid: c465ea6ddd01bfc418c8652f0a654478, type: 3}
