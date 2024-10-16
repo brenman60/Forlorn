@@ -132,6 +132,11 @@ public static class SaveSystem
 
         return runs;
     }
+
+    public static void DestroyRun()
+    {
+        Directory.Delete(runPath, true);
+    }
 #elif UNITY_WEBGL // I will be putting some basic WebGL support in regards to save data, but it will probably be limited to this depth (mostly the fault of WebGL's limits with save data, that being, the 1 MB limit)
     public static void SaveGlobal()
     {
@@ -258,6 +263,11 @@ public static class SaveSystem
         }
         else
             return new List<string>();
+    }
+
+    public static void DestroyRun()
+    {
+        PlayerPrefs.DeleteKey(runDataPath);
     }
 #endif
 

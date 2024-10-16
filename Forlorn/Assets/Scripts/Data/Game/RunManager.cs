@@ -108,22 +108,6 @@ public class RunManager : MonoBehaviour, ISaveData
         JobManager.InvokeApplicationsChanged();
     }
 
-    public void RankUpJob(Job job, EmploymentInformation employmentInformation)
-    {
-        int indexOfCurrentRank = 0;
-        for (int i = 0; i < job.ranks.Count; i++)
-            if (job.ranks[i].name == employmentInformation.rank.name)
-            {
-                indexOfCurrentRank = i;
-                break;
-            }
-
-        JobRank nextRank = job.ranks[indexOfCurrentRank];
-        EmploymentInformation information = jobManager.holdingJobs[job];
-        information.rank = nextRank;
-        jobManager.holdingJobs[job] = information;
-    }
-
     public async void ClockIntoJob(Job job)
     {
         float totalHours = (GameManager.Instance.gameTime / (GameManager.dayLength * 60)) * 24f;
@@ -175,6 +159,7 @@ public class RunManager : MonoBehaviour, ISaveData
             Player.Instance.gameObject.SetActive(true);
             Player.Instance.movementLocked = false;
             TimeScaleManager.RemoveInfluence("job" + job.name);
+            print("Adding points: " + Mathf.RoundToInt(150 * pointMultiplier));
             employmentInformation.points += Mathf.RoundToInt(150 * pointMultiplier);
         }
 

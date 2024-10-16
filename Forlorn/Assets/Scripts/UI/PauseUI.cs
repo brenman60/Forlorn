@@ -59,7 +59,6 @@ public class PauseUI : MonoBehaviour
 
     public void ExitRun()
     {
-        WorldGeneration.Instance.SaveSection();
         SaveSystem.SaveRunData();
 
         TransitionUI.Instance.TransitionTo("MainMenu");

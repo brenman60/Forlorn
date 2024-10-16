@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class JobManager : ISaveData
 {
-    public static int lateThreshold = 80; // the amount of time to pass from the start time for the player to be considered late
+    public const int lateThreshold = 80; // the amount of time to pass from the start time for the player to be considered late
+    public const int fireThreshold = -1000; // job with points equal or below this will have player be fired
 
     public static event Action jobsChanged;
     public static event Action applicationsChanged;
@@ -45,6 +47,31 @@ public class JobManager : ISaveData
                     daysShifts.Remove(holdingJob.Key);
             }
         }
+
+        // Check job points and rank up or fire
+        foreach (KeyValuePair<Job, EmploymentInformation> holdingJob in holdingJobs.ToArray())
+        {
+            EmploymentInformation information = holdingJob.Value;
+            JobRank nextRank = holdingJob.Key.ranks[Mathf.Clamp(holdingJob.Key.ranks.IndexOf(information.rank) + 1, 0, holdingJob.Key.ranks.Count - 1)];
+            if (information.points <= fireThreshold)
+            {
+                Debug.Log(information.points);
+                holdingJobs.Remove(holdingJob.Key);
+
+                // Give notification of firing
+                NotificationsUI.Instance.CreateNotification($"Fired from {holdingJob.Key.visibleName}...");
+            }
+            else if (information.points >= nextRank.rankLevel && nextRank.name != information.rank.name)
+            {
+                Debug.Log(nextRank.name + " : " + information.rank.name);
+                information.rank = nextRank;
+                information.points = 0;
+                holdingJobs[holdingJob.Key] = information;
+
+                // Give notification of rank up
+                NotificationsUI.Instance.CreateNotification($"Promoted to {information.rank.visibleName}!");
+            }
+        }
     }
 
     public void DetermineJobApp(Job job)
@@ -56,7 +83,12 @@ public class JobManager : ISaveData
 
         bool successful = successChance >= job.applicationDifficulty;
         if (successful)
+        {
             StartNewJob(job);
+            NotificationsUI.Instance.CreateNotification($"{job.visibleName} Application Successfull!");
+        }
+        else
+            NotificationsUI.Instance.CreateNotification($"{job.visibleName} Application Denied...");
     }
 
     private void StartNewJob(Job job)
@@ -87,9 +119,12 @@ public class JobManager : ISaveData
         foreach (Job job in holdingJobs.Keys)
         {
             EmploymentInformation employmentInformation = holdingJobs[job];
-            bool jobIsInPM = employmentInformation.startTime.hour > 12;
-            ObjectivesList.Instance.CreateNewObjective(new Objective(job.name + "shift", $"Start {job.visibleName} Shift: {(jobIsInPM ? employmentInformation.startTime.hour - 12 : employmentInformation.startTime.hour)}:{employmentInformation.startTime.minute.ToString("00")} {(jobIsInPM ? "PM" : "AM")}"));
-            daysShifts.Add(job);
+            if (employmentInformation.workDays.Contains(GameManager.Instance.dayOfWeek))
+            {
+                bool jobIsInPM = employmentInformation.startTime.hour > 12;
+                ObjectivesList.Instance.CreateNewObjective(new Objective(job.name + "shift", $"Start {job.visibleName} Shift: {(jobIsInPM ? employmentInformation.startTime.hour - 12 : employmentInformation.startTime.hour)}:{employmentInformation.startTime.minute.ToString("00")} {(jobIsInPM ? "PM" : "AM")}"));
+                daysShifts.Add(job);
+            }
         }
     }
 

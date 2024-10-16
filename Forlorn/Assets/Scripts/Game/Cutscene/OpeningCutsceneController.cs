@@ -40,4 +40,9 @@ public class OpeningCutsceneController : MonoBehaviour
         WorldGeneration.section = "1";
         TransitionUI.Instance.TransitionTo("Game");
     }
+
+    private void OnDestroy()
+    {
+        SaveSystem.DestroyRun();
+    }
 }
