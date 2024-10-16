@@ -14,6 +14,7 @@ public class DialogueUI : MonoBehaviour
 
     [SerializeField] private Items items;
     [SerializeField] private Jobs jobs;
+    [SerializeField] private Shops shops;
     [Space(20), SerializeField] private CanvasGroup dialogueCanvasGroup;
     [SerializeField, Space(20)] private float showSpeed;
     [SerializeField] private RectTransform dialogueRect;
@@ -181,7 +182,7 @@ public class DialogueUI : MonoBehaviour
 
         if (option.nextNode == null)
         {
-            if (!Player.Instance.gameObject.activeSelf)
+            if (!Player.Instance.gameObject.activeSelf && option.showsPlayer)
                 Player.Instance.gameObject.SetActive(true);
 
             dialogueInProgress = false;
@@ -212,6 +213,9 @@ public class DialogueUI : MonoBehaviour
                     break;
                 case ArgumentType.Job:
                     newArguments[i] = jobs.GetJobByName(arguments[i].argument);
+                    break;
+                case ArgumentType.Shop:
+                    newArguments[i] = shops.GetShopByName(arguments[i].argument);
                     break;
                 default:
                     newArguments[i] = arguments[i].argument;

@@ -3147,7 +3147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e0ec2035bc1f0478329566af5ad82d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactText: Enter Train Station?
+  interactText: Enter Train Station
   interactSound: {fileID: 0}
   disappearsPlayer: 1
   startingNode: {fileID: 11400000, guid: dec3d57cdb4675542b9afaf11fa6f54a, type: 2}

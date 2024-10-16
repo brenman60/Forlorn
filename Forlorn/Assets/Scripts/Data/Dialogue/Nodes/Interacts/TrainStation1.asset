@@ -21,6 +21,7 @@ MonoBehaviour:
   options:
   - optionText: Exit
     nextNode: {fileID: 0}
+    showsPlayer: 1
     optionRequirements: []
     onSelectSound: {fileID: 0}
     onSelectClass: 
@@ -28,6 +29,7 @@ MonoBehaviour:
     onSelectArguments: []
   - optionText: Escape the City
     nextNode: {fileID: 11400000, guid: d5f85255188324a4a9db309e119430e0, type: 2}
+    showsPlayer: 0
     optionRequirements:
     - {fileID: 11400000, guid: b2d307f348ce9d94ba7f92a0057b9ae5, type: 2}
     - {fileID: 11400000, guid: d002086b8f8c98b498e1458b66c2f5ec, type: 2}

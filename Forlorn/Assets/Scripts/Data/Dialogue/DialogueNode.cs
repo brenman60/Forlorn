@@ -23,6 +23,7 @@ public struct DialogueOption
     [Header("Customization")]
     public string optionText;
     public DialogueNode nextNode;
+    public bool showsPlayer;
     [Header("Requirements")]
     public List<DialogueRequirement> optionRequirements;
 
@@ -48,4 +49,5 @@ public enum ArgumentType
     Float,
     Item,
     Job,
+    Shop,
 }

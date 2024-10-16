@@ -25,21 +25,21 @@ MonoBehaviour:
     modifiers: []
   - name: Prep Cook
     rankLevel: 300
-    visibleName: Cashier
+    visibleName: Prep Cook
     visibleColor: {r: 1, g: 0.655807, b: 0.495283, a: 1}
     payPerHour: 13
     valuedStats: 
     modifiers: []
   - name: Pizza Maker
     rankLevel: 450
-    visibleName: Cashier
+    visibleName: Pizza Maker
     visibleColor: {r: 1, g: 0.5254902, b: 0.5438814, a: 1}
     payPerHour: 17
     valuedStats: 
     modifiers: []
   - name: General Manager
     rankLevel: 600
-    visibleName: Cashier
+    visibleName: General Manager
     visibleColor: {r: 0.79700726, g: 1, b: 0.5254902, a: 1}
     payPerHour: 22
     valuedStats: 

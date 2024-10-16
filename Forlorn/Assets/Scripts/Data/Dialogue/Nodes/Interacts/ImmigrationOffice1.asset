@@ -21,6 +21,7 @@ MonoBehaviour:
   options:
   - optionText: Exit
     nextNode: {fileID: 0}
+    showsPlayer: 1
     optionRequirements: []
     onSelectSound: {fileID: 11400000, guid: 4e346a7e0df6a2346b178e5616286b41, type: 2}
     onSelectClass: 
@@ -28,6 +29,7 @@ MonoBehaviour:
     onSelectArguments: []
   - optionText: Apply for Documentation
     nextNode: {fileID: 0}
+    showsPlayer: 1
     optionRequirements:
     - {fileID: 11400000, guid: b37e0b8244ca5e842ba944e54d031673, type: 2}
     - {fileID: 11400000, guid: 76e856d44a098cb4d882bc68f86cd366, type: 2}

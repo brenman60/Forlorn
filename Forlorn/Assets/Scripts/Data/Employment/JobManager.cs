@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 public class JobManager : ISaveData
 {
@@ -40,12 +39,7 @@ public class JobManager : ISaveData
             int totalMinutesLate = (hoursLate * 60) + minutesLate;
 
             if (totalMinutesLate > lateThreshold)
-            {
                 RunManager.Instance.ClockIntoJob(holdingJob.Key);
-
-                if (daysShifts.Contains(holdingJob.Key))
-                    daysShifts.Remove(holdingJob.Key);
-            }
         }
 
         // Check job points and rank up or fire
@@ -55,18 +49,18 @@ public class JobManager : ISaveData
             JobRank nextRank = holdingJob.Key.ranks[Mathf.Clamp(holdingJob.Key.ranks.IndexOf(information.rank) + 1, 0, holdingJob.Key.ranks.Count - 1)];
             if (information.points <= fireThreshold)
             {
-                Debug.Log(information.points);
                 holdingJobs.Remove(holdingJob.Key);
+                jobsChanged?.Invoke();
 
                 // Give notification of firing
                 NotificationsUI.Instance.CreateNotification($"Fired from {holdingJob.Key.visibleName}...");
             }
             else if (information.points >= nextRank.rankLevel && nextRank.name != information.rank.name)
             {
-                Debug.Log(nextRank.name + " : " + information.rank.name);
                 information.rank = nextRank;
                 information.points = 0;
                 holdingJobs[holdingJob.Key] = information;
+                jobsChanged?.Invoke();
 
                 // Give notification of rank up
                 NotificationsUI.Instance.CreateNotification($"Promoted to {information.rank.visibleName}!");

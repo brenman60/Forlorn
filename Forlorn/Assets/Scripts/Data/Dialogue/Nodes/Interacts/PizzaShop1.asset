@@ -21,25 +21,25 @@ MonoBehaviour:
   options:
   - optionText: Exit
     nextNode: {fileID: 0}
+    showsPlayer: 1
     optionRequirements: []
     onSelectSound: {fileID: 11400000, guid: 4e346a7e0df6a2346b178e5616286b41, type: 2}
     onSelectClass: 
     onSelectMethod: 
     onSelectArguments: []
-  - optionText: Get Food
+  - optionText: View Shop
     nextNode: {fileID: 0}
-    optionRequirements:
-    - {fileID: 11400000, guid: 9e06a069354ecb743bbb3f305ec9f677, type: 2}
-    onSelectSound: {fileID: 11400000, guid: 4e346a7e0df6a2346b178e5616286b41, type: 2}
-    onSelectClass: Inventory
-    onSelectMethod: PutItem
+    showsPlayer: 0
+    optionRequirements: []
+    onSelectSound: {fileID: 0}
+    onSelectClass: ShopUI
+    onSelectMethod: OpenShop
     onSelectArguments:
-    - argument: MoldyBread
-      type: 4
-    - argument: 20
-      type: 2
+    - argument: PizzaShop_Shop
+      type: 6
   - optionText: Start Shift
     nextNode: {fileID: 0}
+    showsPlayer: 0
     optionRequirements:
     - {fileID: 11400000, guid: 34bcc0984821b514da62de64ab195ead, type: 2}
     - {fileID: 11400000, guid: 2122c18e603c5e34489bb17895d3905e, type: 2}
@@ -51,6 +51,7 @@ MonoBehaviour:
       type: 5
   - optionText: Apply for Job
     nextNode: {fileID: 0}
+    showsPlayer: 1
     optionRequirements:
     - {fileID: 11400000, guid: 496dc6d8052dcb944a2cadb0b2a4635b, type: 2}
     - {fileID: 11400000, guid: 8ca6b6b318c60664cbdb812288338a5b, type: 2}

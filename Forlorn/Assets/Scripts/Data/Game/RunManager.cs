@@ -110,6 +110,8 @@ public class RunManager : MonoBehaviour, ISaveData
 
     public async void ClockIntoJob(Job job)
     {
+        if (jobManager.daysShifts.Contains(job)) jobManager.daysShifts.Remove(job);
+
         float totalHours = (GameManager.Instance.gameTime / (GameManager.dayLength * 60)) * 24f;
         int currentHour = Mathf.FloorToInt(totalHours);
         int currentMinute = Mathf.FloorToInt((totalHours - currentHour) * 60);
@@ -122,7 +124,7 @@ public class RunManager : MonoBehaviour, ISaveData
 
         // because of this math its probably a good range to have players be fired at around -1000 points
         // since being late for 60 minutes (with 1x point mult) can put you down -1350 points (which shouldn't instantly kill players since they should've built up points before then)
-        float pointMultiplier = statManager.stats[StatType.JobPointMultiplier].maxValue;
+        float pointMultiplier = statManager.stats[StatType.JobPointMultiplier].currentValue;
         EmploymentInformation employmentInformation = jobManager.holdingJobs[job];
         bool playerIsLate = totalMinutesLate > JobManager.lateThreshold;
         if (playerIsLate) // player is late for job (ruin points :))))
@@ -159,7 +161,6 @@ public class RunManager : MonoBehaviour, ISaveData
             Player.Instance.gameObject.SetActive(true);
             Player.Instance.movementLocked = false;
             TimeScaleManager.RemoveInfluence("job" + job.name);
-            print("Adding points: " + Mathf.RoundToInt(150 * pointMultiplier));
             employmentInformation.points += Mathf.RoundToInt(150 * pointMultiplier);
         }
 

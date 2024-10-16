@@ -8,6 +8,8 @@ public class Item : ScriptableObject
     [Header("Look")]
     public Sprite icon;
     public string visibleName = "New Item";
+    [TextArea(5, int.MaxValue)] public string visibleDescription = "New Item Description";
+    public float shopCost = 0;
 
     [Header("Audio")]
     public Sound useSound;

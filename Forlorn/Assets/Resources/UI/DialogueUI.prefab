@@ -356,6 +356,7 @@ MonoBehaviour:
   option:
     optionText: 
     nextNode: {fileID: 0}
+    showsPlayer: 0
     optionRequirements: []
     onSelectSound: {fileID: 0}
     onSelectClass: 
@@ -2237,6 +2238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items: {fileID: 11400000, guid: 50cd87991d331a743916fb3d7111b354, type: 2}
   jobs: {fileID: 11400000, guid: 117fc131aa1a4f049a153b080357adf5, type: 2}
+  shops: {fileID: 11400000, guid: bb60c001c20ecd34998164b9a4948a62, type: 2}
   dialogueCanvasGroup: {fileID: 234458319235660337}
   showSpeed: 4
   dialogueRect: {fileID: 6223648515213059941}

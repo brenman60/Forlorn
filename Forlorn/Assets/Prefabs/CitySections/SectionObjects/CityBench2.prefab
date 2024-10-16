@@ -146,5 +146,5 @@ MonoBehaviour:
   interactText: 
   interactSound: {fileID: 0}
   disappearsPlayer: 0
-  sleepText: Sleep?
-  wakeText: Wake Up?
+  sleepText: Sleep
+  wakeText: Wake Up
