@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4959a5b7c03ed994e9cea70fa6066c6a, type: 3}
-  m_Name: ExampleEffectUI
+  m_Name: ComfortingSleepEffectUIData
   m_EditorClassIdentifier: 
   effectType:
     GuidAssignmentFailed: 0
-    GUID: 20de35cc821758d469b21ba335eadb2a
-    _typeNameAndAssembly: HealthEffect, Assembly-CSharp
+    GUID: b730aa6293ddc27499c520141b4829dd
+    _typeNameAndAssembly: ComfortingSleepEffect, Assembly-CSharp
     _suppressLogs: 0
-  visibleName: Example Name
-  icon: {fileID: 21300000, guid: e266db7dfb74e6948bba5022146de167, type: 3}
-  description: Example Description
+  visibleName: Comforting Sleep
+  icon: {fileID: 21300000, guid: 9afe3f3425453ef45b5836fe183df412, type: 3}
+  description: 

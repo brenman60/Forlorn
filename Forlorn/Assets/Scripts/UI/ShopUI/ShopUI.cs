@@ -47,6 +47,8 @@ public class ShopUI : MonoBehaviour
 
     public void SelectItem(SlotUI slot)
     {
+        if (slot == selectedSlot) return;
+
         foreach (Coroutine typingCoroutine in typingCoroutines)
             if (typingCoroutine != null) StopCoroutine(typingCoroutine);
 
@@ -114,20 +116,21 @@ public class ShopUI : MonoBehaviour
 
     private IEnumerator FadeItemImage(Sprite newItem)
     {
-        while (itemImage.color.a != 0)
-        {
-            itemImage.color = new Color(itemImage.color.r, itemImage.color.g, itemImage.color.b, itemImage.color.a - (0.1f * Time.unscaledDeltaTime));
-            yield return new WaitForSeconds(0.025f);
-        }
+        //while (itemImage.color.a != 0)
+        //{
+        //    itemImage.color = new Color(itemImage.color.r, itemImage.color.g, itemImage.color.b, itemImage.color.a - (10f * Time.unscaledDeltaTime));
+        //    yield return new WaitForEndOfFrame();
+        //}
 
+        itemImage.color = new Color(itemImage.color.r, itemImage.color.g, itemImage.color.b, 1);
         itemImage.sprite = newItem;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.05f);
 
-        while (itemImage.color.a != 1)
-        {
-            itemImage.color = new Color(itemImage.color.r, itemImage.color.g, itemImage.color.b, itemImage.color.a + (0.1f * Time.unscaledDeltaTime));
-            yield return new WaitForSeconds(0.025f);
-        }
+        //while (itemImage.color.a != 1)
+        //{
+        //    itemImage.color = new Color(itemImage.color.r, itemImage.color.g, itemImage.color.b, itemImage.color.a + (10f * Time.unscaledDeltaTime));
+        //    yield return new WaitForEndOfFrame();
+        //}
     }
 
     private IEnumerator TypewriteText(TextMeshProUGUI textField, string text)
@@ -135,15 +138,15 @@ public class ShopUI : MonoBehaviour
         while (textField.text.Length > 0)
         {
             textField.text = textField.text.Remove(textField.text.Length - 1);
-            yield return new WaitForSeconds(0.025f);
+            yield return new WaitForSeconds(0.005f);
         }
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.05f);
 
         foreach (char character in text)
         {
             textField.text += character;
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.015f);
         }
     }
 }

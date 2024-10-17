@@ -52,6 +52,8 @@ public class TaskManager : ISaveData
     {
         Item item = Inventory.Instance.items.GetItemByName(parameters["Item"].ToString());
         Inventory.Instance.PutItem(item, 1);
+
+        ObjectivesList.Instance.TryCompleteObjective("getDocumentation");
     }
 
     private void JobApplicationCompleted(Dictionary<string, object> parameters)

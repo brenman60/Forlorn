@@ -18,6 +18,7 @@ public class Skill : ScriptableObject
 [Serializable]
 public struct SkillModifier
 {
+    public string modifierIdentifier;
     public StatType statType;
     public float statChange;
     public bool isMultiplicative;
@@ -27,6 +28,7 @@ public struct SkillModifier
 [Serializable]
 public struct SkillStatCost
 {
+    public string modifierIdentifier;
     public StatType statType;
     /*
        When not in max amount, it simply removes the amount if not percentage (-15 = -15) and in percentage it removes that given percent (15% of 100 = 15).

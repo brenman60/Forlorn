@@ -16,13 +16,17 @@ MonoBehaviour:
   visibleName: Pocket Dimension 2
   displayDescription: <color=#dbeb34>+16</color> Item Stack Size
   modifiers:
-  - statType: 12
+  - modifierIdentifier: pocketDimension2
+    statType: 12
     statChange: 16
     isMultiplicative: 0
+    changesMaxValue: 0
   skillStatCosts:
-  - statType: 10
+  - modifierIdentifier: pocketDimension2Money
+    statType: 10
     requiredAmount: 50
     isPercentage: 0
     removesAmount: 1
+    removesFromMaxAmount: 0
     displayText: <color=#16a632>-$50</color>
   skillItemCosts: []

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visibleName: Pizza Shop
   shopItems:
+  - {fileID: 11400000, guid: 97c35eebe0d8db0479eeeb1e757adc52, type: 2}
   - {fileID: 11400000, guid: c05d3b20421109b45b755b96851bebf9, type: 2}
-  - {fileID: 11400000, guid: 57e34c23619ef914e88e453a46fa78c0, type: 2}

@@ -766,7 +766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14361cda27bf514eb201c07582624c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactText: Enter Immigration Office?
+  interactText: Enter Immigration Office
   interactSound: {fileID: 11400000, guid: 4fdc2cb8faf226541a91f69455a0f824, type: 2}
   disappearsPlayer: 1
   startingNode: {fileID: 11400000, guid: bf55921302e0ccc4c8257ea87c6e0e7b, type: 2}

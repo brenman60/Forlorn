@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: EffectUIDatas
   m_EditorClassIdentifier: 
   datas:
+  - {fileID: 11400000, guid: 65a318ee29cfe6241911728afac22fb3, type: 2}
   - {fileID: 11400000, guid: 4e41d4819bede9c47a06213a6128735e, type: 2}

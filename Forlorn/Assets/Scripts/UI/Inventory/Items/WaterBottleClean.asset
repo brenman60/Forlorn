@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b30d5f471dc53b42b7611ca3ffabbcd, type: 3}
-  m_Name: FreshPizza
+  m_Name: WaterBottleClean
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 79603b2a0c5bbf94f82f25cce58d4e21, type: 3}
-  visibleName: Whole Pizza
-  visibleDescription: 'Right from the oven.
+  icon: {fileID: 21300000, guid: f03129d9f18feb04399500d018d9fb03, type: 3}
+  visibleName: Clean Water
+  visibleDescription: 'Refreshing water.
 
-    Grants +50 Hunger'
-  shopCost: 28
-  useSound: {fileID: 11400000, guid: a43af4dbf3ac54f49b3ce4e0121c41ad, type: 2}
+    Grants +50 Thirst'
+  shopCost: 16
+  useSound: {fileID: 11400000, guid: 61b89fada4b9f944d88c5a11dc7dced2, type: 2}
   useSoundVolume: 0.5
   usable: 1
   useStats:
-  - targetStat: 2
+  - targetStat: 4
     change: 50
   useEffects: []
   useModifiers: []

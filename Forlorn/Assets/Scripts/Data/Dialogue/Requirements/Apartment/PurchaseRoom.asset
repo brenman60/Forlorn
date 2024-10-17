@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7596bc47a8a3ade4baa6fb78e4af9aed, type: 3}
-  m_Name: PurchasePizza
+  m_Name: PurchaseRoom
   m_EditorClassIdentifier: 
-  requirementText: -10 Dollars
+  requirementText: -50 Dollars
   requirements:
   - stat: 10
-    amount: 10
+    amount: 50
     isPercentage: 0
     takesAmount: 1

@@ -1,6 +1,6 @@
 ﻿public class ThirstEffect : Effect
 {
-    public ThirstEffect(bool saveable, bool timeRemoval, int timeLeft, bool showsIcon) : base(saveable, timeRemoval, timeLeft, showsIcon)
+    public ThirstEffect(string identifier, bool saveable, bool timeRemoval, int timeLeft, bool showsIcon) : base(identifier, saveable, timeRemoval, timeLeft, showsIcon)
     {
     }
 

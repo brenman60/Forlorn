@@ -1,6 +1,6 @@
 public class HungerEffect : Effect
 {
-    public HungerEffect(bool saveable, bool timeRemoval, int timeLeft, bool showsIcon) : base(saveable, timeRemoval, timeLeft, showsIcon)
+    public HungerEffect(string identifier, bool saveable, bool timeRemoval, int timeLeft, bool showsIcon) : base(identifier, saveable, timeRemoval, timeLeft, showsIcon)
     {
     }
 

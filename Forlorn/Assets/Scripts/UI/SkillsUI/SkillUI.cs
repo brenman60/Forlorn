@@ -7,7 +7,7 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
 {
     [Header("Customization")]
     [SerializeField] private Skill skill;
-    [SerializeField] private SkillUI requiredUnlockedSkill;
+    [SerializeField] private SkillUI[] requiredUnlockedSkills;
     [Space(20), SerializeField] private float hoverSpeed = 4f;
     [SerializeField] private float hoverSizeIncrease = 1.25f;
     [SerializeField] private float hoverOutlineSpeed = 0.5f;
@@ -88,7 +88,21 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
 
     private void UpdateUnlockableState()
     {
-        unlockable = requiredUnlockedSkill != null ? requiredUnlockedSkill.unlocked : true;
+        if (requiredUnlockedSkills.Length > 0)
+        {
+            bool allUnlocked = true;
+            foreach (SkillUI requiredSkill in requiredUnlockedSkills)
+                if (!requiredSkill.unlocked)
+                {
+                    allUnlocked = false;
+                    break;
+                }
+
+            unlockable = allUnlocked;
+        }
+        else
+            unlockable = true;
+
         lockedCover.gameObject.SetActive(!unlockable);
     }
 
@@ -132,7 +146,7 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
             Stat selectedStat = RunManager.Instance.statManager.stats[modifier.statType];
             if (modifier.changesMaxValue)
             {
-                StatModifier statModifier = new StatModifier(selectedStat, modifier.statChange, modifier.isMultiplicative);
+                StatModifier statModifier = new StatModifier(modifier.modifierIdentifier, selectedStat, modifier.statChange, modifier.isMultiplicative);
                 RunManager.Instance.statManager.ApplyModifier(statModifier);
             }
             else
@@ -156,7 +170,7 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
                     stat.currentValue -= statCost.requiredAmount;
             }
             else
-                RunManager.Instance.statManager.ApplyModifier(new StatModifier(stat, statCost.requiredAmount, statCost.isPercentage));
+                RunManager.Instance.statManager.ApplyModifier(new StatModifier(statCost.modifierIdentifier, stat, statCost.requiredAmount, statCost.isPercentage));
         }
 
         foreach (SkillItemCost itemCost in skill.skillItemCosts)

@@ -75,19 +75,12 @@ public class Inventory : MonoBehaviour, ISaveData
         if (slotIndexCooldown <= 0 && slotIndexChange != 0)
         {
             slotIndexCooldown = 0.15f;
-            currentSlotIndex -= Mathf.RoundToInt(Mathf.Clamp(-slotIndexChange, -1, 1));
+            currentSlotIndex += Mathf.RoundToInt(Mathf.Clamp(-slotIndexChange, -1, 1));
         }
 
         UpdatePanels();
 
         if (GameEndingUI.gameFinished) enabled = false;
-
-
-
-
-
-        if (Input.GetKeyDown(KeyCode.Z))
-            RunManager.Instance.statManager.stats[StatType.Money].currentValue += 10;
     }
 
     private void UpdatePanels()
@@ -170,11 +163,21 @@ public class Inventory : MonoBehaviour, ISaveData
 
         if (selectedItem.useEffects != null)
             foreach (UseEffect effect in selectedItem.useEffects)
-                RunManager.Instance.statManager.ApplyEffect((Effect)Activator.CreateInstance(effect.effect.Type, RunManager.Instance.statManager, effect.saveable));
+                if (!RunManager.Instance.statManager.HasEffect(effect.effect) || effect.canAddMultiple)
+                {
+                    RunManager.Instance.statManager.ApplyEffect((Effect)Activator.CreateInstance(effect.effect.Type, new object[5]
+                    {
+                        effect.effectIdentifier,
+                        effect.saveable,
+                        effect.nonPermanent,
+                        effect.nonPermanentTime,
+                        effect.showsStatusIcon
+                    }));
+                }
 
         if (selectedItem.useModifiers != null)
             foreach (UseModifier modifier in selectedItem.useModifiers)
-                RunManager.Instance.statManager.ApplyModifier(new StatModifier(RunManager.Instance.statManager.stats[modifier.targetStat], modifier.modifierAmount, modifier.isExponential));
+                RunManager.Instance.statManager.ApplyModifier(new StatModifier(modifier.modifierIdentifier, RunManager.Instance.statManager.stats[modifier.targetStat], modifier.modifierAmount, modifier.isExponential));
 
         slots[currentSlotIndex] = new KeyValuePair<Item, int>(slots[currentSlotIndex].Key, slots[currentSlotIndex].Value - 1);
         if (slots[currentSlotIndex].Value <= 0)

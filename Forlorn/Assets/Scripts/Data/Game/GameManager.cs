@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour, ISaveData
     public float gameTime { get; private set; } = 0f;
     public int gameDays { get; private set; }
 
-    private const float baseDayLength = 6f; // Should be input as the number of minutes, rather than seconds
+    private const float baseDayLength = 2f; // Should be input as the number of minutes, rather than seconds
     public static float dayLength
     {
         get
@@ -216,7 +216,7 @@ public class GameManager : MonoBehaviour, ISaveData
 public enum DayStatus // Values assigned to the enums represent the amount of day that needs to pass before it isn't that status anymore
 {
     None = 0,
-    Morning = 15,
-    Midday = 70,
+    Morning = 30,
+    Midday = 85,
     Night = 100,
 }

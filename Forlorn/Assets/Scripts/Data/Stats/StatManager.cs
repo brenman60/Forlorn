@@ -1,6 +1,8 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using TypeReferences;
+using UnityEngine;
 
 public class StatManager : ISaveData
 {
@@ -40,9 +42,9 @@ public class StatManager : ISaveData
 
     private List<Effect> defaultEffects = new List<Effect>()
     {
-        //new HealthEffect(false, false, 0, false),
-        //new HungerEffect(false, false, 0, false),
-        //new ThirstEffect(false, false, 0, false),
+        //new HealthEffect("defaultHealth", false, false, 0, false),
+        new HungerEffect("defaultHunger", false, false, 0, false),
+        new ThirstEffect("defaultThirst", false, false, 0, false),
     };
 
     public void ApplyModifier(StatModifier modifier)
@@ -63,16 +65,66 @@ public class StatManager : ISaveData
         modifiersChanged?.Invoke(modifier, false);
     }
 
+    public void RemoveModifier(string identifier)
+    {
+        foreach (StatModifier modifier in modifiers.ToArray())
+            if (modifier.identifier == identifier)
+            {
+                Debug.Log(modifier.identifier);
+                modifiers.Remove(modifier);
+                modifier.Remove();
+                RecalculateAllMax();
+
+                modifiersChanged?.Invoke(modifier, false);
+                break;
+            }
+    }
+
     public void ApplyEffect(Effect effect)
     {
         effects.Add(effect);
         effectsChanged?.Invoke(effect, true);
+
+        effect.OnApply();
+    }
+
+    public bool HasEffect(TypeReference effectType)
+    {
+        foreach (Effect effect in effects)
+            if (effect.GetType() == effectType.Type)
+                return true;
+
+        return false;
+    }
+
+    public Effect GetEffect(string identifier)
+    {
+        foreach (Effect effect in effects)
+            if (effect.identifier == identifier)
+                return effect;
+
+        return null;
     }
 
     public void RemoveEffect(Effect effect)
     {
         effects.Remove(effect);
         effectsChanged?.Invoke(effect, false);
+
+        effect.OnRemoval();
+    }
+
+    public void RemoveEffect(string identifier)
+    {
+        foreach (Effect effect in effects.ToArray())
+            if (effect.identifier == identifier)
+            {
+                effects.Remove(effect);
+                effectsChanged?.Invoke(effect, false);
+
+                effect.OnRemoval();
+                break;
+            }
     }
 
     public void Tick()
@@ -136,7 +188,7 @@ public class StatManager : ISaveData
             string[] modifierData = JsonConvert.DeserializeObject<string[]>(modifierDataRaw);
 
             // This sucks
-            StatModifier modifier = new StatModifier(stats[JsonConvert.DeserializeObject<StatType>(modifierData[0])], 0, false);
+            StatModifier modifier = new StatModifier(modifierData[0], stats[JsonConvert.DeserializeObject<StatType>(modifierData[1])], 0, false);
             modifier.PutSaveData(modifierDataRaw);
             ApplyModifier(modifier);
         }

@@ -19,6 +19,8 @@ public class WorldGeneration : MonoBehaviour, ISaveData
     public static bool worldLoaded { get; private set; }
     public static (float, float) worldBounds;
 
+    private bool saveDataLoaded;
+
     private readonly static string originSection = "1";
     private static bool isOriginSection { get { return section == originSection; } }
 
@@ -66,7 +68,10 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         // }
 
         if (worldSection != currentWorldSection)
-            cityWideSections.Clear();
+        {
+            //print("Clearing sections");
+            //cityWideSections.Clear();
+        }
 
         currentSections.Clear();
 

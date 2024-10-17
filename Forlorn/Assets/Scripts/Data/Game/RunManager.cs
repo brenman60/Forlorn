@@ -17,6 +17,7 @@ public class RunManager : MonoBehaviour, ISaveData
     public StatManager statManager { get; private set; }
     public JobManager jobManager { get; private set; }
     public TaskManager taskManager { get; private set; }
+    public ApartmentManager apartmentManager { get; private set;  }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Init()
@@ -32,6 +33,7 @@ public class RunManager : MonoBehaviour, ISaveData
             Instance.statManager = new StatManager();
             Instance.jobManager = new JobManager(Instance.jobs);
             Instance.taskManager = new TaskManager();
+            Instance.apartmentManager = new ApartmentManager();
 
             DontDestroyOnLoad(managerObject);
         }
@@ -75,13 +77,17 @@ public class RunManager : MonoBehaviour, ISaveData
         }
     }
 
+    public void SetRestStatus(bool status) => apartmentManager.SetRestStatus(status);
+
+    public void PurchaseApartment(string name) => apartmentManager.PurchaseApartment(name);
+
     public void ApplyForDocuments(string itemName)
     {
         taskManager.StartTask(
             new TimeTask(
                 "documentsApplication",
                 "Offical Documents Application",
-                60f * 5f,
+                60f * 2.5f,
                 TaskType.DocumentsApplication,
                 new Dictionary<string, object>()
                 {
@@ -97,7 +103,7 @@ public class RunManager : MonoBehaviour, ISaveData
             new TimeTask(
                 selectedJob.name,
                 selectedJob.visibleName + " Application", 
-                60f * 1.5f,
+                60f * 0.5f,
                 TaskType.JobApplication,
                 new Dictionary<string, object>() 
                 {
@@ -123,7 +129,7 @@ public class RunManager : MonoBehaviour, ISaveData
         int totalMinutesLate = (hoursLate * 60) + minutesLate;
 
         // because of this math its probably a good range to have players be fired at around -1000 points
-        // since being late for 60 minutes (with 1x point mult) can put you down -1350 points (which shouldn't instantly kill players since they should've built up points before then)
+        // since being late for 90 minutes (with 1x point mult) can put you down -1227 points (which shouldn't instantly kill players since they should've built up points before then)
         float pointMultiplier = statManager.stats[StatType.JobPointMultiplier].currentValue;
         EmploymentInformation employmentInformation = jobManager.holdingJobs[job];
         bool playerIsLate = totalMinutesLate > JobManager.lateThreshold;
@@ -134,7 +140,7 @@ public class RunManager : MonoBehaviour, ISaveData
             int minutesBeyondTheshold = totalMinutesLate - JobManager.lateThreshold;
             // math note: pointMultiplier is like insanely beneficial up to 2x but falls off almost instantly
             // so cool meta i guess
-            employmentInformation.points += Mathf.RoundToInt((0.25f * -(minutesBeyondTheshold * minutesBeyondTheshold)) / (pointMultiplier / 1.5f));
+            employmentInformation.points += Mathf.RoundToInt((0.1f * -(minutesBeyondTheshold * minutesBeyondTheshold)) / (pointMultiplier / 1.5f));
         }
         else // player was on time (reward with points :((()
         {
@@ -176,11 +182,12 @@ public class RunManager : MonoBehaviour, ISaveData
 
     public string GetSaveData()
     {
-        string[] dataPoints = new string[6]
+        string[] dataPoints = new string[7]
         {
             statManager.GetSaveData(),
             jobManager.GetSaveData(),
             taskManager.GetSaveData(),
+            apartmentManager.GetSaveData(),
             Inventory.Instance != null ? Inventory.Instance.GetSaveData() : string.Empty,
             SkillsUI.Instance != null ? SkillsUI.Instance.GetSaveData() : string.Empty,
             ObjectivesList.Instance != null ? ObjectivesList.Instance.GetSaveData() : string.Empty,
@@ -195,9 +202,10 @@ public class RunManager : MonoBehaviour, ISaveData
         statManager.PutSaveData(dataPoints[0]);
         jobManager.PutSaveData(dataPoints[1]);
         taskManager.PutSaveData(dataPoints[2]);
-        if (!string.IsNullOrEmpty(dataPoints[3])) StartCoroutine(WaitForInventory(dataPoints[3]));
-        if (!string.IsNullOrEmpty(dataPoints[4])) StartCoroutine(WaitForSkillsUI(dataPoints[4]));
-        if (!string.IsNullOrEmpty(dataPoints[5])) StartCoroutine(WaitForObjectivesList(dataPoints[5]));
+        apartmentManager.PutSaveData(dataPoints[3]);
+        if (!string.IsNullOrEmpty(dataPoints[4])) StartCoroutine(WaitForInventory(dataPoints[4]));
+        if (!string.IsNullOrEmpty(dataPoints[5])) StartCoroutine(WaitForSkillsUI(dataPoints[5]));
+        if (!string.IsNullOrEmpty(dataPoints[6])) StartCoroutine(WaitForObjectivesList(dataPoints[6]));
     }
 
     private IEnumerator WaitForInventory(string inventoryData)

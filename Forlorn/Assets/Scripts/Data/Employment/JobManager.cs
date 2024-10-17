@@ -58,7 +58,10 @@ public class JobManager : ISaveData
             else if (information.points >= nextRank.rankLevel && nextRank.name != information.rank.name)
             {
                 information.rank = nextRank;
-                information.points = 0;
+                // gives your rank's level times 175 points. so two promotions will give 300 initial points on the third rank
+                // should go rank 1 = 175, rank 2 = 350, rank 3 = 525, etc
+                // should help soften blow from missing shifts
+                information.points = Mathf.RoundToInt((holdingJob.Key.ranks.IndexOf(information.rank) + 1) * 175f); 
                 holdingJobs[holdingJob.Key] = information;
                 jobsChanged?.Invoke();
 
@@ -94,11 +97,13 @@ public class JobManager : ISaveData
         employmentInformation.endTime = new ShiftTime(5 + 12, 0);
         employmentInformation.workDays = new List<DayOfWeek>()
         {
+            DayOfWeek.Sunday,
             DayOfWeek.Monday,
             DayOfWeek.Tuesday,
             DayOfWeek.Wednesday,
             DayOfWeek.Thursday,
             DayOfWeek.Friday,
+            DayOfWeek.Saturday,
         };
 
         holdingJobs.Add(job, employmentInformation);

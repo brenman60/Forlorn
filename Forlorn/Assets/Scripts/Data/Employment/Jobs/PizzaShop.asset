@@ -16,28 +16,28 @@ MonoBehaviour:
   visibleColor: {r: 1, g: 0.3066038, b: 0.3066038, a: 1}
   applicationDifficulty: 0.2
   ranks:
-  - name: Cashier
+  - name: cashier
     rankLevel: 0
     visibleName: Cashier
     visibleColor: {r: 1, g: 0.8521834, b: 0.5235849, a: 1}
     payPerHour: 10
     valuedStats: 
     modifiers: []
-  - name: Prep Cook
+  - name: prepCook
     rankLevel: 300
     visibleName: Prep Cook
     visibleColor: {r: 1, g: 0.655807, b: 0.495283, a: 1}
     payPerHour: 13
     valuedStats: 
     modifiers: []
-  - name: Pizza Maker
+  - name: pizzaMaker
     rankLevel: 450
     visibleName: Pizza Maker
     visibleColor: {r: 1, g: 0.5254902, b: 0.5438814, a: 1}
     payPerHour: 17
     valuedStats: 
     modifiers: []
-  - name: General Manager
+  - name: generalManager
     rankLevel: 600
     visibleName: General Manager
     visibleColor: {r: 0.79700726, g: 1, b: 0.5254902, a: 1}

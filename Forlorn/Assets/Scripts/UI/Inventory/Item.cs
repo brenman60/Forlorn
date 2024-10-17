@@ -32,14 +32,21 @@ public struct UseStat
 [Serializable]
 public struct UseEffect
 {
+    public string effectIdentifier;
+
     [Inherits(typeof(Effect))]
     public TypeReference effect;
+    public bool canAddMultiple;
     public bool saveable;
+    public bool nonPermanent;
+    public int nonPermanentTime;
+    public bool showsStatusIcon;
 }
 
 [Serializable]
 public struct UseModifier
 {
+    public string modifierIdentifier;
     public StatType targetStat;
     public float modifierAmount;
     public bool isExponential;

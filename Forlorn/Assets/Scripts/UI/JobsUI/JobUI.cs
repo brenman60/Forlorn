@@ -96,7 +96,7 @@ public class JobUI : MonoBehaviour
             endShiftTime.hour--;
         }
 
-        endShiftTime.hour = Mathf.Clamp(endShiftTime.hour, employmentInformation.startTime.hour, 24);
+        endShiftTime.hour = Mathf.Clamp(endShiftTime.hour, employmentInformation.startTime.hour, 23);
 
         if (MinutesDifference(employmentInformation.startTime, endShiftTime) >= 60)
             employmentInformation.endTime = endShiftTime;

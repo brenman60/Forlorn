@@ -24,5 +24,16 @@ MonoBehaviour:
   useStats:
   - targetStat: 2
     change: 20
-  useEffects: []
+  useEffects:
+  - effectIdentifier: wellFedPizzaSlice
+    effect:
+      GuidAssignmentFailed: 0
+      GUID: da54677dd2b303945ac64d64e582f98c
+      _typeNameAndAssembly: WellFedEffect, Assembly-CSharp
+      _suppressLogs: 0
+    canAddMultiple: 0
+    saveable: 1
+    nonPermanent: 1
+    nonPermanentTime: 60
+    showsStatusIcon: 1
   useModifiers: []

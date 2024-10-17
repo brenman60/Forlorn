@@ -16,12 +16,14 @@ MonoBehaviour:
   visibleName: Unquenchable 2
   displayDescription: Increases maximum thirst by <color=#34abeb>+15%</color>.
   modifiers:
-  - statType: 4
+  - modifierIdentifier: unquenchable2
+    statType: 4
     statChange: 1.15
     isMultiplicative: 1
     changesMaxValue: 1
   skillStatCosts:
-  - statType: 9
+  - modifierIdentifier: unquenchable2ThirstSuppression
+    statType: 9
     requiredAmount: 10
     isPercentage: 1
     removesAmount: 1

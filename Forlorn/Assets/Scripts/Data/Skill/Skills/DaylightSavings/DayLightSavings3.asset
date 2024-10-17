@@ -16,23 +16,28 @@ MonoBehaviour:
   visibleName: Daylight Savings 3
   displayDescription: Increase day length by <color=#3293a8>1</color> minute.
   modifiers:
-  - statType: 15
+  - modifierIdentifier: dayLightSavings3
+    statType: 15
     statChange: 1
     isMultiplicative: 0
+    changesMaxValue: 0
   skillStatCosts:
-  - statType: 0
+  - modifierIdentifier: dayLightSavings3Health
+    statType: 0
     requiredAmount: 0.9
     isPercentage: 1
     removesAmount: 1
     removesFromMaxAmount: 1
     displayText: <color=#de3131>-10%</color> Maximum Health
-  - statType: 2
+  - modifierIdentifier: dayLightSavings3Hunger
+    statType: 2
     requiredAmount: 0.9
     isPercentage: 1
     removesAmount: 1
     removesFromMaxAmount: 1
     displayText: <color=#deb031>-10%</color> Maximum Hunger
-  - statType: 4
+  - modifierIdentifier: dayLightSavings3Thirst
+    statType: 4
     requiredAmount: 0.9
     isPercentage: 1
     removesAmount: 1

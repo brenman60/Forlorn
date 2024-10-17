@@ -16,7 +16,7 @@ MonoBehaviour:
   requiredInSections:
   - 1
   requiredInAnySection: 0
-  maxPerSection: 0
+  maxPerSection: 1
   requiredInCity: 1
   maxPerCity: 1
   rarity: 1
