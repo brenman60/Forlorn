@@ -146,7 +146,7 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
             Stat selectedStat = RunManager.Instance.statManager.stats[modifier.statType];
             if (modifier.changesMaxValue)
             {
-                StatModifier statModifier = new StatModifier(modifier.modifierIdentifier, selectedStat, modifier.statChange, modifier.isMultiplicative);
+                StatModifier statModifier = new StatModifier(modifier.modifierIdentifier, selectedStat, modifier.statChange, modifier.isMultiplicative, true);
                 RunManager.Instance.statManager.ApplyModifier(statModifier);
             }
             else
@@ -170,7 +170,7 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
                     stat.currentValue -= statCost.requiredAmount;
             }
             else
-                RunManager.Instance.statManager.ApplyModifier(new StatModifier(statCost.modifierIdentifier, stat, statCost.requiredAmount, statCost.isPercentage));
+                RunManager.Instance.statManager.ApplyModifier(new StatModifier(statCost.modifierIdentifier, stat, statCost.requiredAmount, statCost.isPercentage, true));
         }
 
         foreach (SkillItemCost itemCost in skill.skillItemCosts)

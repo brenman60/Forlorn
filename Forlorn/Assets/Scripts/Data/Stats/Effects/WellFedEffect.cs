@@ -12,8 +12,8 @@ public class WellFedEffect : Effect
         base.OnApply();
 
         StatManager statManager = RunManager.Instance.statManager;
-        statManager.ApplyModifier(new StatModifier(speedModIdentifier, statManager.stats[StatType.MovementSpeed], 1.5f, true));
-        statManager.ApplyModifier(new StatModifier(hungerModIdentifier, statManager.stats[StatType.HungerSuppression], 2f, true));
+        statManager.ApplyModifier(new StatModifier(speedModIdentifier, statManager.stats[StatType.MovementSpeed], 1.5f, true, false));
+        statManager.ApplyModifier(new StatModifier(hungerModIdentifier, statManager.stats[StatType.HungerSuppression], 2f, true, false));
     }
 
     public override void OnRemoval()

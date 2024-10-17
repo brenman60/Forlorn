@@ -174,6 +174,9 @@ public class JobManager : ISaveData
     {
         string[] dataPoints = JsonConvert.DeserializeObject<string[]>(data);
 
+        holdingJobs.Clear();
+        daysShifts.Clear();
+
         List<string> jobSaves = JsonConvert.DeserializeObject<List<string>>(dataPoints[0]);
         foreach (string employmentData in jobSaves)
         {

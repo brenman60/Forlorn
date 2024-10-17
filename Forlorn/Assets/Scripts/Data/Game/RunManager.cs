@@ -63,6 +63,8 @@ public class RunManager : MonoBehaviour, ISaveData
     private IEnumerator FirstTimeLoad()
     {
         yield return new WaitUntil(() => ObjectivesList.Instance != null);
+        ObjectivesList.Instance.ClearAll();
+
         ObjectivesList.Instance.CreateNewObjective(new Objective("immigrationOfficeDiscover", "Find Immigration Office"));
         ObjectivesList.Instance.CreateNewObjective(new Objective("obtainJob", "Find Job"));
     }
@@ -168,9 +170,9 @@ public class RunManager : MonoBehaviour, ISaveData
             Player.Instance.movementLocked = false;
             TimeScaleManager.RemoveInfluence("job" + job.name);
             employmentInformation.points += Mathf.RoundToInt(150 * pointMultiplier);
+            statManager.stats[StatType.Money].currentValue += employmentInformation.rank.payPerHour * Mathf.Abs(employmentInformation.startTime.hour - employmentInformation.endTime.hour);
         }
 
-        statManager.stats[StatType.Money].currentValue += employmentInformation.rank.payPerHour * Mathf.Abs(employmentInformation.startTime.hour - employmentInformation.endTime.hour);
         jobManager.holdingJobs[job] = employmentInformation;
     }
 

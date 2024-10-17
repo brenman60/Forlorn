@@ -418,7 +418,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6329847045913553824}
   - component: {fileID: 8300600158835475285}
-  - component: {fileID: 2822831008263007286}
   m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
@@ -491,29 +490,6 @@ MonoBehaviour:
   - {x: 0.11043523, y: -0.12944213, z: 0}
   - {x: 0.10981503, y: 0.15060067, z: 0}
   - {x: -0.10933841, y: 0.14985785, z: 0}
---- !u!114 &2822831008263007286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 730399784892432727}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed63fe90a7aac61419e395027bcebdbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomEnableStatus: 1
-  lightChangeSpeed: 1
-  lightSettings:
-  - status: 30
-    intensity: 0.09
-  - status: 70
-    intensity: 0.18
-  - status: 100
-    intensity: 0.36
-  lightDependentObject:
-  - {fileID: 6101901395233603916}
 --- !u!1 &859685064323565555
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,7 +500,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2682731432914787636}
   - component: {fileID: 4361002608654578744}
-  - component: {fileID: 3130107129407387454}
   m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
@@ -597,29 +572,6 @@ MonoBehaviour:
   - {x: 0.11043523, y: -0.12944213, z: 0}
   - {x: 0.10981503, y: 0.15060067, z: 0}
   - {x: -0.10933841, y: 0.14985785, z: 0}
---- !u!114 &3130107129407387454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 859685064323565555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed63fe90a7aac61419e395027bcebdbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomEnableStatus: 1
-  lightChangeSpeed: 1
-  lightSettings:
-  - status: 30
-    intensity: 0.09
-  - status: 70
-    intensity: 0.18
-  - status: 100
-    intensity: 0.36
-  lightDependentObject:
-  - {fileID: 9173581438705717706}
 --- !u!1 &879551832351181792
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,7 +750,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2056192795343548397}
   - component: {fileID: 5082469915824013250}
-  - component: {fileID: 1013906194271132775}
   m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
@@ -871,29 +822,6 @@ MonoBehaviour:
   - {x: 0.11043523, y: -0.12944213, z: 0}
   - {x: 0.10981503, y: 0.15060067, z: 0}
   - {x: -0.10933841, y: 0.14985785, z: 0}
---- !u!114 &1013906194271132775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1002579904033214470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed63fe90a7aac61419e395027bcebdbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomEnableStatus: 1
-  lightChangeSpeed: 1
-  lightSettings:
-  - status: 30
-    intensity: 0.09
-  - status: 70
-    intensity: 0.18
-  - status: 100
-    intensity: 0.36
-  lightDependentObject:
-  - {fileID: 9212245230024117206}
 --- !u!1 &1203651202035674025
 GameObject:
   m_ObjectHideFlags: 0
@@ -1493,7 +1421,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8525923856063981260}
   - component: {fileID: 3213889407935938329}
-  - component: {fileID: 2020080306478370718}
   m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
@@ -1566,29 +1493,6 @@ MonoBehaviour:
   - {x: 0.11043523, y: -0.12944213, z: 0}
   - {x: 0.10981503, y: 0.15060067, z: 0}
   - {x: -0.10933841, y: 0.14985785, z: 0}
---- !u!114 &2020080306478370718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2379419807229237552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed63fe90a7aac61419e395027bcebdbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomEnableStatus: 1
-  lightChangeSpeed: 1
-  lightSettings:
-  - status: 30
-    intensity: 0.09
-  - status: 70
-    intensity: 0.18
-  - status: 100
-    intensity: 0.36
-  lightDependentObject:
-  - {fileID: 7499654337643752601}
 --- !u!1 &2425694679923488672
 GameObject:
   m_ObjectHideFlags: 0
@@ -2225,7 +2129,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5824933441345167893}
   - component: {fileID: 1560525401116309905}
-  - component: {fileID: 8549573280881182674}
   m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
@@ -2298,29 +2201,6 @@ MonoBehaviour:
   - {x: 0.11043523, y: -0.12944213, z: 0}
   - {x: 0.10981503, y: 0.15060067, z: 0}
   - {x: -0.10933841, y: 0.14985785, z: 0}
---- !u!114 &8549573280881182674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3232253230127815016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed63fe90a7aac61419e395027bcebdbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomEnableStatus: 1
-  lightChangeSpeed: 1
-  lightSettings:
-  - status: 30
-    intensity: 0.09
-  - status: 70
-    intensity: 0.18
-  - status: 100
-    intensity: 0.36
-  lightDependentObject:
-  - {fileID: 3780651205295684471}
 --- !u!1 &3268300137833833523
 GameObject:
   m_ObjectHideFlags: 0
@@ -3315,7 +3195,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9144210341261016462}
   - component: {fileID: 1349287206826654228}
-  - component: {fileID: 2222889297618696401}
   m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
@@ -3388,29 +3267,6 @@ MonoBehaviour:
   - {x: 0.11043523, y: -0.12944213, z: 0}
   - {x: 0.10981503, y: 0.15060067, z: 0}
   - {x: -0.10933841, y: 0.14985785, z: 0}
---- !u!114 &2222889297618696401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5239242224796317014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed63fe90a7aac61419e395027bcebdbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomEnableStatus: 1
-  lightChangeSpeed: 1
-  lightSettings:
-  - status: 30
-    intensity: 0.09
-  - status: 70
-    intensity: 0.18
-  - status: 100
-    intensity: 0.36
-  lightDependentObject:
-  - {fileID: 1313676465209571041}
 --- !u!1 &5268502631576685622
 GameObject:
   m_ObjectHideFlags: 0
@@ -4794,7 +4650,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1751937519708813123}
   - component: {fileID: 6565653723338153906}
-  - component: {fileID: 8110081803078974227}
   m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
@@ -4867,29 +4722,6 @@ MonoBehaviour:
   - {x: 0.11043523, y: -0.12944213, z: 0}
   - {x: 0.10981503, y: 0.15060067, z: 0}
   - {x: -0.10933841, y: 0.14985785, z: 0}
---- !u!114 &8110081803078974227
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6722633408808598021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed63fe90a7aac61419e395027bcebdbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomEnableStatus: 1
-  lightChangeSpeed: 1
-  lightSettings:
-  - status: 30
-    intensity: 0.09
-  - status: 70
-    intensity: 0.18
-  - status: 100
-    intensity: 0.36
-  lightDependentObject:
-  - {fileID: 2668110277245664819}
 --- !u!1 &6868348960961285104
 GameObject:
   m_ObjectHideFlags: 0
@@ -5189,7 +5021,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3641624383331456229}
   - component: {fileID: 1379559974642548223}
-  - component: {fileID: 2714775271154897301}
   m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
@@ -5262,29 +5093,6 @@ MonoBehaviour:
   - {x: 0.11043523, y: -0.12944213, z: 0}
   - {x: 0.10981503, y: 0.15060067, z: 0}
   - {x: -0.10933841, y: 0.14985785, z: 0}
---- !u!114 &2714775271154897301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7340151815490488096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed63fe90a7aac61419e395027bcebdbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomEnableStatus: 1
-  lightChangeSpeed: 1
-  lightSettings:
-  - status: 30
-    intensity: 0.09
-  - status: 70
-    intensity: 0.18
-  - status: 100
-    intensity: 0.36
-  lightDependentObject:
-  - {fileID: 2881368703309427523}
 --- !u!1 &7341835286968099811
 GameObject:
   m_ObjectHideFlags: 0
@@ -5837,7 +5645,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3491118898572505945}
   - component: {fileID: 1206682459086403339}
-  - component: {fileID: 4316995479500610576}
   m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
@@ -5910,29 +5717,6 @@ MonoBehaviour:
   - {x: 0.11043523, y: -0.12944213, z: 0}
   - {x: 0.10981503, y: 0.15060067, z: 0}
   - {x: -0.10933841, y: 0.14985785, z: 0}
---- !u!114 &4316995479500610576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7590286377161884111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed63fe90a7aac61419e395027bcebdbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomEnableStatus: 1
-  lightChangeSpeed: 1
-  lightSettings:
-  - status: 30
-    intensity: 0.09
-  - status: 70
-    intensity: 0.18
-  - status: 100
-    intensity: 0.36
-  lightDependentObject:
-  - {fileID: 7293580488586252287}
 --- !u!1 &7640425125994029588
 GameObject:
   m_ObjectHideFlags: 0
@@ -6196,7 +5980,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4179179630512795414}
   - component: {fileID: 3150184997050978704}
-  - component: {fileID: 4552357614207162893}
   m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
@@ -6269,29 +6052,6 @@ MonoBehaviour:
   - {x: 0.11043523, y: -0.12944213, z: 0}
   - {x: 0.10981503, y: 0.15060067, z: 0}
   - {x: -0.10933841, y: 0.14985785, z: 0}
---- !u!114 &4552357614207162893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8372710614517869770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed63fe90a7aac61419e395027bcebdbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomEnableStatus: 1
-  lightChangeSpeed: 1
-  lightSettings:
-  - status: 30
-    intensity: 0.09
-  - status: 70
-    intensity: 0.18
-  - status: 100
-    intensity: 0.36
-  lightDependentObject:
-  - {fileID: 6210171822347731777}
 --- !u!1 &8564104958981404890
 GameObject:
   m_ObjectHideFlags: 0

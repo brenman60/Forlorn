@@ -1,18 +1,21 @@
 ﻿using Newtonsoft.Json;
+using UnityEngine;
 
 public class StatModifier : ISaveData
 {
     public string identifier { get; private set; }
+    public bool saveable { get; private set; }
     private Stat stat;
     private float modifier;
     private bool isMulti;
 
-    public StatModifier(string identifier, Stat stat, float modifier, bool isMulti)
+    public StatModifier(string identifier, Stat stat, float modifier, bool isMulti, bool saveable)
     {
         this.identifier = identifier;
         this.stat = stat;
         this.modifier = modifier;
         this.isMulti = isMulti;
+        this.saveable = saveable;
     }
 
     public void Apply()
@@ -27,12 +30,13 @@ public class StatModifier : ISaveData
 
     public string GetSaveData()
     {
-        string[] data = new string[4]
+        string[] data = new string[5]
         {
             identifier,
-            JsonConvert.SerializeObject(stat.type),
+            ((int)stat.type).ToString(),
             modifier.ToString(),
             isMulti.ToString(),
+            saveable.ToString(),
         };
 
         return JsonConvert.SerializeObject(data);
@@ -40,10 +44,6 @@ public class StatModifier : ISaveData
 
     public void PutSaveData(string data)
     {
-        string[] savedData = JsonConvert.DeserializeObject<string[]>(data);
-        identifier = savedData[0];
-        stat.type = JsonConvert.DeserializeObject<StatType>(savedData[1]);
-        modifier = float.Parse(savedData[2]);
-        isMulti = bool.Parse(savedData[3]);
+        throw new System.Exception("StatModifier.PutSaveData should not need be to called. Create an empty modifier using the StatModifier Constructor instead.");
     }
 }

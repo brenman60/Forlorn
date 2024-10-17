@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Apartment1
   m_EditorClassIdentifier: 
   dialogue: A comforting atmosphere fills the interior.
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  textColor: {r: 0.49411765, g: 0.8392157, b: 1, a: 1}
   backgroundColor: {r: 0, g: 0, b: 0, a: 0.5019608}
   displayTime: 0.25
   useTypewriter: 1

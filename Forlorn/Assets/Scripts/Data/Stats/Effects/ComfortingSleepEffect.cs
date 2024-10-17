@@ -4,7 +4,7 @@ public class ComfortingSleepEffect : Effect
     {
     }
 
-    private const string healthModIdentifier = "comfortingSleepHealthMod";
+    private const string movementSpeedModIdentifier = "comfortingSleepHealthMod";
     private const string hungerModIdentifier = "comfortingSleepHungerMod";
     private const string thirstModIdentifier = "comfortingSleepThirstMod";
 
@@ -13,9 +13,9 @@ public class ComfortingSleepEffect : Effect
         base.OnApply();
 
         StatManager statManager = RunManager.Instance.statManager;
-        statManager.ApplyModifier(new StatModifier(healthModIdentifier, statManager.stats[StatType.HealthRegeneration], 2.25f, true));
-        statManager.ApplyModifier(new StatModifier(hungerModIdentifier, statManager.stats[StatType.HungerDegradation], 0.5f, true));
-        statManager.ApplyModifier(new StatModifier(thirstModIdentifier, statManager.stats[StatType.ThirstDegradation], 0.5f, true));
+        statManager.ApplyModifier(new StatModifier(movementSpeedModIdentifier, statManager.stats[StatType.MovementSpeed], 1.75f, true, false));
+        statManager.ApplyModifier(new StatModifier(hungerModIdentifier, statManager.stats[StatType.HungerDegradation], 0.5f, true, false));
+        statManager.ApplyModifier(new StatModifier(thirstModIdentifier, statManager.stats[StatType.ThirstDegradation], 0.5f, true, false));
     }
 
     public override void OnRemoval()
@@ -23,7 +23,7 @@ public class ComfortingSleepEffect : Effect
         base.OnRemoval();
 
         StatManager statManager = RunManager.Instance.statManager;
-        statManager.RemoveModifier(healthModIdentifier);
+        statManager.RemoveModifier(movementSpeedModIdentifier);
         statManager.RemoveModifier(hungerModIdentifier);
         statManager.RemoveModifier(thirstModIdentifier);
     }

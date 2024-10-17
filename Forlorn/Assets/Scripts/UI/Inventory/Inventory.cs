@@ -177,7 +177,7 @@ public class Inventory : MonoBehaviour, ISaveData
 
         if (selectedItem.useModifiers != null)
             foreach (UseModifier modifier in selectedItem.useModifiers)
-                RunManager.Instance.statManager.ApplyModifier(new StatModifier(modifier.modifierIdentifier, RunManager.Instance.statManager.stats[modifier.targetStat], modifier.modifierAmount, modifier.isExponential));
+                RunManager.Instance.statManager.ApplyModifier(new StatModifier(modifier.modifierIdentifier, RunManager.Instance.statManager.stats[modifier.targetStat], modifier.modifierAmount, modifier.isExponential, true));
 
         slots[currentSlotIndex] = new KeyValuePair<Item, int>(slots[currentSlotIndex].Key, slots[currentSlotIndex].Value - 1);
         if (slots[currentSlotIndex].Value <= 0)

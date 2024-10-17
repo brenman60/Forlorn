@@ -41,8 +41,8 @@ public class SkillInformation : MonoBehaviour
         float heightRatio = Screen.height / 1080f;
         mouseOffset = initialMouseOffset * new Vector2(widthRatio, heightRatio) * transform.localScale;
 
-        if (open)
-            mousePosition = Input.mousePosition;
+        //if (open)
+        mousePosition = Input.mousePosition;
 
         transform.position = Vector2.Lerp(transform.position, mousePosition + mouseOffset, Time.unscaledDeltaTime * mouseMoveSpeed);
     }

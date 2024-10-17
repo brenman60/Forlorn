@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887b71eb86c53e844baceb90fa9441a5, type: 3}
+  m_Name: Bank
+  m_EditorClassIdentifier: 
+  visibleName: Bank
+  visibleColor: {r: 0.30588233, g: 0.6307194, b: 1, a: 1}
+  applicationDifficulty: 0.4
+  ranks:
+  - name: teller
+    rankLevel: 0
+    visibleName: Teller
+    visibleColor: {r: 0.5254902, g: 0.8825385, b: 1, a: 1}
+    payPerHour: 13
+    valuedStats: 
+    modifiers: []
+  - name: loanOfficer
+    rankLevel: 450
+    visibleName: Loan Officer
+    visibleColor: {r: 0.49411762, g: 0.66089773, b: 1, a: 1}
+    payPerHour: 16
+    valuedStats: 
+    modifiers: []
+  - name: branchManager
+    rankLevel: 450
+    visibleName: Branch Manager
+    visibleColor: {r: 0.5254902, g: 0.536796, b: 1, a: 1}
+    payPerHour: 20
+    valuedStats: 
+    modifiers: []
+  - name: investmentAdvisor
+    rankLevel: 600
+    visibleName: Investment Advisor
+    visibleColor: {r: 0.79969716, g: 0.5254902, b: 1, a: 1}
+    payPerHour: 25
+    valuedStats: 
+    modifiers: []

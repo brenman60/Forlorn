@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11be5f20f5c49ee4b9aa9cd8f14d75b2, type: 3}
   m_Name: Apartment2
   m_EditorClassIdentifier: 
-  dialogue: A comforting atmosphere fills the interior.
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  dialogue: ...
+  textColor: {r: 0.495283, g: 0.840943, b: 1, a: 1}
   backgroundColor: {r: 0, g: 0, b: 0, a: 0.5019608}
   displayTime: 0.25
   useTypewriter: 1

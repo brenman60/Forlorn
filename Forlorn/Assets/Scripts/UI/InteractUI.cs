@@ -62,7 +62,7 @@ public class InteractUI : MonoBehaviour
 
         if (Keybinds.Instance.controlInteract.ReadValue<float>() != 0 && interactables.Count > 0 && open && interactCooldown <= 0f)
         {
-            interactCooldown = 2f;
+            interactCooldown = 0.5f;
             DoInteraction();
         }
     }

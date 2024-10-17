@@ -25,21 +25,18 @@ public class Stat : ISaveData
     private float valueAddition;
     private float valueMultiplier;
 
+    private bool hasNoMax;
+
     public Stat(float baseValue, StatType type, bool hasNoMax)
     {
         this.baseValue = baseValue;
         this.type = type;
         this.currentValue_ = baseValue;
+        this.hasNoMax = hasNoMax;
         Recalculate();
-
-        if (hasNoMax)
-            this.baseValue = float.MaxValue;
     }
 
-    public float maxValue
-    {
-        get { return (baseValue + valueAddition) * valueMultiplier; }
-    }
+    public float maxValue { get { if (!hasNoMax) return (baseValue + valueAddition) * valueMultiplier; else return float.MaxValue; } }
 
     public void AddModifier(float value, bool isMultiplicative)
     {
@@ -47,14 +44,21 @@ public class Stat : ISaveData
             valueMultiplier *= value;
         else
             valueAddition += value;
+
+        if (hasNoMax)
+            currentValue = (baseValue + valueAddition) * valueMultiplier;
     }
 
     public void RemoveModifier(float value, bool isMultiplicative)
     {
+
         if (isMultiplicative)
             valueMultiplier /= value;
         else
             valueAddition -= value;
+
+        if (!hasNoMax)
+            currentValue = (baseValue + valueAddition) * valueMultiplier;
     }
 
     public void Recalculate()

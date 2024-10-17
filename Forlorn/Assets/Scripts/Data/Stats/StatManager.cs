@@ -20,7 +20,7 @@ public class StatManager : ISaveData
         [StatType.HungerSuppression] = new Stat(1f, StatType.HungerSuppression, false),
         [StatType.Thirst] = new Stat(100f, StatType.Thirst, false),
         [StatType.ThirstDegradation] = new Stat(1f, StatType.ThirstDegradation, false),
-        [StatType.ThirstSuppression] = new Stat(1f, StatType.ThirstSuppression, false),
+        [StatType.ThirstSuppression] = new Stat(2f, StatType.ThirstSuppression, false),
         [StatType.Luck] = new Stat(1f, StatType.Luck, true), // until i can make a "luck manager" type thing this will probably go unused
         [StatType.MovementSpeed] = new Stat(1f, StatType.MovementSpeed, true),
 
@@ -42,7 +42,7 @@ public class StatManager : ISaveData
 
     private List<Effect> defaultEffects = new List<Effect>()
     {
-        //new HealthEffect("defaultHealth", false, false, 0, false),
+        new HealthEffect("defaultHealth", false, false, 0, false),
         new HungerEffect("defaultHunger", false, false, 0, false),
         new ThirstEffect("defaultThirst", false, false, 0, false),
     };
@@ -70,7 +70,6 @@ public class StatManager : ISaveData
         foreach (StatModifier modifier in modifiers.ToArray())
             if (modifier.identifier == identifier)
             {
-                Debug.Log(modifier.identifier);
                 modifiers.Remove(modifier);
                 modifier.Remove();
                 RecalculateAllMax();
@@ -155,7 +154,8 @@ public class StatManager : ISaveData
 
         List<string> compiledModifiers = new List<string>();
         foreach (StatModifier modifier in modifiers)
-            compiledModifiers.Add(modifier.GetSaveData());
+            if (modifier.saveable)
+                compiledModifiers.Add(modifier.GetSaveData());
 
         List<EffectData> compiledEffects = new List<EffectData>();
         foreach (Effect effect in effects)
@@ -188,8 +188,7 @@ public class StatManager : ISaveData
             string[] modifierData = JsonConvert.DeserializeObject<string[]>(modifierDataRaw);
 
             // This sucks
-            StatModifier modifier = new StatModifier(modifierData[0], stats[JsonConvert.DeserializeObject<StatType>(modifierData[1])], 0, false);
-            modifier.PutSaveData(modifierDataRaw);
+            StatModifier modifier = new StatModifier(modifierData[0], stats[(StatType)int.Parse(modifierData[1])], float.Parse(modifierData[2]), bool.Parse(modifierData[3]), bool.Parse(modifierData[4]));
             ApplyModifier(modifier);
         }
 
@@ -198,8 +197,6 @@ public class StatManager : ISaveData
             Effect effect = effectData.CreateEffect();
             ApplyEffect(effect);
         }
-
-        RecalculateAllMax();
     }
 
     public void ClearAll()

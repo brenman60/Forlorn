@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11be5f20f5c49ee4b9aa9cd8f14d75b2, type: 3}
-  m_Name: PizzaShop1
+  m_Name: Bank1
   m_EditorClassIdentifier: 
-  dialogue: The smell of freshly baked pizza fills the air.
+  dialogue: The clicking of mice and keyboards echo through the building.
   textColor: {r: 1, g: 1, b: 1, a: 1}
   backgroundColor: {r: 0, g: 0, b: 0, a: 0.5019608}
   displayTime: 0.25
@@ -27,37 +27,27 @@ MonoBehaviour:
     onSelectClass: 
     onSelectMethod: 
     onSelectArguments: []
-  - optionText: View Shop
-    nextNode: {fileID: 0}
-    showsPlayer: 0
-    optionRequirements: []
-    onSelectSound: {fileID: 0}
-    onSelectClass: ShopUI
-    onSelectMethod: OpenShop
-    onSelectArguments:
-    - argument: PizzaShop_Shop
-      type: 6
   - optionText: Start Shift
     nextNode: {fileID: 0}
     showsPlayer: 0
     optionRequirements:
-    - {fileID: 11400000, guid: 34bcc0984821b514da62de64ab195ead, type: 2}
-    - {fileID: 11400000, guid: 2122c18e603c5e34489bb17895d3905e, type: 2}
+    - {fileID: 11400000, guid: 43fc39ed5b16f7a468dfa3c814012bdd, type: 2}
+    - {fileID: 11400000, guid: 234f36168f692dc46a786874c8524072, type: 2}
     onSelectSound: {fileID: 0}
     onSelectClass: RunManager
     onSelectMethod: ClockIntoJob
     onSelectArguments:
-    - argument: PizzaShop
+    - argument: Bank
       type: 5
   - optionText: Apply for Job
     nextNode: {fileID: 0}
     showsPlayer: 1
     optionRequirements:
-    - {fileID: 11400000, guid: 496dc6d8052dcb944a2cadb0b2a4635b, type: 2}
-    - {fileID: 11400000, guid: 8ca6b6b318c60664cbdb812288338a5b, type: 2}
+    - {fileID: 11400000, guid: e66ed60a4dcf8644a94e9b8ed6dba329, type: 2}
+    - {fileID: 11400000, guid: 29d0279c40d981540a904248ca9205e6, type: 2}
     onSelectSound: {fileID: 0}
     onSelectClass: RunManager
     onSelectMethod: ApplyForJob
     onSelectArguments:
-    - argument: PizzaShop
+    - argument: Bank
       type: 0

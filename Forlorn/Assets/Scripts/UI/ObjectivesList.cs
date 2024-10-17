@@ -48,7 +48,7 @@ public class ObjectivesList : MonoBehaviour, ISaveData
 
     private void CreateObjectiveUI(Objective objective)
     {
-        if (objectiveTemplate == null || objectivesList == null) return;
+        if (objectiveTemplate == null || objectivesList == null || objectivesUI.ContainsKey(objective.identifier)) return;
 
         GameObject objectiveUI = Instantiate(objectiveTemplate, objectivesList);
         TextMeshProUGUI objectiveText = objectiveUI.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -126,6 +126,17 @@ public class ObjectivesList : MonoBehaviour, ISaveData
 
         Destroy(objectiveUI);
         objectivesUI.Remove(identifier);
+    }
+
+    public void ClearAll()
+    {
+        foreach (Transform previousObjectiveUI in objectivesList)
+            if (previousObjectiveUI.gameObject != objectiveTemplate)
+                Destroy(previousObjectiveUI.gameObject);
+
+        objectivesUI.Clear();
+
+        objectives.Clear();
     }
 
     public string GetSaveData()
