@@ -971,6 +971,7 @@ MonoBehaviour:
   lockedCover: {fileID: 1545613779}
   backgroundOutline: {fileID: 441998564}
   backgroundOutlineImage: {fileID: 441998565}
+  lineRendererPrefab: {fileID: 8043175235110266579, guid: 0133a367d7b56d94d970b801ced9d766, type: 3}
 --- !u!1 &45238816
 GameObject:
   m_ObjectHideFlags: 0
@@ -1266,6 +1267,7 @@ MonoBehaviour:
   lockedCover: {fileID: 89230037}
   backgroundOutline: {fileID: 1960645621}
   backgroundOutlineImage: {fileID: 1960645622}
+  lineRendererPrefab: {fileID: 8043175235110266579, guid: 0133a367d7b56d94d970b801ced9d766, type: 3}
 --- !u!1 &108908405
 GameObject:
   m_ObjectHideFlags: 0
@@ -5249,6 +5251,7 @@ MonoBehaviour:
   lockedCover: {fileID: 691434851}
   backgroundOutline: {fileID: 226403971}
   backgroundOutlineImage: {fileID: 226403972}
+  lineRendererPrefab: {fileID: 8043175235110266579, guid: 0133a367d7b56d94d970b801ced9d766, type: 3}
 --- !u!1 &406202969
 GameObject:
   m_ObjectHideFlags: 0
@@ -7094,6 +7097,7 @@ MonoBehaviour:
   lockedCover: {fileID: 1173077442}
   backgroundOutline: {fileID: 1584648060}
   backgroundOutlineImage: {fileID: 1584648058}
+  lineRendererPrefab: {fileID: 8043175235110266579, guid: 0133a367d7b56d94d970b801ced9d766, type: 3}
 --- !u!224 &515032332
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17535,6 +17539,7 @@ MonoBehaviour:
   lockedCover: {fileID: 795009239}
   backgroundOutline: {fileID: 406202972}
   backgroundOutlineImage: {fileID: 406202970}
+  lineRendererPrefab: {fileID: 8043175235110266579, guid: 0133a367d7b56d94d970b801ced9d766, type: 3}
 --- !u!224 &939476304
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17943,6 +17948,7 @@ MonoBehaviour:
   lockedCover: {fileID: 6413816}
   backgroundOutline: {fileID: 816591803}
   backgroundOutlineImage: {fileID: 816591804}
+  lineRendererPrefab: {fileID: 8043175235110266579, guid: 0133a367d7b56d94d970b801ced9d766, type: 3}
 --- !u!1 &960499722
 GameObject:
   m_ObjectHideFlags: 0
@@ -22396,6 +22402,7 @@ MonoBehaviour:
   lockedCover: {fileID: 1821147152}
   backgroundOutline: {fileID: 1155224512}
   backgroundOutlineImage: {fileID: 1155224513}
+  lineRendererPrefab: {fileID: 8043175235110266579, guid: 0133a367d7b56d94d970b801ced9d766, type: 3}
 --- !u!1 &1293418272
 GameObject:
   m_ObjectHideFlags: 0
@@ -32673,6 +32680,7 @@ MonoBehaviour:
   lockedCover: {fileID: 45238817}
   backgroundOutline: {fileID: 1597735698}
   backgroundOutlineImage: {fileID: 1597735696}
+  lineRendererPrefab: {fileID: 8043175235110266579, guid: 0133a367d7b56d94d970b801ced9d766, type: 3}
 --- !u!224 &1756399359
 RectTransform:
   m_ObjectHideFlags: 0
@@ -33318,6 +33326,7 @@ MonoBehaviour:
   lockedCover: {fileID: 2097166152}
   backgroundOutline: {fileID: 925260821}
   backgroundOutlineImage: {fileID: 925260819}
+  lineRendererPrefab: {fileID: 8043175235110266579, guid: 0133a367d7b56d94d970b801ced9d766, type: 3}
 --- !u!224 &1836286351
 RectTransform:
   m_ObjectHideFlags: 0
@@ -33419,7 +33428,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -25.9}
+  m_AnchoredPosition: {x: 0, y: -25.899994}
   m_SizeDelta: {x: -30.726, y: -82.5596}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1861727000

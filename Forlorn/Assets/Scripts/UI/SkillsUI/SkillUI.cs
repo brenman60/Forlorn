@@ -22,6 +22,7 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
     [SerializeField] private RectTransform lockedCover;
     [SerializeField] private RectTransform backgroundOutline;
     [SerializeField] private Image backgroundOutlineImage;
+    [SerializeField] private GameObject lineRendererPrefab;
 
     private bool unlockable;
     public bool unlocked { get; private set; }
@@ -32,12 +33,21 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
     private float targetOutlineRotation = 45f;
 
     private RectTransform rectTransform;
+    private LineRenderer lineRenderer;
 
     private void Start()
     {
+        lineRenderer = GetComponent<LineRenderer>();
         rectTransform = GetComponent<RectTransform>();
         initialSize = rectTransform.sizeDelta;
         initialBackgroundOutlineSize = backgroundOutline.sizeDelta;
+
+        foreach (SkillUI requiredSkill in requiredUnlockedSkills)
+        {
+            GameObject requiredLine = Instantiate(lineRendererPrefab, transform);
+            UILineRenderer uiLineRenderer = requiredLine.GetComponent<UILineRenderer>();
+            uiLineRenderer.DrawLine(transform.position, requiredSkill.transform.position);
+        }
     }
 
     private void Update()
