@@ -991,6 +991,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   length: 2
   spawnablesParent: {fileID: 4607112779828399078}
+  spawnBlockingObjects:
+  - {fileID: 2863968970547088698}
   spawnables:
   - {fileID: 11400000, guid: 1cd67a6c09769f645845c17ecb3616ce, type: 2}
   - {fileID: 11400000, guid: 69acdc349c6a2d649971691e45f67555, type: 2}

@@ -9,6 +9,7 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
     [SerializeField] private Transform spawnablesParent;
 
     // Spawnables will be things like backgrounds, foregrounds, etc. They should be pretty modular I think, as their spawn position offsets will be local position dependant, allowing for customization from the parent transform itself.
+    [SerializeField] private List<Renderer> spawnBlockingObjects = new List<Renderer>();
     [SerializeField] protected CitySpawnable[] spawnables;
     private List<GameObject> spawnedSpawnables = new List<GameObject>();
 
@@ -28,6 +29,7 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
 
         foreach (KeyValuePair<CitySpawnable, int> spawnable in selectedSpawnables)
         {
+            Rect spawnableRect = new Rect(Vector2.zero, Vector2.zero);
             for (int spawn = 0; spawn < spawnable.Value; spawn++)
             {
                 Vector3 minPos = spawnable.Key.minPosition;
@@ -36,15 +38,53 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
                 Vector3 minScale = spawnable.Key.minScale;
                 Vector3 maxScale = spawnable.Key.maxScale;
 
-                float distributeInterpolation = spawn / Mathf.Clamp(spawnable.Value - 1, 1, float.MaxValue);
-                Vector3 spawnPosition = !spawnable.Key.equalPositionDistribution ? 
-                    new Vector3(Random.Range(minPos.x, maxPos.x), Random.Range(minPos.y, maxPos.y), Random.Range(minPos.z, maxPos.z)) : 
-                    Vector3.Lerp(spawnable.Key.minPosition, spawnable.Key.maxPosition, distributeInterpolation);
-
                 float linkedScale = Random.Range(minScale.x, maxScale.x);
                 Vector3 spawnScale = !spawnable.Key.linkedScales ?
                     new Vector3(Random.Range(minScale.x, maxScale.x), Random.Range(minScale.y, maxScale.y), Random.Range(minScale.z, maxScale.z)) :
                     new Vector3(linkedScale, linkedScale, linkedScale);
+
+                spawnableRect.size = spawnScale;
+
+                float distributeInterpolation = spawn / Mathf.Clamp(spawnable.Value - 1, 1, float.MaxValue);
+                Vector3 spawnPosition = new Vector3();
+                if (!spawnable.Key.equalPositionDistribution)
+                {
+                    int attempts = 0;
+                    while (true) // scary
+                    {
+                        spawnPosition = new Vector3(Random.Range(minPos.x, maxPos.x), Random.Range(minPos.y, maxPos.y), Random.Range(minPos.z, maxPos.z));
+                        spawnableRect.position = spawnPosition;
+
+                        bool overlapsAny = false;
+                        foreach (Renderer renderer in spawnBlockingObjects)
+                        {
+                            Rect renderRect = new Rect(renderer.transform.localPosition, renderer.bounds.size);
+                            if (renderRect.Overlaps(spawnableRect))
+                            {
+                                overlapsAny = true;
+                                break;
+                            }
+                        }
+
+                        foreach (GameObject alreadySpawned in spawnedSpawnables)
+                        {
+                            Rect alreadySpawnedRect = new Rect(alreadySpawned.transform.localPosition, alreadySpawned.transform.localScale);
+                            if (alreadySpawnedRect.Overlaps(spawnableRect))
+                            {
+                                overlapsAny = true;
+                                break;
+                            }
+                        }
+
+                        if (!overlapsAny) break;
+
+                        attempts++;
+                    }
+
+                    if (attempts == 250) print("why");
+                }
+                else
+                    spawnPosition = Vector3.Lerp(spawnable.Key.minPosition, spawnable.Key.maxPosition, distributeInterpolation);
 
                 if (spawnable.Key.scaleEffectsHeight)
                     spawnPosition.y /= spawnScale.y;

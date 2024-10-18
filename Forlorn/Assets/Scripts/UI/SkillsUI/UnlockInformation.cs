@@ -9,7 +9,6 @@ public class UnlockInformation : MonoBehaviour
     [SerializeField] private float moveSpeed = 4f;
     [SerializeField] private Vector3 baseOffset;
     [SerializeField] private float defaultHeight = 63.2557f;
-    [SerializeField] private float defaultRequirementHeight = 28.2557f;
     [Header("References")]
     [SerializeField] private RectTransform skillsCollection;
     [SerializeField] private TextMeshProUGUI requirementPrice;
@@ -48,8 +47,7 @@ public class UnlockInformation : MonoBehaviour
         float heightRatio = Screen.height / 1080f;
         float selfHeightRatio = rectTransform.rect.height / defaultHeight;
         float collectionRatio = skillsCollection.localScale.x;
-        //Vector2 listSizeAdjust = new Vector2(0, (requirementsList.childCount - 1) * defaultRequirementHeight) * new Vector2(widthRatio, heightRatio) * collectionRatio;
-        newBaseOffset = (baseOffset * rectTransform.sizeDelta * new Vector2(widthRatio, heightRatio) * collectionRatio / selfHeightRatio); // - listSizeAdjust;
+        newBaseOffset = baseOffset * rectTransform.sizeDelta * new Vector2(widthRatio, heightRatio) * collectionRatio / selfHeightRatio;
 
         if (selectedSkill != null)
             transform.position = Vector3.Lerp(transform.position, selectedSkill.transform.position + newBaseOffset, Time.unscaledDeltaTime * moveSpeed);

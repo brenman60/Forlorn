@@ -7261,6 +7261,7 @@ GameObject:
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
   - component: {fileID: 519420034}
+  - component: {fileID: 519420035}
   m_Layer: 3
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -7416,6 +7417,18 @@ MonoBehaviour:
   positionOffset: {x: 0, y: 0.25, z: 0}
   minPosition: {x: 0, y: 0}
   maxPosition: {x: 0, y: 0}
+--- !u!114 &519420035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec69df25d88ac8342908f009ca5e401d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519721335
 GameObject:
   m_ObjectHideFlags: 0
@@ -7903,7 +7916,6 @@ MonoBehaviour:
   moveSpeed: 120
   baseOffset: {x: 0, y: -1.33, z: 0}
   defaultHeight: 123.1445
-  defaultRequirementHeight: 12
   skillsCollection: {fileID: 488460141}
   requirementPrice: {fileID: 236679540}
   learnButton: {fileID: 1156966810}
@@ -36511,10 +36523,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeAmbiences:
-  - status: 15
+  - status: 30
     statusObjects:
     - {fileID: 1481889046}
-  - status: 70
+  - status: 85
     statusObjects: []
   - status: 100
     statusObjects:

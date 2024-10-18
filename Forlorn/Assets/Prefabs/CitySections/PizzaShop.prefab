@@ -1119,6 +1119,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   length: 1.75
   spawnablesParent: {fileID: 4607112779828399078}
+  spawnBlockingObjects:
+  - {fileID: 109219634474364326}
   spawnables: []
 --- !u!1 &6537093346896072599
 GameObject:
