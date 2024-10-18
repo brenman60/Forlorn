@@ -11,7 +11,7 @@ public class JobsUI : MonoBehaviour
     [SerializeField] private GameObject jobTemplate;
 
     private CanvasGroup canvasGroup;
-    private bool open;
+    public bool open { get; private set; }
 
     private void Awake()
     {

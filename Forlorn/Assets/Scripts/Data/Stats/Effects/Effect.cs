@@ -24,6 +24,11 @@
 
     }
 
+    public void ReapplyTimer(int timeLeft)
+    {
+        this.timeLeft = timeLeft;
+    }
+
     public virtual void Tick()
     {
         if (!timePaused)

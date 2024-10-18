@@ -29,7 +29,7 @@ public class SkillsUI : MonoBehaviour, ISaveData
 
     private float scaleFactor = 1f;
 
-    private bool open;
+    public bool open { get; private set; }
 
     private void Awake()
     {

@@ -14,7 +14,6 @@ public class UILineRenderer : MonoBehaviour
 
         lineImage.enabled = true;
 
-        print(start + " : " + end);
         float distance = Vector2.Distance(start, end);
         rectTransform.sizeDelta = new Vector2(distance, rectTransform.sizeDelta.y);
         rectTransform.pivot = new Vector2(0, 0.5f);

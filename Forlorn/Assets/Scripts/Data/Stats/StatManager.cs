@@ -2,12 +2,13 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using TypeReferences;
-using UnityEngine;
 
 public class StatManager : ISaveData
 {
     public static event Action<StatModifier, bool> modifiersChanged;
     public static event Action<Effect, bool> effectsChanged;
+
+    public const int skillPointProgressMax = 100;
 
     public Dictionary<StatType, Stat> defaultStats = new Dictionary<StatType, Stat>()
     {
@@ -31,6 +32,10 @@ public class StatManager : ISaveData
         // Specific skills for job applications
         [StatType.Communication] = new Stat(1f, StatType.Communication, true),
         [StatType.Cooking] = new Stat(1f, StatType.Cooking, true),
+
+        // Skill points
+        [StatType.SkillPoints] = new Stat(0f, StatType.SkillPoints, true),
+        [StatType.SkillPointsProgress] = new Stat(0f, StatType.SkillPointsProgress, true),
     };
 
     public Dictionary<StatType, Stat> stats = new Dictionary<StatType, Stat>();
@@ -45,6 +50,7 @@ public class StatManager : ISaveData
         new HealthEffect("defaultHealth", false, false, 0, false),
         new HungerEffect("defaultHunger", false, false, 0, false),
         new ThirstEffect("defaultThirst", false, false, 0, false),
+        new SkillEffect("defaultSkill", false, false, 0, false),
     };
 
     public void ApplyModifier(StatModifier modifier)
@@ -225,4 +231,6 @@ public enum StatType
     Communication,
     Cooking,
     DayLength,
+    SkillPoints,
+    SkillPointsProgress,
 }

@@ -12,10 +12,7 @@ public class UnlockInformation : MonoBehaviour
     [SerializeField] private float defaultRequirementHeight = 28.2557f;
     [Header("References")]
     [SerializeField] private RectTransform skillsCollection;
-    [SerializeField] private ContentSizeFitter requirementsCSF;
-    [SerializeField] private Transform requirementsList;
-    [SerializeField] private GameObject requirementStatTemplate;
-    [SerializeField] private GameObject requirementItemTemplate;
+    [SerializeField] private TextMeshProUGUI requirementPrice;
     [SerializeField] private Button learnButton;
 
     public SkillUI selectedSkill { get; private set; }
@@ -51,8 +48,8 @@ public class UnlockInformation : MonoBehaviour
         float heightRatio = Screen.height / 1080f;
         float selfHeightRatio = rectTransform.rect.height / defaultHeight;
         float collectionRatio = skillsCollection.localScale.x;
-        Vector2 listSizeAdjust = new Vector2(0, (requirementsList.childCount - 1) * defaultRequirementHeight) * new Vector2(widthRatio, heightRatio) * collectionRatio;
-        newBaseOffset = (baseOffset * rectTransform.sizeDelta * new Vector2(widthRatio, heightRatio) * collectionRatio / selfHeightRatio) - listSizeAdjust;
+        //Vector2 listSizeAdjust = new Vector2(0, (requirementsList.childCount - 1) * defaultRequirementHeight) * new Vector2(widthRatio, heightRatio) * collectionRatio;
+        newBaseOffset = (baseOffset * rectTransform.sizeDelta * new Vector2(widthRatio, heightRatio) * collectionRatio / selfHeightRatio); // - listSizeAdjust;
 
         if (selectedSkill != null)
             transform.position = Vector3.Lerp(transform.position, selectedSkill.transform.position + newBaseOffset, Time.unscaledDeltaTime * moveSpeed);
@@ -68,46 +65,8 @@ public class UnlockInformation : MonoBehaviour
 
     private void ReloadRequirements()
     {
-        foreach (Transform previousRequirement in requirementsList) 
-            if (previousRequirement.gameObject != requirementStatTemplate && previousRequirement.gameObject != requirementItemTemplate) 
-                Destroy(previousRequirement.gameObject);
-
-        bool playerMeetsRequirements = true;
-        foreach (SkillStatCost statCost in selectedSkill_.skillStatCosts)
-        {
-            Stat stat = RunManager.Instance.statManager.stats[statCost.statType];
-            float currentValue = stat.currentValue;
-            float currentPercentage = (currentValue / stat.maxValue) * 100;
-
-            if (statCost.isPercentage)
-            {
-                if (currentPercentage < statCost.requiredAmount)
-                    playerMeetsRequirements = false;
-            }
-            else if (currentValue < statCost.requiredAmount)
-                playerMeetsRequirements = false;
-
-            GameObject requirementStat = Instantiate(requirementStatTemplate, requirementsList);
-            requirementStat.GetComponent<TextMeshProUGUI>().text = statCost.displayText;
-            requirementStat.SetActive(true);
-        }
-
-        foreach (SkillItemCost itemCost in selectedSkill_.skillItemCosts)
-        {
-            int itemAmount = Inventory.Instance.HasItem(itemCost.item);
-            if (itemAmount < itemCost.requiredAmount)
-                playerMeetsRequirements = false;
-
-            GameObject requirementStat = Instantiate(requirementStatTemplate, requirementsList);
-            requirementStat.GetComponent<TextMeshProUGUI>().text = itemCost.displayText;
-            requirementStat.SetActive(true);
-        }
-
-        learnButton.interactable = playerMeetsRequirements;
-
-        Canvas.ForceUpdateCanvases();
-        requirementsCSF.enabled = false;
-        requirementsCSF.enabled = true;
+        requirementPrice.text = $"<color=#7fd9fa>{selectedSkill_.skillPointCost}</color> {(selectedSkill_.skillPointCost == 1 ? "Point" : "Points")}";
+        learnButton.interactable = RunManager.Instance.statManager.stats[StatType.SkillPoints].currentValue >= selectedSkill_.skillPointCost;
     }
 
     public void UnlockSkill()

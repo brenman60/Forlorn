@@ -16,7 +16,10 @@ public class ApartmentManager : ISaveData
 
             Effect sleepEffect = statManager.GetEffect(restIdentifier);
             if (sleepEffect != null)
+            {
+                sleepEffect.ReapplyTimer(90);
                 sleepEffect.timePaused = true;
+            }
             else
             {
                 sleepEffect = new ComfortingSleepEffect(restIdentifier, true, true, 90, true);

@@ -1,9 +1,11 @@
 using Newtonsoft.Json;
+using System;
 using UnityEngine;
 
 public class Stat : ISaveData
 {
     public StatType type;
+    public event Action<float> valueChanged;
     public float baseValue { get; private set; }
     public float currentValue
     {
@@ -19,6 +21,7 @@ public class Stat : ISaveData
                 currentValue_ = value;
 
             currentValue_ = Mathf.Clamp(currentValue_, 0, float.MaxValue);
+            valueChanged?.Invoke(currentValue_);
         }
     }
     private float currentValue_;
@@ -51,7 +54,6 @@ public class Stat : ISaveData
 
     public void RemoveModifier(float value, bool isMultiplicative)
     {
-
         if (isMultiplicative)
             valueMultiplier /= value;
         else

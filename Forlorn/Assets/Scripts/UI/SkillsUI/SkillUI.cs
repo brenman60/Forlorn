@@ -22,6 +22,7 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
     [SerializeField] private RectTransform lockedCover;
     [SerializeField] private RectTransform backgroundOutline;
     [SerializeField] private Image backgroundOutlineImage;
+    [SerializeField] private Transform lineRendererParent;
     [SerializeField] private GameObject lineRendererPrefab;
 
     private bool unlockable;
@@ -44,7 +45,7 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
 
         foreach (SkillUI requiredSkill in requiredUnlockedSkills)
         {
-            GameObject requiredLine = Instantiate(lineRendererPrefab, transform);
+            GameObject requiredLine = Instantiate(lineRendererPrefab, lineRendererParent);
             UILineRenderer uiLineRenderer = requiredLine.GetComponent<UILineRenderer>();
             uiLineRenderer.DrawLine(transform.position, requiredSkill.transform.position);
         }
@@ -135,10 +136,15 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!unlockable || unlocked) return;
+        if (!unlockable || unlocked || eventData.button != PointerEventData.InputButton.Left) return;
 
         if (unlockInformation.selectedSkill != this || unlockInformation.selectedSkill == null)
+        {
             unlockInformation.Open(this, skill);
+
+            targetOutlineRotation += 135f;
+            targetOutlineRotation = targetOutlineRotation % 360;
+        }
         else
             unlockInformation.Close();
     }
@@ -165,30 +171,7 @@ public class SkillUI : MonoBehaviour, ISaveData, IPointerEnterHandler, IPointerE
             }
         }
 
-        foreach (SkillStatCost statCost in skill.skillStatCosts)
-        {
-            if (!statCost.removesAmount) continue;
-
-            Stat stat = RunManager.Instance.statManager.stats[statCost.statType];
-            float percentageSubtraction = (statCost.requiredAmount / 100f) * stat.maxValue;
-
-            if (!statCost.removesFromMaxAmount)
-            {
-                if (statCost.isPercentage)
-                    stat.currentValue -= percentageSubtraction;
-                else
-                    stat.currentValue -= statCost.requiredAmount;
-            }
-            else
-                RunManager.Instance.statManager.ApplyModifier(new StatModifier(statCost.modifierIdentifier, stat, statCost.requiredAmount, statCost.isPercentage, true));
-        }
-
-        foreach (SkillItemCost itemCost in skill.skillItemCosts)
-        {
-            if (!itemCost.removesAmount) continue;
-
-            Inventory.Instance.TakeItem(itemCost.item, itemCost.requiredAmount);
-        }
+        RunManager.Instance.statManager.stats[StatType.SkillPoints].currentValue -= skill.skillPointCost;
     }
 
     public string GetSaveData()
