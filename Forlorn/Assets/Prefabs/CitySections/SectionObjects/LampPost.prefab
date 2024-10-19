@@ -95,6 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed63fe90a7aac61419e395027bcebdbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  randomEnableStatus: 0
   lightChangeSpeed: 1
   lightSettings:
   - status: 30
@@ -103,6 +104,7 @@ MonoBehaviour:
     intensity: 0.6266667
   - status: 100
     intensity: 1.88
+  lightDependentObject: []
 --- !u!1 &5177306863445547834
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,6 +199,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2480638368514146383}
+  - component: {fileID: 5918104020962093816}
   m_Layer: 0
   m_Name: LampPost
   m_TagString: Untagged
@@ -217,49 +220,16 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8973047148269053459}
   - {fileID: 4002735698963986021}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8626476574910672752
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8973047148269053459}
-  - component: {fileID: 6712237070590926902}
-  m_Layer: 0
-  m_Name: Post
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8973047148269053459
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8626476574910672752}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2480638368514146383}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &6712237070590926902
+--- !u!212 &5918104020962093816
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8626476574910672752}
+  m_GameObject: {fileID: 6027805560143271595}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0

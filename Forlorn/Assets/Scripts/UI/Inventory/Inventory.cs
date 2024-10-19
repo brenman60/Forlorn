@@ -179,6 +179,8 @@ public class Inventory : MonoBehaviour, ISaveData
             foreach (UseModifier modifier in selectedItem.useModifiers)
                 RunManager.Instance.statManager.ApplyModifier(new StatModifier(modifier.modifierIdentifier, RunManager.Instance.statManager.stats[modifier.targetStat], modifier.modifierAmount, modifier.isExponential, true));
 
+        RunManager.Instance.statManager.stats[StatType.SkillPointsProgress].currentValue += selectedItem.skillProgressReward;
+
         slots[currentSlotIndex] = new KeyValuePair<Item, int>(slots[currentSlotIndex].Key, slots[currentSlotIndex].Value - 1);
         if (slots[currentSlotIndex].Value <= 0)
             slots.RemoveAt(currentSlotIndex);

@@ -67,6 +67,8 @@ public class JobManager : ISaveData
 
                 // Give notification of rank up
                 NotificationsUI.Instance.CreateNotification($"Promoted to {information.rank.visibleName}!");
+
+                RunManager.Instance.statManager.stats[StatType.SkillPoints].currentValue++;
             }
         }
     }
@@ -82,6 +84,8 @@ public class JobManager : ISaveData
         if (successful)
         {
             StartNewJob(job);
+
+            RunManager.Instance.statManager.stats[StatType.SkillPoints].currentValue++;
             NotificationsUI.Instance.CreateNotification($"{job.visibleName} Application Successfull!");
         }
         else
@@ -110,6 +114,7 @@ public class JobManager : ISaveData
         InvokeJobsChanged();
 
         ObjectivesList.Instance.TryCompleteObjective("obtainJob");
+        RunManager.Instance.statManager.stats[StatType.SkillPoints].currentValue++;
     }
 
     public void AddDayShifts()

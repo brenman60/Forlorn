@@ -10,6 +10,7 @@ public class Item : ScriptableObject
     public string visibleName = "New Item";
     [TextArea(5, int.MaxValue)] public string visibleDescription = "New Item Description";
     public float shopCost = 0;
+    public int skillProgressReward = 1;
 
     [Header("Audio")]
     public Sound useSound;

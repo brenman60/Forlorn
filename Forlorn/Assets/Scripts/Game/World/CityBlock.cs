@@ -11,7 +11,7 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
     // Spawnables will be things like backgrounds, foregrounds, etc. They should be pretty modular I think, as their spawn position offsets will be local position dependant, allowing for customization from the parent transform itself.
     [SerializeField] private List<Renderer> spawnBlockingObjects = new List<Renderer>();
     [SerializeField] protected CitySpawnable[] spawnables;
-    private List<GameObject> spawnedSpawnables = new List<GameObject>();
+    private Dictionary<GameObject, Renderer> spawnedSpawnables = new Dictionary<GameObject, Renderer>();
 
     protected virtual void InitSpawnables()
     {
@@ -29,7 +29,7 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
 
         foreach (KeyValuePair<CitySpawnable, int> spawnable in selectedSpawnables)
         {
-            Rect spawnableRect = new Rect(Vector2.zero, Vector2.zero);
+            Rect spawnableRect = new Rect(Vector2.zero, spawnable.Key.spawnObject.GetComponent<Renderer>().bounds.size);
             for (int spawn = 0; spawn < spawnable.Value; spawn++)
             {
                 Vector3 minPos = spawnable.Key.minPosition;
@@ -47,10 +47,10 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
 
                 float distributeInterpolation = spawn / Mathf.Clamp(spawnable.Value - 1, 1, float.MaxValue);
                 Vector3 spawnPosition = new Vector3();
+                int positionAttempts = 0;
                 if (!spawnable.Key.equalPositionDistribution)
                 {
-                    int attempts = 0;
-                    while (true) // scary
+                    while (positionAttempts < 1000) // scary
                     {
                         spawnPosition = new Vector3(Random.Range(minPos.x, maxPos.x), Random.Range(minPos.y, maxPos.y), Random.Range(minPos.z, maxPos.z));
                         spawnableRect.position = spawnPosition;
@@ -66,9 +66,9 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
                             }
                         }
 
-                        foreach (GameObject alreadySpawned in spawnedSpawnables)
+                        foreach (Renderer alreadySpawned in spawnedSpawnables.Values)
                         {
-                            Rect alreadySpawnedRect = new Rect(alreadySpawned.transform.localPosition, alreadySpawned.transform.localScale);
+                            Rect alreadySpawnedRect = new Rect(alreadySpawned.transform.localPosition, alreadySpawned.bounds.size);
                             if (alreadySpawnedRect.Overlaps(spawnableRect))
                             {
                                 overlapsAny = true;
@@ -78,10 +78,10 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
 
                         if (!overlapsAny) break;
 
-                        attempts++;
+                        positionAttempts++;
                     }
 
-                    if (attempts == 250) print("why");
+                    if (positionAttempts == 1000) continue;
                 }
                 else
                     spawnPosition = Vector3.Lerp(spawnable.Key.minPosition, spawnable.Key.maxPosition, distributeInterpolation);
@@ -100,13 +100,14 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
     protected GameObject InstantiateSpawn(CitySpawnable citySpawnable, Vector3 position, Vector3 scale, Quaternion rotation)
     {
         GameObject spawnObject = Instantiate(citySpawnable.spawnObject, spawnablesParent);
+        Renderer renderer = spawnObject.GetComponent<Renderer>();
         spawnObject.name = citySpawnable.spawnObject.name;
         spawnObject.transform.localPosition = position;
         spawnObject.transform.localScale = scale;
         spawnObject.transform.rotation = rotation;
         spawnObject.SetActive(true);
 
-        spawnedSpawnables.Add(spawnObject);
+        spawnedSpawnables.Add(spawnObject, renderer);
         return spawnObject;
     }
 
@@ -118,7 +119,7 @@ public abstract class CityBlock : MonoBehaviour, ISaveData
         };
 
         List<string> spawnables = new List<string>();
-        foreach (GameObject spawn in spawnedSpawnables)
+        foreach (GameObject spawn in spawnedSpawnables.Keys)
         {
             string[] spawnData = new string[5]
             {
