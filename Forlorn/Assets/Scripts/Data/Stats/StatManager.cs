@@ -36,6 +36,9 @@ public class StatManager : ISaveData
         // Skill points
         [StatType.SkillPoints] = new Stat(0f, StatType.SkillPoints, true),
         [StatType.SkillPointsProgress] = new Stat(0f, StatType.SkillPointsProgress, true),
+
+        // World stats
+        [StatType.WorldRottingSpeed] = new Stat(1f, StatType.WorldRottingSpeed, true),
     };
 
     public Dictionary<StatType, Stat> stats = new Dictionary<StatType, Stat>();
@@ -233,4 +236,5 @@ public enum StatType
     DayLength,
     SkillPoints,
     SkillPointsProgress,
+    WorldRottingSpeed,
 }

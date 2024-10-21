@@ -30,8 +30,17 @@ public class WorldGeneration : MonoBehaviour, ISaveData
     private int playerSpawnIndex = -1;
 
     private Dictionary<string, int> cityWideSections = new Dictionary<string, int>();
-    private Dictionary<string, int> rottingSections = new Dictionary<string, int>();
+    private Dictionary<string, float> rottingSections = new Dictionary<string, float>();
     private Dictionary<string, DisasterEvent> rottenSections = new Dictionary<string, DisasterEvent>();
+
+    private float baseRottingFactor = 100f;
+    private float rottingFactor
+    {
+        get
+        {
+            return baseRottingFactor * RunManager.Instance.statManager.stats[StatType.WorldRottingSpeed].currentValue;
+        }
+    }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Init()
@@ -51,6 +60,23 @@ public class WorldGeneration : MonoBehaviour, ISaveData
     private void Start()
     {
         SceneManager.activeSceneChanged += OpenMap;
+    }
+
+    private void Update()
+    {
+        foreach (KeyValuePair<string, float> rottingSection in rottingSections.ToArray())
+        {
+            float rottingValue = rottingSection.Value;
+            if (rottingValue <= 0)
+            {
+                rottingSections.Remove(rottingSection.Key);
+
+                System.Array disasters = System.Enum.GetValues(typeof(DisasterEvent));
+                rottenSections.Add(section, (DisasterEvent)disasters.GetValue(Random.Range(0, disasters.Length)));
+            }
+            else
+                rottingSections[rottingSection.Key] -= rottingFactor;
+        }
     }
 
     private async void OpenMap(Scene arg0, Scene arg1)
@@ -84,6 +110,9 @@ public class WorldGeneration : MonoBehaviour, ISaveData
             LoadMap(sectionData);
         else
             GenerateMap();
+
+        if (!rottingSections.ContainsKey(section) && !rottenSections.ContainsKey(section))
+            rottingSections.Add(section, Random.Range(240, 480));
     }
 
     private void LoadMap(string mapData)
@@ -295,7 +324,15 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 
 public enum DisasterEvent
 {
-
+    PolicePatrols,
+    ThunderStorm,
+    Inflation,
+    RabidDogs,
+    Flooding,
+    Blackout,
+    SnowStorm,
+    CrimeWave,
+    AirQuality,
 }
 
 public static class Extensions
