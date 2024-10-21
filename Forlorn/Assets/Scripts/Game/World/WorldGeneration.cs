@@ -30,6 +30,8 @@ public class WorldGeneration : MonoBehaviour, ISaveData
     private int playerSpawnIndex = -1;
 
     private Dictionary<string, int> cityWideSections = new Dictionary<string, int>();
+    private Dictionary<string, int> rottingSections = new Dictionary<string, int>();
+    private Dictionary<string, DisasterEvent> rottenSections = new Dictionary<string, DisasterEvent>();
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Init()
@@ -67,8 +69,8 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         //   etc...
         // }
 
-        if (worldSection != currentWorldSection)
-        {
+        if (worldSection != currentWorldSection) // ok so this was written for when the player goes to another city
+        {                                        // but that isnt a feature yet and it breaks shit when quitting and reloading and stuff so its getting commented out for now
             //print("Clearing sections");
             //cityWideSections.Clear();
         }
@@ -289,6 +291,11 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         yield return new WaitUntil(() => ItemDropManager.Instance != null);
         ItemDropManager.Instance.PutSaveData(dropData);
     }
+}
+
+public enum DisasterEvent
+{
+
 }
 
 public static class Extensions

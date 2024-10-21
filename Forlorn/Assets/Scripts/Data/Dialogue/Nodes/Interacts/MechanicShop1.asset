@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11be5f20f5c49ee4b9aa9cd8f14d75b2, type: 3}
+  m_Name: MechanicShop1
+  m_EditorClassIdentifier: 
+  dialogue: The loud whirring of machinery echoes from the garage.
+  textColor: {r: 1, g: 1, b: 1, a: 1}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0.5019608}
+  displayTime: 0.25
+  useTypewriter: 1
+  typewriterSpeed: 0.025
+  options:
+  - optionText: Exit
+    nextNode: {fileID: 0}
+    showsPlayer: 1
+    optionRequirements: []
+    onSelectSound: {fileID: 11400000, guid: 4e346a7e0df6a2346b178e5616286b41, type: 2}
+    onSelectClass: 
+    onSelectMethod: 
+    onSelectArguments: []
+  - optionText: Start Shift
+    nextNode: {fileID: 0}
+    showsPlayer: 0
+    optionRequirements:
+    - {fileID: 11400000, guid: 7665651c9d0666b44b6b595147e66cc2, type: 2}
+    - {fileID: 11400000, guid: c2864404d03843b449013d1843d89b8b, type: 2}
+    onSelectSound: {fileID: 0}
+    onSelectClass: RunManager
+    onSelectMethod: ClockIntoJob
+    onSelectArguments:
+    - argument: MechanicShop
+      type: 5
+  - optionText: Apply for Job
+    nextNode: {fileID: 0}
+    showsPlayer: 1
+    optionRequirements:
+    - {fileID: 11400000, guid: f4332097a744dbe47a8dad5fa18d9e20, type: 2}
+    - {fileID: 11400000, guid: 33bc79b187b404f4789c688b81ef67dd, type: 2}
+    onSelectSound: {fileID: 0}
+    onSelectClass: RunManager
+    onSelectMethod: ApplyForJob
+    onSelectArguments:
+    - argument: MechanicShop
+      type: 0
