@@ -358,7 +358,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: c319f935268e46e46b86e3c3c3a0ed60, type: 3}
-  m_Color: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 1}
+  m_Color: {r: 0.3018868, g: 0.24350303, b: 0.24350303, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -667,7 +667,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.25, y: 1}
   m_AdaptiveModeThreshold: 1
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1145,7 +1145,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: c319f935268e46e46b86e3c3c3a0ed60, type: 3}
-  m_Color: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 1}
+  m_Color: {r: 0.31132078, g: 0.27460843, b: 0.27460843, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -1586,7 +1586,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: c319f935268e46e46b86e3c3c3a0ed60, type: 3}
-  m_Color: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 1}
+  m_Color: {r: 0.31132078, g: 0.27460843, b: 0.27460843, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -1776,7 +1776,7 @@ MonoBehaviour:
   interactText: Enter Mechanic Shop
   interactSound: {fileID: 11400000, guid: 4fdc2cb8faf226541a91f69455a0f824, type: 2}
   disappearsPlayer: 1
-  startingNode: {fileID: 11400000, guid: 7462d9b01d4e03943b4eac792d31b923, type: 2}
+  startingNode: {fileID: 11400000, guid: cd874ee0cbc3f9744a1f6804fa7417e8, type: 2}
 --- !u!1 &5747582160291339028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2039,7 +2039,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8885794104105006349}
   - component: {fileID: -4233282529565610468}
-  - component: {fileID: 3482998003149182312}
   m_Layer: 0
   m_Name: MechanicShop
   m_TagString: Untagged
@@ -2077,57 +2076,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d7d2d46340b9e4e905ad8dd4c75600, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  length: 3
+  length: 5
   spawnablesParent: {fileID: 4607112779828399078}
   spawnBlockingObjects:
   - {fileID: 2863968970547088698}
   spawnables:
   - {fileID: 11400000, guid: 1cd67a6c09769f645845c17ecb3616ce, type: 2}
---- !u!61 &3482998003149182312
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6297697741929756436}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2.89, y: 3.4}
-  m_EdgeRadius: 0
 --- !u!1 &6360461637982867327
 GameObject:
   m_ObjectHideFlags: 0
@@ -2276,7 +2230,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.25, y: 1}
   m_AdaptiveModeThreshold: 1
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -2356,7 +2310,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -120
   m_Sprite: {fileID: 21300000, guid: f9389f1c7064b144abd4a636a57e8876, type: 3}
-  m_Color: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
+  m_Color: {r: 0.745283, g: 0.745283, b: 0.745283, a: 0.24705882}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
@@ -2447,7 +2401,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 186a6d9a19da5e040965f003cd55eacd, type: 3}
-  m_Color: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 1}
+  m_Color: {r: 0.41509432, g: 0.3191527, b: 0.3191527, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -2531,7 +2485,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 8dfc97b882f19e646841e27397966b88, type: 3}
-  m_Color: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 1}
+  m_Color: {r: 0.4245283, g: 0.41852084, b: 0.41852084, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1

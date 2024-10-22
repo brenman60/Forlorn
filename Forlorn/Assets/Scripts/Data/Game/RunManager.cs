@@ -18,6 +18,7 @@ public class RunManager : MonoBehaviour, ISaveData
     public JobManager jobManager { get; private set; }
     public TaskManager taskManager { get; private set; }
     public ApartmentManager apartmentManager { get; private set;  }
+    public DisasterManager disasterManager { get; private set; }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Init()
@@ -34,6 +35,7 @@ public class RunManager : MonoBehaviour, ISaveData
             Instance.jobManager = new JobManager(Instance.jobs);
             Instance.taskManager = new TaskManager();
             Instance.apartmentManager = new ApartmentManager();
+            Instance.disasterManager = new DisasterManager();
 
             DontDestroyOnLoad(managerObject);
         }

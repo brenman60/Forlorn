@@ -1,19 +1,32 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class WorldGeneration : MonoBehaviour, ISaveData
 {
     public static WorldGeneration Instance { get; private set; }
+    public static event Action SectionChanged;
+    public static event Action<string, DisasterEvent> SectionRotted;
 
     private static readonly int sectionBorderSize = 3;
 
     public static string worldSection = "City1";
-    public static string section = originSection;
+    private static string section_ = originSection;
+    public static string section 
+    {
+        get { return section_; }
+        set
+        {
+            SectionChanged?.Invoke();
+            section_ = value;
+        }
+    }
     private string currentWorldSection;
 
     public static bool worldLoaded { get; private set; }
@@ -33,7 +46,7 @@ public class WorldGeneration : MonoBehaviour, ISaveData
     private Dictionary<string, float> rottingSections = new Dictionary<string, float>();
     private Dictionary<string, DisasterEvent> rottenSections = new Dictionary<string, DisasterEvent>();
 
-    private float baseRottingFactor = 100f;
+    private float baseRottingFactor = 0.75f;
     private float rottingFactor
     {
         get
@@ -71,11 +84,13 @@ public class WorldGeneration : MonoBehaviour, ISaveData
             {
                 rottingSections.Remove(rottingSection.Key);
 
-                System.Array disasters = System.Enum.GetValues(typeof(DisasterEvent));
-                rottenSections.Add(section, (DisasterEvent)disasters.GetValue(Random.Range(0, disasters.Length)));
+                Array disasters = Enum.GetValues(typeof(DisasterEvent));
+                DisasterEvent disaster = (DisasterEvent)disasters.GetValue(Random.Range(0, disasters.Length));
+                rottenSections.Add(rottingSection.Key, disaster);
+                SectionRotted?.Invoke(rottingSection.Key, disaster);
             }
             else
-                rottingSections[rottingSection.Key] -= rottingFactor;
+                rottingSections[rottingSection.Key] -= rottingFactor * Time.deltaTime;
         }
     }
 
@@ -297,11 +312,13 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         if (GameManager.validGameScenes.Contains(SceneManager.GetActiveScene().name))
             SaveSection();
 
-        string[] dataPoints = new string[3]
+        string[] dataPoints = new string[5]
         {
             worldSection,
             section,
             JsonConvert.SerializeObject(cityWideSections),
+            JsonConvert.SerializeObject(rottingSections),
+            JsonConvert.SerializeObject(rottenSections),
         };
 
         return JsonConvert.SerializeObject(dataPoints);
@@ -313,6 +330,8 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         worldSection = dataPoints[0];
         section = dataPoints[1];
         cityWideSections = JsonConvert.DeserializeObject<Dictionary<string, int>>(dataPoints[2]);
+        rottingSections = JsonConvert.DeserializeObject<Dictionary<string, float>>(dataPoints[3]);
+        rottenSections = JsonConvert.DeserializeObject<Dictionary<string, DisasterEvent>>(dataPoints[4]);
     }
 
     private IEnumerator WaitForItemDrop(string dropData)
