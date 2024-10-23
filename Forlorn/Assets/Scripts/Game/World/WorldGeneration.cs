@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 public class WorldGeneration : MonoBehaviour, ISaveData
 {
     public static WorldGeneration Instance { get; private set; }
-    public static event Action SectionChanged;
+    public static event Action<string, DisasterEvent> SectionChanged;
     public static event Action<string, DisasterEvent> SectionRotted;
 
     private static readonly int sectionBorderSize = 3;
@@ -23,7 +23,7 @@ public class WorldGeneration : MonoBehaviour, ISaveData
         get { return section_; }
         set
         {
-            SectionChanged?.Invoke();
+            SectionChanged?.Invoke(value, Instance.rottenSections.TryGetValue(value, out DisasterEvent disaster) ? disaster : DisasterEvent.None);
             section_ = value;
         }
     }
@@ -84,8 +84,11 @@ public class WorldGeneration : MonoBehaviour, ISaveData
             {
                 rottingSections.Remove(rottingSection.Key);
 
-                Array disasters = Enum.GetValues(typeof(DisasterEvent));
-                DisasterEvent disaster = (DisasterEvent)disasters.GetValue(Random.Range(0, disasters.Length));
+                List<DisasterEvent> disasters = new List<DisasterEvent>();
+                foreach (DisasterEvent disaster_ in Enum.GetValues(typeof(DisasterEvent)))
+                    if (disaster_ != DisasterEvent.None) disasters.Add(disaster_);
+
+                DisasterEvent disaster = disasters[Random.Range(0, disasters.Count)];
                 rottenSections.Add(rottingSection.Key, disaster);
                 SectionRotted?.Invoke(rottingSection.Key, disaster);
             }
@@ -343,15 +346,16 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 
 public enum DisasterEvent
 {
-    PolicePatrols,
-    ThunderStorm,
-    Inflation,
-    RabidDogs,
-    Flooding,
-    Blackout,
+    None,
+    //PolicePatrols,
+    //ThunderStorm,
+    //Inflation,
+    //RabidDogs,
+    //Flooding,
+    //Blackout,
     SnowStorm,
-    CrimeWave,
-    AirQuality,
+    //CrimeWave,
+    //AirQuality,
 }
 
 public static class Extensions
