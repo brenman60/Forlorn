@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class EntitySpawner : MonoBehaviour
 {
+    [Header("Customization")]
+    [SerializeField] private int initialSpawnAmount = 50;
+
+    [Header("References")]
     [SerializeField] private GameObject entityPrefab;
     [SerializeField] private List<EntityOutfit> randomOutfits = new List<EntityOutfit>();
 
@@ -18,7 +22,7 @@ public class EntitySpawner : MonoBehaviour
     {
         yield return new WaitUntil(() => WorldGeneration.worldLoaded);
 
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < initialSpawnAmount; i++)
         {
             GameObject entityObj = GetEntity();
             Entity entity = entityObj.transform.GetChild(0).GetComponent<Entity>();

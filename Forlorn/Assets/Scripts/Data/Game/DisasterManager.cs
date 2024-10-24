@@ -12,9 +12,13 @@ public class DisasterManager
     
     public void Init()
     {
-        WorldGeneration.SectionChanged += ReloadDisaster;
         WorldGeneration.SectionRotted += SectionRotted;
-        ReloadDisaster(WorldGeneration.section, WorldGeneration.);
+        WorldGeneration.SectionChanged += SectionChanged;
+    }
+
+    private void SectionChanged(string arg1, DisasterEvent disaster)
+    {
+        ReloadDisaster(string.Empty, DisasterEvent.None);
     }
 
     private void SectionRotted(string section, DisasterEvent disaster)
@@ -30,7 +34,7 @@ public class DisasterManager
             MonoBehaviour.Destroy(currentDisaster.gameObject);
         }
 
-        if (disaster == DisasterEvent.None) return;
+        if (disaster == DisasterEvent.None || section != WorldGeneration.section) return;
 
         currentDisaster = MonoBehaviour.Instantiate(Resources.Load<GameObject>(disasterResourcePaths[disaster])).GetComponent<Disaster>();
         currentDisaster.StartDisaster();
@@ -38,7 +42,6 @@ public class DisasterManager
 
     ~DisasterManager()
     {
-        WorldGeneration.SectionChanged -= ReloadDisaster;
         WorldGeneration.SectionRotted -= SectionRotted;
     }
 }

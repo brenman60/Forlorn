@@ -35,7 +35,9 @@ public class RunManager : MonoBehaviour, ISaveData
             Instance.jobManager = new JobManager(Instance.jobs);
             Instance.taskManager = new TaskManager();
             Instance.apartmentManager = new ApartmentManager();
+
             Instance.disasterManager = new DisasterManager();
+            Instance.disasterManager.Init();
 
             DontDestroyOnLoad(managerObject);
         }

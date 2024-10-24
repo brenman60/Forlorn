@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e747b6609f2f3c14ea4edcc6de1bd810, type: 3}
+  m_Name: Haste2
+  m_EditorClassIdentifier: 
+  saveName: haste2
+  visibleName: Haste 2
+  displayDescription: Increases movement speed by <color=#34abeb>+15%</color>.
+  modifiers:
+  - modifierIdentifier: haste2
+    statType: 7
+    statChange: 1.15
+    isMultiplicative: 1
+    changesMaxValue: 0
+  skillPointCost: 2

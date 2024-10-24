@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c3cb26961b94bbd42bfbdfac6c2f2be8, type: 3}
-  m_Name: PizzaWorker
+  m_Name: Bystander1
   m_EditorClassIdentifier: 
   outfitStates:
   - state: 0

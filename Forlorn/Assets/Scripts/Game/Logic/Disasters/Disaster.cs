@@ -1,11 +1,17 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [RequireComponent(typeof(Parallax))]
 public abstract class Disaster : MonoBehaviour
 {
+    [SerializeField] private VolumeProfile seperateVolume;
+
     protected Parallax parallax;
 
-    public abstract void StartDisaster();
+    public virtual void StartDisaster()
+    {
+        if (seperateVolume != null) PostProcessManager.Instance.AddProfile(seperateVolume);
+    }
 
     public virtual void Start()
     {
@@ -13,5 +19,8 @@ public abstract class Disaster : MonoBehaviour
         parallax.target = Player.Instance.transform;
     }
 
-    public abstract void EndDisaster();
+    public virtual void EndDisaster()
+    {
+        if (seperateVolume != null) PostProcessManager.Instance.RemoveProfile(seperateVolume);
+    }
 }

@@ -11,7 +11,7 @@ public class FreezingEffect : Effect
         base.OnApply();
 
         StatManager statManager = RunManager.Instance.statManager;
-        statManager.ApplyModifier(new StatModifier(movementSpeedModIdentifier, statManager.stats[StatType.MovementSpeed], 0.75f, true, false));
+        statManager.ApplyModifier(new StatModifier(movementSpeedModIdentifier, statManager.stats[StatType.MovementSpeed], 0.25f, true, false));
     }
 
     public override void OnRemoval()

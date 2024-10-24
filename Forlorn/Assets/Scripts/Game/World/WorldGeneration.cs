@@ -131,6 +131,8 @@ public class WorldGeneration : MonoBehaviour, ISaveData
 
         if (!rottingSections.ContainsKey(section) && !rottenSections.ContainsKey(section))
             rottingSections.Add(section, Random.Range(240, 480));
+        else if (rottenSections.TryGetValue(section, out DisasterEvent disaster))
+            SectionRotted?.Invoke(section, disaster);
     }
 
     private void LoadMap(string mapData)

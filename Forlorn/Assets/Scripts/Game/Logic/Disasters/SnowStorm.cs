@@ -2,6 +2,8 @@ public class SnowStorm : Disaster
 {
     public override void EndDisaster()
     {
+        base.EndDisaster();
+
         Effect freezingEffect = RunManager.Instance.statManager.GetEffect("snowStormFreezing");
         if (freezingEffect != null)
             freezingEffect.timePaused = true;
@@ -9,7 +11,9 @@ public class SnowStorm : Disaster
 
     public override void StartDisaster()
     {
-        if (RunManager.Instance.statManager.HasEffect(typeof(FreezingEffect)))
+        base.StartDisaster();
+
+        if (!RunManager.Instance.statManager.HasEffect(typeof(FreezingEffect)))
         {
             FreezingEffect freezingEffect = new FreezingEffect("snowStormFreezing", true, true, 15, true);
             freezingEffect.timePaused = true;

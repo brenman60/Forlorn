@@ -22,8 +22,9 @@ public class CityDangerUI : MonoBehaviour
     {
         if (section == WorldGeneration.section)
         {
-            print("Section rotted");
             showTimer = 10f;
+
+            SoundManager.Instance.PlayAudio("SafetyNotification", false, 1f);
         }
     }
 

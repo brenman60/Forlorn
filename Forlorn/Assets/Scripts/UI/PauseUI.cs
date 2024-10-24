@@ -4,6 +4,8 @@ public class PauseUI : MonoBehaviour
 {
     public static PauseUI Instance { get; private set; }
 
+    [SerializeField] private CanvasGroup exitRunButton;
+
     private CanvasGroup canvasGroup;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -37,6 +39,8 @@ public class PauseUI : MonoBehaviour
         }
 
         UpdateCanvasGroup();
+
+        exitRunButton.interactable = GameManager.Instance.gameActive;
     }
 
     private void UpdateCanvasGroup()

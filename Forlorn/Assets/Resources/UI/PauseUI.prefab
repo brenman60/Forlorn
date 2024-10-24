@@ -348,6 +348,7 @@ GameObject:
   - component: {fileID: 5691321055044901414}
   - component: {fileID: 182001548623489554}
   - component: {fileID: 2683221652334899019}
+  - component: {fileID: 1060956123781336736}
   m_Layer: 5
   m_Name: ExitRun
   m_TagString: Untagged
@@ -470,6 +471,18 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   clickSound: UIClick
+--- !u!225 &1060956123781336736
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5502740741078986622}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6126583716071342789
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,6 +600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d95df3debb2234439126bb7f6207631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  exitRunButton: {fileID: 1060956123781336736}
 --- !u!225 &7770365868999932939
 CanvasGroup:
   m_ObjectHideFlags: 0
